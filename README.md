@@ -1,4 +1,4 @@
-[![Varbase](https://raw.githubusercontent.com/Vardot/varbase/11.0.x/images/varbase-logo.png)](https://www.drupal.org/project/varbase)
+<img src="logo.png" alt="Vartheme BS5 Educare" width="220">
 
 # Vartheme BS5 Educare
 [![pipeline status](https://git.drupalcode.org/project/vartheme_bs5_educare/badges/1.0.x/pipeline.svg)](https://git.drupalcode.org/project/vartheme_bs5_educare/-/pipelines)
