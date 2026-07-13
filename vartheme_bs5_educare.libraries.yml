@@ -157,7 +157,7 @@ global-styles:
       css/layout/equal-height.layout.css: {}
       css/layout/print.layout.css: { media: print }
     theme:
-      fonts/figtree/css/figtree.css: {}
+      fonts/sora/css/sora.css: {}
       fonts/dm-mono/css/dm-mono.css: {}
 
 # Vartheme BS5 Educare global scripts library.

@@ -20,8 +20,8 @@ $aspect-ratios: (
   "21x9": calc(9 / 21 * 100%),
 );
 
-// Override the default primary font family to Inter - Regular, Italic Bold for sans serif.
-$font-family-sans-serif: figtree, sans-serif;
+// Override the default primary font family to Sora for sans serif.
+$font-family-sans-serif: sora, sans-serif;
 
 // Secondary monospace font family.
 $font-family-monospace: 'DM Mono', monospace;
@@ -36,21 +36,21 @@ $font-size-lg: 1.125rem;
 $blockquote-font-size: 1rem;
 
 // Override the default headings font sizes.
-$h1-font-size: 3.25rem;
-$h2-font-size: 2.625rem;
-$h3-font-size: 1.5rem;
-$h4-font-size: 1.25rem;
-$h5-font-size: 1rem;
-$h6-font-size: 0.875rem;
+$h1-font-size: 3.75rem;
+$h2-font-size: 3rem;
+$h3-font-size: 2rem;
+$h4-font-size: 1.5rem;
+$h5-font-size: 1.125rem;
+$h6-font-size: 1rem;
 
 // Override the default display font sizes.
 $display-font-sizes: (
-  1: 3.375rem,
+  1: 4.525rem,
   2: 3rem,
   3: 2.375rem,
-  4: 1.875rem,
+  4: 1.75rem,
   5: 1.5rem,
-  6: 1.125rem
+  6: 1.375rem
 );
 
 // Override the default headings.
@@ -64,68 +64,77 @@ $display-font-weight: 500;
 // Override the default lead styling.
 $lead-font-weight: 500;
 
-// Override the dark color to use navy-600.
-$navy: #001D38;
+// Dark navy — primary dark text (dark-text: #050833).
+$navy: #050833;
 $navy-600: shade-color($navy, 0%);
-$dark: $navy-600;
 
-// Override the light color to use sky-600.
-$sky: #F5F9FE;
+// Dark blue — dark section/footer backgrounds (dark-bg: #001E6B).
+// $dark drives Bootstrap's bg-dark/text-dark utilities and the dark theme color.
+$dark: #050833;
+
+// Warm white — body/page background (white-bg: #FEFBF8).
+$sky: #FEFBF8;
 $sky-600: shade-color($sky, 0%);
 
-// Lavender — accent base color.
-$lavender:     #E4DCFF;
+// Warm orange — accent brand color (accent-bg: #FF9A52).
+$lavender:     #FF9A52;
 $lavender-600: shade-color($lavender, 0%);
 $accent:       $lavender-600;
 
-// Linen — warm neutral used for secondary-subtle surfaces and borders.
-$linen:     #F3F1EF;
+// Warm cream — subtle surfaces and secondary backgrounds (subtle-bg: #F8F3ED).
+$linen:     #F8F3ED;
 $linen-600: shade-color($linen, 0%);
 
-// Sand — slightly deeper warm neutral used for secondary backgrounds.
-$sand:     #EBE8E5;
+// Warm cream secondary (subtle-bg: #F8F3ED).
+$sand:     #F8F3ED;
 $sand-600: shade-color($sand, 0%);
 $secondary: $sand-600;
 
-// Stone — mid-tone warm gray for emphasis and light text.
-$stone:     #D7D2CB;
+// Silver — light text on dark and subtle borders (light-text: #E2E2E4, subtle-border: #E2E2E4).
+$stone:     #E2E2E4;
 $stone-600: shade-color($stone, 0%);
 
-// Powder — light blue for primary subtle background.
-$powder:     #BEDCFF;
+// White — primary subtle background (primary-subtle: #FFFFFF).
+$powder:     #FFFFFF;
 $powder-600: shade-color($powder, 0%);
 
-// Mist — very light lavender for accent subtle background.
-$mist:     #F6F3FF;
+// Warm white — accent subtle background (white-bg: #FEFBF8).
+$mist:     #FEFBF8;
 $mist-600: shade-color($mist, 0%);
 
-// Lilac — medium lavender for accent emphasis, border, and background.
-$lilac:     #DBD0FF;
+// Cool gray — light subtle text and secondary borders (light-subtle-text: #C5CADD).
+$lilac:     #C5CADD;
 $lilac-600: shade-color($lilac, 0%);
 
-// Tertiary background (Bootstrap $light default is #f8f9fa; Figma uses sky #F5F9FE).
+// Tertiary background (warm white body bg: #FEFBF8).
 $tertiary: $sky-600;
 
 // Override subtle background variants (Bootstrap computes these from base colors).
-$primary-bg-subtle:   $powder-600;
-$secondary-bg-subtle: $linen-600;
-$accent-bg-subtle:    $mist-600;
+$primary-bg-subtle:   $powder-600;   // #FFFFFF  primary-subtle
+$secondary-bg-subtle: $linen-600;    // #F8F3ED  subtle-bg
+$accent-bg-subtle:    $mist-600;     // #FEFBF8  white-bg
 
 // Override text emphasis variants (Bootstrap computes these from base colors).
-$primary-text-emphasis:   $navy-600;
-$secondary-text-emphasis: $stone-600;
-$accent-text-emphasis:    $lilac-600;
+$primary-text-emphasis:   $navy-600;    // #050833  dark-text
+$secondary-text-emphasis: $stone-600;   // #E2E2E4  light-text
+$accent-text-emphasis:    $lilac-600;   // #C5CADD  light-subtle-text
 
 // Override border colors (Bootstrap defaults differ).
-$border-color:            $linen-600;
-$primary-border-subtle:   #0D6EFD;    // full primary blue (Figma primary-border)
-$secondary-border-subtle: $lilac-600;
+$border-color:            $stone-600;   // #E2E2E4  subtle-border
+$primary-border-subtle:   #0D6EFD;
+$secondary-border-subtle: $lilac-600;   // #C5CADD
+
+// Override body text color and background to match Figma tokens.
+// Must come after $navy-600 and $sky-600 are defined so shade-color() has run.
+$body-color: $navy-600;    // dark-text:  #050833
+$body-bg:    $sky-600;     // white-bg:   #FEFBF8
 
 // Custom color variables with no Bootstrap equivalents.
 $border-white: #FFFFFF;
-$light-text:   $stone-600;
-$subtle-text:  rgba($navy, .7); // subtle-text at 70% opacity
-$accent-bg:    $lilac-600;
+$light-text:   $stone-600;             // #E2E2E4  light-text
+$subtle-text:  #404456;                // #404456  dark-subtle-text
+$dark-border:  #404456;                // #404456  dark-border
+$accent-bg:    $lavender-600;          // #FF9A52  accent-bg
 
 // Override body-tertiary to use gray-900 (#212529) for both background and text.
 $gray: #212529;

@@ -1,0 +1,20 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Mega menu
+group: Navigation
+status: stable
+description: Full-width navigation panel rendered as a grid of arrow-button cards, one per menu item. Hidden by default; toggled open by organisms/nav-menu's JS, which also staggers each card's fade-in reveal.
+props:
+  type: object
+  required:
+    - items
+    - panel_id
+  properties:
+    items:
+      type: array
+      title: Items
+      description: Menu items to render as cards. Each item needs a title and a url.
+    panel_id:
+      type: string
+      title: Panel ID
+      description: Unique id applied to the panel root; referenced by the parent toggle's aria-controls/data-mega-menu-toggle.
+      default: ''

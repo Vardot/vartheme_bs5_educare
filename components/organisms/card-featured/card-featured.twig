@@ -17,6 +17,16 @@
  * - content_stack_attributes: Attributes for the content stack wrapper.
  * - content_body_attributes: Attributes for the content body (card-body).
  * - content_placeholder_attributes: Attributes for the empty-slot placeholder.
+ * - action_icon_wrap_attributes: Attributes for the action icon wrapper.
+ * - action_btn_attributes: Attributes for the accent circular action button.
+ *
+ * - Bootstrap action icon floated top-right: bi-arrow-right, transparent
+ *   until hover. On card hover: the circle fills with the accent color
+ *   (slide-in) and the arrow glyph rotates from -45deg to 0deg.
+ *
+ * Available properties:
+ * - action_icon: image object (src, alt, width, height) for the top-right icon.
+ * - action_button_variant: 'default' (plain icon) or 'accent' (orange circle). Defaults to 'default'.
  */
 #}
 
@@ -58,6 +68,7 @@
  # so the values arrive as real booleans — only a presence fallback is
  # needed here, never type coercion.
  #}
+{% set show_action_icon = show_action_icon ?? true %}
 {% set card_border = card_border ?? false %}
 {% set padded = padded ?? false %}
 {% set equal_height = equal_height ?? false %}
@@ -65,6 +76,8 @@
 
 {# Logic: link target mapping. #}
 {% set link_target = (link_target_raw == 'default') ? '_self' : link_target_raw %}
+
+{# Logic: action icon — always rendered via Bootstrap Icons (no image upload). #}
 
 {# Logic: media / overlay rendering decisions. #}
 {% set has_media = media_position != 'no-media' %}
@@ -80,7 +93,6 @@
 {% set content_padding_class = padded ? 'p-4' : 'p-0' %}
 
 {% set placeholder_src = base_path|default('/') ~ 'themes/contrib/vartheme_bs5_educare/components/foundation/images/assets/teaser-3.jpg' %}
-
 {# Logic: column size mapping for the start (media) column per breakpoint. #}
 {% set start_column_xs_size = columns_xs_size ? ['col-' ~ columns_xs_size|split('_')[0]|trim('0', 'left')] : [] %}
 {% set start_column_sm_size = columns_sm_size ? ['col-sm-' ~ columns_sm_size|split('_')[0]|trim('0', 'left')] : [] %}
@@ -106,6 +118,7 @@
 {# Logic: card / row / column / wrapper class arrays. #}
 {% set card_class_list = [
   'card',
+  'card-featured',
   'overflow-hidden',
   (equal_height ? 'h-100' : ''),
   (card_border ? 'border' : 'border-0'),
@@ -257,6 +270,22 @@
   'mt-2',
 ]) %}
 
+{% set action_icon_wrap_attributes = create_attribute().addClass([
+  'card-featured__icon',
+  'float-end',
+  'ms-3',
+  'mb-2',
+  'position-relative',
+  'overflow-hidden',
+  'rounded-circle',
+  'border-0',
+  'shadow-none',
+  'bg-transparent',
+  'd-flex',
+  'align-items-center',
+  'justify-content-center',
+]|filter(v => v is not empty)) %}
+
 {# Print the HTML. #}
 <div{{ attributes }}>
   <div{{ row_attributes }}>
@@ -282,6 +311,15 @@
     <div{{ content_col_attributes }}>
       <div{{ content_stack_attributes }}>
         <div{{ content_body_attributes }}>
+          {# Bootstrap action icon — floated top-right; on card hover the
+           # circle fills with the accent color and the arrow glyph rotates
+           # into place. #}
+          {% if show_action_icon %}
+            <div{{ action_icon_wrap_attributes }} aria-hidden="true">
+              <span class="card-featured__icon-fill"></span>
+              <i class="bi bi-arrow-right card-featured__icon-glyph text-dark"></i>
+            </div>
+          {% endif %}
           {{ content_slot }}
           {% if not has_content_slot %}
             <div{{ content_placeholder_attributes }}>Drop content here</div>

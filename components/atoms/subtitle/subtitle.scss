@@ -1,0 +1,11 @@
+// @file subtitle.scss - Subtitle component styles.
+
+@import "../../defaults";
+
+.sdc-subtitle {
+  &__line {
+    // Fixed 16px accent line for the short variant (line_size: sm).
+    // Bootstrap $spacer = 1rem; the full-width variant uses flex-grow-1 instead.
+    width: $spacer;
+  }
+}

@@ -1,0 +1,115 @@
+import { Meta, Source, Canvas, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as CardDatedVerticalStories from './card-dated-vertical.stories.json';
+import templateSource from './card-dated-vertical.twig?raw';
+
+<Meta of={CardDatedVerticalStories} name="Docs" />
+
+# Card Dated Vertical
+
+A horizontal card row with a **centred stacked date block** on the left, a **title heading** in the centre, and a **circular action button** on the right. The "Vertical" refers to the date layout — day number and month abbreviation are stacked vertically and centred within the block.
+
+- **`date`** accepts an ISO 8601 date string (`YYYY-MM-DD`). The day (`d`) and month (`M`) are extracted automatically via Twig date filters. Leave empty to hide the date block.
+- **`title`** is a plain string prop rendered as a heading — no alignment, font-weight, or font-style props
+- **`heading_level`** controls the HTML tag (`h1`–`h6`), defaulting to `h5`
+- **`action_button_variant`** — `default` (white circle) or `accent` (orange/brand-accent circle); on accent the icon is automatically inverted to white via CSS filter
+- **`action_icon`** is a prop (image object) — upload any SVG, PNG, or WebP for the button
+- `stretched_link` requires `link_url` — makes the entire card clickable; the action button gets `aria-hidden="true"` automatically
+
+> ### Bootstrap documentation
+> - [Cards](https://getbootstrap.com/docs/5.3/components/card/)
+> - [Flexbox utilities](https://getbootstrap.com/docs/5.3/utilities/flex/)
+> - [Stretched link](https://getbootstrap.com/docs/5.3/helpers/stretched-link/)
+> - [Background utilities](https://getbootstrap.com/docs/5.3/utilities/background/)
+
+## Properties
+
+<Canvas of={CardDatedVerticalStories.Default} />
+<Controls of={CardDatedVerticalStories.Default} />
+
+## Stories
+
+<Stories of={CardDatedVerticalStories} />
+
+## Examples
+
+### Example 1 — Light background, default (white) button
+
+```twig
+{{ include('vartheme_bs5_educare:card-dated-vertical', {
+  date: '2026-09-05',
+  title: 'Lorem Ipsum Dolor Sit Amet',
+  heading_level: 'h5',
+  action_button_variant: 'default',
+  action_icon: { src: '/path/to/arrow.svg', alt: '', width: 20, height: 20 },
+  background_color: 'bg-body-tertiary',
+  padded: true,
+  corner_style: 'rounded-3',
+}, with_context = false) }}
+```
+
+### Example 2 — Light background, accent (orange) button
+
+```twig
+{{ include('vartheme_bs5_educare:card-dated-vertical', {
+  date: '2026-09-05',
+  title: 'Lorem Ipsum Dolor Sit Amet',
+  heading_level: 'h5',
+  action_button_variant: 'accent',
+  action_icon: { src: '/path/to/arrow.svg', alt: '', width: 20, height: 20 },
+  background_color: 'bg-body-tertiary',
+  padded: true,
+  corner_style: 'rounded-3',
+}, with_context = false) }}
+```
+
+### Example 3 — Dark background, accent button
+
+```twig
+{{ include('vartheme_bs5_educare:card-dated-vertical', {
+  date: '2026-09-05',
+  title: 'Lorem Ipsum Dolor Sit Amet',
+  heading_level: 'h5',
+  action_button_variant: 'accent',
+  action_icon: { src: '/path/to/arrow.svg', alt: '', width: 20, height: 20 },
+  background_color: 'bg-primary',
+  padded: true,
+  corner_style: 'rounded-3',
+}, with_context = false) }}
+```
+
+### Example 4 — Linked card (entire card clickable)
+
+```twig
+{{ include('vartheme_bs5_educare:card-dated-vertical', {
+  date: '2026-09-05',
+  title: 'Lorem Ipsum Dolor Sit Amet',
+  heading_level: 'h5',
+  action_button_variant: 'accent',
+  action_icon: { src: '/path/to/arrow.svg', alt: '', width: 20, height: 20 },
+  background_color: 'bg-body-tertiary',
+  padded: true,
+  corner_style: 'rounded-3',
+  stretched_link: true,
+  link_url: 'https://example.com',
+  link_target: '_blank',
+}, with_context = false) }}
+```
+
+### Example 5 — No date
+
+```twig
+{{ include('vartheme_bs5_educare:card-dated-vertical', {
+  title: 'Event Without a Date',
+  heading_level: 'h5',
+  action_button_variant: 'default',
+  action_icon: { src: '/path/to/arrow.svg', alt: '', width: 20, height: 20 },
+  background_color: 'bg-body-tertiary',
+  padded: true,
+  corner_style: 'rounded-3',
+}, with_context = false) }}
+```
+
+## Source code
+
+[//]: # (Twig Template source code)
+<Source code={templateSource} />

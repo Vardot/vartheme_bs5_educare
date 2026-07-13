@@ -83,6 +83,21 @@ props:
       default: inherit
       examples:
         - inherit
+    dash_indicator:
+      type: string
+      title: Dash indicator
+      description: Controls the accent line indicator displayed before the accordion heading title. "hover" grows it in only on hover/focus; "always" keeps it at full width in both open and closed states; "never" hides it entirely.
+      enum:
+        - hover
+        - always
+        - never
+      meta:enum:
+          hover: Show on hover only
+          always: Always show
+          never: Always hidden
+      default: hover
+      examples:
+        - hover
 slots:
   accordion_content:
     title: Accordion content

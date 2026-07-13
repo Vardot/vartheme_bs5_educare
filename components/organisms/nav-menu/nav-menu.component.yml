@@ -1,6 +1,6 @@
 $schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
 name: Nav
-description: Nav component description
+description: Main navigation menu. Top-level links get an accent underline that grows in on hover/focus; expandable items open a full-width mega menu panel (a grid of arrow-button cards, one per submenu link) instead of a classic dropdown.
 noUi: true
 props:
   type: object
@@ -67,4 +67,5 @@ props:
       description: HTML attributes for the containing element.
 libraryOverrides:
   dependencies:
-    - vartheme_bs5_educare/bs-dropdown-script
+    - core/drupal
+    - core/once

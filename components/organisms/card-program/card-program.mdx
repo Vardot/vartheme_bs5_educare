@@ -1,0 +1,94 @@
+import { Meta, Source, Canvas, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as CardProgramStories from './card-program.stories.json';
+import templateSource from './card-program.twig?raw';
+
+<Meta of={CardProgramStories} name="Docs" />
+
+# Program Card
+
+A horizontal row card for programme listings. The **title** fills the left side of the row; up to **four short metadata columns** (`col_1`–`col_4`) are displayed on the right. An optional **em-dash prefix** (`indented: true`) marks sub-programmes or nested variants. A **separator** bottom border can be toggled on each instance to visually divide stacked rows in a list.
+
+- **Hover animation** — an accent line before the title grows from `0` to `1rem` wide on row hover/keyboard focus
+- **`title`** — plain string prop; rendered as a configurable heading (`h1`–`h6`, default `h5`)
+- **`indented`** — boolean; prepends an `—` before the title; use for second-level programme rows
+- **`col_1`–`col_4`** — four independent string props for the right-side data columns; each column is hidden when empty
+- **`separator`** — boolean; adds `border-bottom` to the card body row for list-style layouts
+- **`stretched_link`** + **`link_url`** — makes the entire card clickable via Bootstrap's stretched-link helper
+
+> ### Bootstrap documentation
+> - [Cards](https://getbootstrap.com/docs/5.3/components/card/)
+> - [Flexbox utilities](https://getbootstrap.com/docs/5.3/utilities/flex/)
+> - [Stretched link](https://getbootstrap.com/docs/5.3/helpers/stretched-link/)
+> - [Border utilities](https://getbootstrap.com/docs/5.3/utilities/borders/)
+
+## Properties
+
+<Canvas of={CardProgramStories.Default} />
+<Controls of={CardProgramStories.Default} />
+
+## Stories
+
+<Stories of={CardProgramStories} />
+
+## Examples
+
+### Example 1 — Default row with 4 metadata columns
+
+```twig
+{{ include('vartheme_bs5_educare:card-program', {
+  title: 'Bachelor of Science in Computer Science',
+  heading_level: 'h5',
+  col_1: '120',
+  col_2: '4 Yr',
+  col_3: 'UG',
+  col_4: 'FT',
+  separator: true,
+}, with_context = false) }}
+```
+
+### Example 2 — Indented sub-programme row
+
+```twig
+{{ include('vartheme_bs5_educare:card-program', {
+  title: 'Artificial Intelligence Specialisation',
+  heading_level: 'h5',
+  indented: true,
+  col_1: '30',
+  col_2: '1 Yr',
+  col_3: 'PG',
+  col_4: 'PT',
+  separator: true,
+}, with_context = false) }}
+```
+
+### Example 3 — Clickable row
+
+```twig
+{{ include('vartheme_bs5_educare:card-program', {
+  title: 'Bachelor of Arts in Design',
+  heading_level: 'h5',
+  col_1: '90',
+  col_2: '3 Yr',
+  col_3: 'UG',
+  col_4: 'FT',
+  separator: true,
+  stretched_link: true,
+  link_url: '/programmes/design',
+  link_target: '_self',
+}, with_context = false) }}
+```
+
+### Example 4 — Title only (no metadata columns)
+
+```twig
+{{ include('vartheme_bs5_educare:card-program', {
+  title: 'Foundation Year Programme',
+  heading_level: 'h6',
+  separator: true,
+}, with_context = false) }}
+```
+
+## Source code
+
+[//]: # (Twig Template source code)
+<Source code={templateSource} />

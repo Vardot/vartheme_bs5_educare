@@ -3,6 +3,11 @@
  * @file
  * Vartheme BS5 Educare Starter Kit implementation for the Accordion Block component.
  *
+ * - Header button: accent line before the title grows from 0 to 1rem wide on
+ *   hover/focus (dash_indicator controls when it shows); a circular toggle
+ *   fills with the accent color on hover, and its plus icon morphs into a
+ *   minus when the item is expanded.
+ *
  * Available config:
  * - title: Text shown in the accordion header button.
  * - heading_level: Heading tag level (2 | 3 | 4 | 5 | 6). Defaults to `3`.
@@ -34,6 +39,7 @@
 {# Variables: scalar props with schema defaults. #}
 {% set heading_level = heading_level|default(3) %}
 {% set color = color|default('inherit') %}
+{% set dash_indicator = dash_indicator|default('hover') %}
 
 {# Variables: boolean props.
  # SDC validates `type: boolean` props and applies their schema defaults,
@@ -78,6 +84,9 @@
 {% endif %}
 {% if not expanded %}
   {% set button_classes = button_classes|merge(['collapsed']) %}
+{% endif %}
+{% if dash_indicator != 'hover' %}
+  {% set button_classes = button_classes|merge(['accordion-button--dash-' ~ dash_indicator]) %}
 {% endif %}
 
 {% set collapse_classes = ['accordion-collapse', 'collapse'] %}
@@ -130,7 +139,17 @@
 {# Print the HTML. #}
 <div{{ attributes }}>
   <h{{ heading_level }}{{ heading_attributes }}>
-    <button{{ button_attributes }}>{{ title_text }}</button>
+    <button{{ button_attributes }}>
+      <span class="accordion-button__line" aria-hidden="true"></span>
+      <span class="accordion-button__title">{{ title_text }}</span>
+      <span class="accordion-button__action" aria-hidden="true">
+        <span class="accordion-button__action-bg"></span>
+        <span class="accordion-button__toggle-icon">
+          <span class="accordion-button__toggle-icon-h"></span>
+          <span class="accordion-button__toggle-icon-v"></span>
+        </span>
+      </span>
+    </button>
   </h{{ heading_level }}>
 
   <div{{ collapse_attributes }}>

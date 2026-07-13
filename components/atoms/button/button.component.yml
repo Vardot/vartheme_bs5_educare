@@ -205,6 +205,39 @@ props:
       default: false
       examples:
         - false
+    icon_circle:
+      type: boolean
+      title: Circle icon
+      description: >-
+        When enabled, the icon is displayed inside a filled orange circular
+        container. On hover/active the circle slides to the end of the
+        button and inverts to a dark fill. Works best with rounded-pill
+        radius and a chevron or arrow icon.
+      default: false
+      examples:
+        - false
+    icon_circle_white_text:
+      type: boolean
+      title: Circle icon — white label text
+      description: >-
+        When enabled alongside Circle icon, renders the button label text in
+        white. Use on dark or coloured backgrounds. The icon inside the circle
+        keeps its default dark colour.
+      default: false
+      examples:
+        - false
+    icon_circle_grow:
+      type: boolean
+      title: Circle icon — grow to full pill on hover
+      description: >-
+        When enabled alongside Circle icon, the orange circle expands from a
+        small dot into a full pill filling the button on hover/focus (instead
+        of Circle icon's default: the button itself fading to orange behind a
+        fixed-size circle). The icon still crossfades to an arrow. Works best
+        with rounded-pill radius.
+      default: false
+      examples:
+        - false
     alignment:
       type: string
       title: Alignment

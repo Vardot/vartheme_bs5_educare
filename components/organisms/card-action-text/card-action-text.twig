@@ -1,0 +1,143 @@
+{#
+/**
+ * @file
+ * Vartheme BS5 Educare Starter Kit implementation for the Action Card Text component.
+ *
+ * - Stacked layout (no media)
+ * - Bootstrap icon floated top-right: bi-arrow-right in a white circle.
+ *   On card hover: the circle fills with the accent color (slide-in) and the
+ *   arrow glyph rotates from -45deg (pointing up-right) to 0deg (pointing right).
+ * - One drag & drop slot: content
+ *
+ * Available properties:
+ * - show_action_icon: show or hide the Bootstrap arrow icon. Defaults to `true`.
+ * - background_color: brand background color applied to the card. Defaults to `none`.
+ * - card_border: add Bootstrap border. Defaults to `false`.
+ * - padded: adds p-4 to the card body. Defaults to `false`.
+ * - box_shadow: shadow utility. (shadow-none | shadow-sm | shadow | shadow-lg) Defaults to `shadow-none`.
+ * - corner_style: rounded utility. (rounded-0 … rounded-pill) Defaults to `rounded-0`.
+ * - equal_height: adds h-100 to the card wrapper. Defaults to `false`.
+ * - stretched_link: makes the entire card clickable when link_url is set. Defaults to `false`.
+ * - link_url: optional URL for the card link. Defaults to `''`.
+ * - link_target: link target attribute. (default | _self | _blank) Defaults to `default`.
+ *
+ * Available attributes:
+ * - attributes: HTML attributes for the root element.
+ * - card_body_attributes: HTML attributes for the card body wrapper.
+ * - action_icon_attributes: HTML attributes for the action icon wrapper.
+ * - content_placeholder_attributes: HTML attributes for the empty-slot placeholder.
+ */
+#}
+
+{# AI guidance:
+ # - Do not alter property descriptions or existing logic unless new
+ #   properties are added.
+ # - Keep the structure: 1) variables, 2) logical variable manipulations,
+ #   3) print the HTML.
+ # - Always handle classes as arrays with `merge` (never string
+ #   concatenation) to avoid duplicate classes and data type conflicts.
+ #}
+
+{# Variables: scalar props with schema defaults. #}
+{% set background_color = background_color|default('none') %}
+{% set background_color_class = (background_color != 'none') ? background_color : '' %}
+{% set box_shadow = box_shadow|default('shadow-none') %}
+{% set corner_style = corner_style|default('rounded-0') %}
+{% set link_url = link_url|default('')|trim %}
+{% set link_target_raw = link_target|default('default') %}
+{% set link_target = (link_target_raw == 'default') ? '_self' : link_target_raw %}
+
+{# Variables: boolean props.
+ # SDC validates `type: boolean` props and applies their schema defaults,
+ # so the values arrive as real booleans — only a presence fallback is
+ # needed here, never type coercion.
+ #}
+{% set show_action_icon = show_action_icon ?? true %}
+{% set card_border = card_border ?? false %}
+{% set padded = padded ?? false %}
+{% set equal_height = equal_height ?? false %}
+{% set stretched_link = stretched_link ?? false %}
+
+{# Logic: drag & drop content slot. #}
+{% set content_slot %}{% block content %}{% endblock %}{% endset %}
+{% set has_content_slot = content_slot|render|trim is not empty %}
+
+{% set use_stretched_link = stretched_link and (link_url is not empty) %}
+
+{# Logic: merge card classes as arrays. #}
+{% set attributes = attributes.addClass([
+  'card',
+  'card-action-text',
+  'd-flex',
+  'flex-column',
+  'overflow-hidden',
+  'position-relative',
+  background_color_class,
+  corner_style,
+  (card_border ? 'border' : 'border-0'),
+  box_shadow,
+  (equal_height ? 'h-100' : ''),
+]|filter(v => v is not empty)) %}
+
+{% set card_body_attributes = create_attribute().addClass([
+  'card-body',
+  (padded ? 'p-4' : 'p-0'),
+  ((not has_content_slot) and (not padded) ? 'py-4' : ''),
+]|filter(v => v is not empty)) %}
+
+{% set action_icon_attributes = create_attribute().addClass([
+  'card-action-text__icon',
+  'float-end',
+  'ms-3',
+  'mb-3',
+  'position-relative',
+  'overflow-hidden',
+  'rounded-circle',
+  'border-0',
+  'shadow-none',
+  'bg-white',
+  'd-flex',
+  'align-items-center',
+  'justify-content-center',
+]) %}
+
+{% set content_placeholder_attributes = create_attribute().addClass([
+  'text-muted',
+  'small',
+  'py-3',
+  'pe-none',
+]) %}
+
+{# Print the HTML. #}
+<div{{ attributes }}>
+  <div{{ card_body_attributes }}>
+
+    {# Bootstrap action icon — floated top-right; on card hover the circle
+     # fills with the accent color and the arrow glyph rotates into place. #}
+    {% if show_action_icon %}
+      <div{{ action_icon_attributes }} aria-hidden="true">
+        <span class="card-action-text__icon-fill"></span>
+        <i class="bi bi-arrow-right card-action-text__icon-glyph text-dark"></i>
+      </div>
+    {% endif %}
+
+    {# Drag & drop content slot #}
+    {% if has_content_slot %}
+      {{ content_slot }}
+    {% else %}
+      <div{{ content_placeholder_attributes }}>Drop content here</div>
+    {% endif %}
+
+  </div>
+
+  {% if use_stretched_link %}
+    {% set _link_accessible_label = content_slot|striptags|trim %}
+    {{ include('vartheme_bs5_educare:link', {
+      url: link_url,
+      target: link_target,
+      attributes: create_attribute().setAttribute('aria-label', _link_accessible_label),
+      content: '',
+      link_utility_classes: ['stretched-link'],
+    }) }}
+  {% endif %}
+</div>

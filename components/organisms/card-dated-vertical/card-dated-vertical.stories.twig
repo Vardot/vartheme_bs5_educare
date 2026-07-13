@@ -1,0 +1,280 @@
+{% stories CardDatedVertical with {
+  title: 'Cards/Card Dated Vertical',
+  parameters: {
+    componentSubtitle: 'Horizontal card row with a centred stacked date block, a title heading, and a circular action button.',
+    docs: {
+      description: {
+        component: 'A horizontal card layout featuring a centred stacked date block (large day + small month, derived from an ISO 8601 date prop) on the left, a title heading in the centre, and a circular action button on the right. Supports default (white) and accent (orange) button variants and the full set of Bootstrap card styling options.',
+      },
+      story: {
+        inline: true,
+      },
+    },
+  },
+  argTypes: {
+    date: {
+      name: 'Date',
+      description: 'ISO 8601 date string (YYYY-MM-DD). Day and month are extracted automatically.',
+      defaultValue: '',
+      control: 'text',
+    },
+    title: {
+      name: 'Title',
+      description: 'Card title text rendered as a heading.',
+      defaultValue: '',
+      control: 'text',
+    },
+    heading_level: {
+      name: 'Heading level',
+      description: 'HTML heading tag for the title.',
+      defaultValue: 'h5',
+      control: 'select',
+      options: {
+        H1: 'h1',
+        H2: 'h2',
+        H3: 'h3',
+        H4: 'h4',
+        H5: 'h5',
+        H6: 'h6',
+      },
+    },
+    action_button_variant: {
+      name: 'Action button variant',
+      description: 'Visual style of the circular action button.',
+      defaultValue: 'default',
+      control: 'select',
+      options: {
+        "'Default (white)'": 'default',
+        "'Accent (orange)'": 'accent',
+      },
+    },
+    action_icon: {
+      name: 'Action icon',
+      description: 'Icon image inside the circular action button (SVG, PNG, or WebP).',
+      control: 'object',
+    },
+    card_border: {
+      name: 'Card border',
+      description: 'Adds default Bootstrap border.',
+      defaultValue: false,
+      control: 'boolean',
+    },
+    background_color: {
+      name: 'Background',
+      description: 'Brand background color applied to the card.',
+      defaultValue: 'none',
+      control: 'select',
+      options: {
+        None: 'none',
+        "'Body tertiary'": 'bg-body-tertiary',
+        Tertiary: 'bg-tertiary',
+        Accent: 'bg-accent',
+        Primary: 'bg-primary',
+        "'Primary subtle'": 'bg-primary-subtle',
+        Secondary: 'bg-secondary',
+        "'Secondary subtle'": 'bg-secondary-subtle',
+        Dark: 'bg-dark',
+      },
+    },
+    padded: {
+      name: 'Padded',
+      description: 'Adds p-4 spacing to the card body (otherwise p-3).',
+      defaultValue: false,
+      control: 'boolean',
+    },
+    box_shadow: {
+      name: 'Shadow',
+      description: 'Bootstrap shadow utility.',
+      defaultValue: 'shadow-none',
+      control: 'select',
+      options: {
+        None: 'shadow-none',
+        Small: 'shadow-sm',
+        Medium: 'shadow',
+        Large: 'shadow-lg',
+      },
+    },
+    corner_style: {
+      name: 'Border radius',
+      description: 'Rounded utility for the card.',
+      defaultValue: 'rounded-0',
+      control: 'select',
+      options: {
+        "'None (square)'": 'rounded-0',
+        Small: 'rounded-1',
+        Medium: 'rounded-2',
+        Large: 'rounded-3',
+        Pill: 'rounded-pill',
+      },
+    },
+    equal_height: {
+      name: 'Equal height',
+      description: 'Apply h-100 for grid alignment.',
+      defaultValue: false,
+      control: 'boolean',
+    },
+    stretched_link: {
+      name: 'Stretched link',
+      description: 'Make the entire card clickable.',
+      defaultValue: false,
+      control: 'boolean',
+    },
+    link_url: {
+      name: 'Link URL',
+      description: 'Optional card link URL.',
+      defaultValue: '',
+      control: 'text',
+    },
+    link_target: {
+      name: 'Link target',
+      description: 'Target attribute for the card link.',
+      defaultValue: 'default',
+      control: 'select',
+      options: {
+        "'Default (same tab)'": 'default',
+        "'Same tab'": '_self',
+        "'New tab'": '_blank',
+      },
+    },
+  },
+} %}
+
+{# ── Story 1: Light background + default (white) button ── #}
+{% story Default with {
+  name: 'Default',
+  args: {
+    date: '2026-09-05',
+    title: 'Lorem Ipsum Dolor Sit Amet',
+    heading_level: 'h5',
+    action_button_variant: 'default',
+    action_icon: { src: '/components/organisms/card-dated-vertical/assets/arrow-icon.svg', alt: '', width: 20, height: 20 },
+    card_border: false,
+    background_color: 'bg-body-tertiary',
+    padded: true,
+    box_shadow: 'shadow-none',
+    corner_style: 'rounded-3',
+    equal_height: false,
+    stretched_link: false,
+    link_url: '',
+    link_target: 'default',
+  },
+} %}
+{{ include('vartheme_bs5_educare:card-dated-vertical', _context, with_context = false) }}
+{% endstory %}
+
+{# ── Story 2: Light background + accent (orange) button ── #}
+{% story AccentButton with {
+  name: 'Light / Accent button',
+  args: {
+    date: '2026-09-05',
+    title: 'Lorem Ipsum Dolor Sit Amet',
+    heading_level: 'h5',
+    action_button_variant: 'accent',
+    action_icon: { src: '/components/organisms/card-dated-vertical/assets/arrow-icon.svg', alt: '', width: 20, height: 20 },
+    card_border: false,
+    background_color: 'bg-body-tertiary',
+    padded: true,
+    box_shadow: 'shadow-none',
+    corner_style: 'rounded-3',
+    equal_height: false,
+    stretched_link: false,
+    link_url: '',
+    link_target: 'default',
+  },
+} %}
+{{ include('vartheme_bs5_educare:card-dated-vertical', _context, with_context = false) }}
+{% endstory %}
+
+{# ── Story 3: Dark background + default (white) button ── #}
+{% story DarkDefault with {
+  name: 'Dark / Default button',
+  args: {
+    date: '2026-09-05',
+    title: 'Lorem Ipsum Dolor Sit Amet',
+    heading_level: 'h5',
+    action_button_variant: 'default',
+    action_icon: { src: '/components/organisms/card-dated-vertical/assets/arrow-icon.svg', alt: '', width: 20, height: 20 },
+    card_border: false,
+    background_color: 'bg-primary',
+    padded: true,
+    box_shadow: 'shadow-none',
+    corner_style: 'rounded-3',
+    equal_height: false,
+    stretched_link: false,
+    link_url: '',
+    link_target: 'default',
+  },
+} %}
+{{ include('vartheme_bs5_educare:card-dated-vertical', _context, with_context = false) }}
+{% endstory %}
+
+{# ── Story 4: Dark background + accent (orange) button ── #}
+{% story DarkAccent with {
+  name: 'Dark / Accent button',
+  args: {
+    date: '2026-09-05',
+    title: 'Lorem Ipsum Dolor Sit Amet',
+    heading_level: 'h5',
+    action_button_variant: 'accent',
+    action_icon: { src: '/components/organisms/card-dated-vertical/assets/arrow-icon.svg', alt: '', width: 20, height: 20 },
+    card_border: false,
+    background_color: 'bg-primary',
+    padded: true,
+    box_shadow: 'shadow-none',
+    corner_style: 'rounded-3',
+    equal_height: false,
+    stretched_link: false,
+    link_url: '',
+    link_target: 'default',
+  },
+} %}
+{{ include('vartheme_bs5_educare:card-dated-vertical', _context, with_context = false) }}
+{% endstory %}
+
+{# ── Story 5: Linked card ── #}
+{% story LinkedCard with {
+  name: 'Linked card',
+  args: {
+    date: '2026-09-05',
+    title: 'Lorem Ipsum Dolor Sit Amet',
+    heading_level: 'h5',
+    action_button_variant: 'accent',
+    action_icon: { src: '/components/organisms/card-dated-vertical/assets/arrow-icon.svg', alt: '', width: 20, height: 20 },
+    card_border: false,
+    background_color: 'bg-body-tertiary',
+    padded: true,
+    box_shadow: 'shadow-none',
+    corner_style: 'rounded-3',
+    equal_height: false,
+    stretched_link: true,
+    link_url: 'https://example.com',
+    link_target: '_blank',
+  },
+} %}
+{{ include('vartheme_bs5_educare:card-dated-vertical', _context, with_context = false) }}
+{% endstory %}
+
+{# ── Story 6: Equal height ── #}
+{% story EqualHeight with {
+  name: 'Equal height',
+  args: {
+    date: '2026-09-05',
+    title: 'Lorem Ipsum Dolor Sit Amet',
+    heading_level: 'h5',
+    action_button_variant: 'default',
+    action_icon: { src: '/components/organisms/card-dated-vertical/assets/arrow-icon.svg', alt: '', width: 20, height: 20 },
+    card_border: false,
+    background_color: 'bg-body-tertiary',
+    padded: true,
+    box_shadow: 'shadow-none',
+    corner_style: 'rounded-3',
+    equal_height: true,
+    stretched_link: false,
+    link_url: '',
+    link_target: 'default',
+  },
+} %}
+{{ include('vartheme_bs5_educare:card-dated-vertical', _context, with_context = false) }}
+{% endstory %}
+
+{% endstories %}

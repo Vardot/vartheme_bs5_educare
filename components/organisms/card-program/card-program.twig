@@ -1,0 +1,164 @@
+{#
+/**
+ * @file
+ * Vartheme BS5 Educare Starter Kit implementation for the Program Card component.
+ *
+ * - Horizontal row layout: program title (left, flex-grow-1) | metadata columns (right)
+ * - Accent line before the title: grows from 0 to 1rem wide on row hover/focus,
+ *   pushing the title over
+ * - Optional em-dash (—) indent prefix for sub-programme rows
+ * - Up to four right-side metadata columns (col_1 … col_4), each hidden when empty
+ * - Optional bottom-border separator for list layouts
+ *
+ * Available properties:
+ * - title: program title string rendered as a heading. Defaults to ''.
+ * - heading_level: HTML tag for the title. (h1 | h2 | h3 | h4 | h5 | h6) Defaults to 'h5'.
+ * - indented: shows an em-dash (—) prefix before the title. Defaults to false.
+ * - col_1 … col_4: right-side metadata column strings. Defaults to ''.
+ * - separator: adds a border-bottom to the card body. Defaults to false.
+ * - background_color: brand background utility. Defaults to 'none'.
+ * - card_border: adds Bootstrap border around the card. Defaults to false.
+ * - padded: switches card body from p-3 to p-4. Defaults to false.
+ * - box_shadow: shadow utility. (shadow-none | shadow-sm | shadow | shadow-lg) Defaults to 'shadow-none'.
+ * - corner_style: rounded utility. (rounded-0 … rounded-pill) Defaults to 'rounded-0'.
+ * - equal_height: adds h-100 to the card wrapper. Defaults to false.
+ * - stretched_link: makes the entire card clickable when link_url is set. Defaults to false.
+ * - link_url: optional URL for the card link. Defaults to ''.
+ * - link_target: link target attribute. (default | _self | _blank) Defaults to 'default'.
+ *
+ * Available attributes:
+ * - attributes: HTML attributes for the root element.
+ * - card_body_attributes: HTML attributes for the card body wrapper.
+ * - title_wrap_attributes: HTML attributes for the title-side wrapper.
+ * - cols_attributes: HTML attributes for the metadata columns wrapper.
+ */
+#}
+
+{# AI guidance:
+ # - Do not alter property descriptions or existing logic unless new
+ #   properties are added.
+ # - Keep the structure: 1) variables, 2) logical variable manipulations,
+ #   3) print the HTML.
+ # - Always handle classes as arrays with `merge` (never string
+ #   concatenation) to avoid duplicate classes and data type conflicts.
+ #}
+
+{# Variables: scalar props with schema defaults. #}
+{% set background_color = background_color|default('none') %}
+{% set background_color_class = (background_color != 'none') ? background_color : '' %}
+{% set box_shadow = box_shadow|default('shadow-none') %}
+{% set corner_style = corner_style|default('rounded-0') %}
+{% set link_url = link_url|default('')|trim %}
+{% set link_target_raw = link_target|default('default') %}
+{% set link_target = (link_target_raw == 'default') ? '_self' : link_target_raw %}
+{% set title = title|default('') %}
+{% set heading_level = heading_level|default('h5') %}
+{% set col_1 = col_1|default('') %}
+{% set col_2 = col_2|default('') %}
+{% set col_3 = col_3|default('') %}
+{% set col_4 = col_4|default('') %}
+
+{# Variables: boolean props.
+ # SDC validates `type: boolean` props and applies their schema defaults,
+ # so the values arrive as real booleans — only a presence fallback is
+ # needed here, never type coercion.
+ #}
+{% set indented = indented ?? false %}
+{% set separator = separator ?? false %}
+{% set card_border = card_border ?? false %}
+{% set padded = padded ?? false %}
+{% set equal_height = equal_height ?? false %}
+{% set stretched_link = stretched_link ?? false %}
+
+{# Logic: derived state. #}
+{% set use_stretched_link = stretched_link and (link_url is not empty) %}
+{% set has_cols = (col_1 is not empty) or (col_2 is not empty) or (col_3 is not empty) or (col_4 is not empty) %}
+
+{# Logic: root card classes. #}
+{% set attributes = attributes.addClass([
+  'card',
+  'card-program',
+  'overflow-hidden',
+  'position-relative',
+  background_color_class,
+  corner_style,
+  (card_border ? 'border' : 'border-0'),
+  box_shadow,
+  (equal_height ? 'h-100' : ''),
+]|filter(v => v is not empty)) %}
+
+{# Logic: card body classes. #}
+{% set card_body_attributes = create_attribute().addClass([
+  'card-body',
+  'd-flex',
+  'align-items-center',
+  (padded ? 'p-4' : 'p-3'),
+  (separator ? 'border-bottom' : ''),
+]|filter(v => v is not empty)) %}
+
+{# Logic: title-side wrapper (left, grows to fill available space). #}
+{% set title_wrap_attributes = create_attribute().addClass([
+  'card-program__title-wrap',
+  'd-flex',
+  'align-items-center',
+  'flex-grow-1',
+  'min-w-0',
+]) %}
+
+{# Logic: metadata columns wrapper (right, does not shrink). #}
+{% set cols_attributes = create_attribute().addClass([
+  'card-program__cols',
+  'd-flex',
+  'align-items-center',
+  'gap-4',
+  'flex-shrink-0',
+  'ms-3',
+]) %}
+
+{# Print the HTML. #}
+<div{{ attributes }}>
+  <div{{ card_body_attributes }}>
+
+    {# Title side (left) #}
+    <div{{ title_wrap_attributes }}>
+      <span class="card-program__line flex-shrink-0" aria-hidden="true"></span>
+      {% if indented %}
+        <span class="card-program__indent flex-shrink-0 me-2" aria-hidden="true">—</span>
+      {% endif %}
+      {% if title is not empty %}
+        <{{ heading_level }} class="card-program__title mb-0">{{ title }}</{{ heading_level }}>
+      {% else %}
+        <span class="text-muted small pe-none">Add a title</span>
+      {% endif %}
+    </div>
+
+    {# Metadata columns (right) #}
+    {% if has_cols %}
+      <div{{ cols_attributes }}>
+        {% if col_1 is not empty %}
+          <span class="card-program__col">{{ col_1 }}</span>
+        {% endif %}
+        {% if col_2 is not empty %}
+          <span class="card-program__col">{{ col_2 }}</span>
+        {% endif %}
+        {% if col_3 is not empty %}
+          <span class="card-program__col">{{ col_3 }}</span>
+        {% endif %}
+        {% if col_4 is not empty %}
+          <span class="card-program__col">{{ col_4 }}</span>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </div>
+
+  {% if use_stretched_link %}
+    {{ include('vartheme_bs5_educare:link', {
+      url: link_url,
+      target: link_target,
+      attributes: create_attribute().setAttribute('aria-label', title|striptags|trim),
+      content: '',
+      link_utility_classes: ['stretched-link'],
+    }) }}
+  {% endif %}
+</div>

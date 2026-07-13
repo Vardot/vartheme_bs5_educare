@@ -165,6 +165,21 @@
         "'Fit (no crop)'": 'object-fit-contain',
       },
     },
+    action_icon: {
+      name: 'Action icon',
+      description: 'Optional icon image rendered in the top-right corner of the content area.',
+      control: 'object',
+    },
+    action_button_variant: {
+      name: 'Action button variant',
+      description: "Visual style of the action icon. 'default' renders a plain icon; 'accent' renders an orange circular button.",
+      defaultValue: 'default',
+      control: 'select',
+      options: {
+        "'Default (plain icon)'": 'default',
+        "'Accent (orange circle)'": 'accent',
+      },
+    },
   },
 } %}
 
@@ -409,6 +424,78 @@
     <h3 class="h5 mb-2">Media overlay</h3>
     <p class="mb-3">Drop any component (e.g. Badge) into the <code>overlay</code> slot to show a badge or label in the top-left corner of the media image.</p>
     <a class="btn btn-primary" href="#">Learn more</a>
+  {% endblock %}
+{% endembed %}
+{% endstory %}
+
+{# ── Story: Default icon (plain) ── #}
+{% story DefaultIcon with {
+  name: 'Default icon (plain)',
+  args: {
+    card_border: true,
+    corner_style: 'rounded-3',
+    padded: true,
+    equal_height: false,
+    stretched_link: false,
+    link_url: '',
+    link_target: 'default',
+    media_position: 'start',
+    content_vertical_alignment: 'align-items-start',
+    gutters_between: 'g-2 g-lg-3',
+    columns_xs_size: '06_06',
+    columns_md_size: '08_04',
+    media_image: {
+      src: '/components/foundation/images/assets/teaser-3.jpg',
+      alt: 'Featured image',
+      width: 800,
+      height: 600,
+    },
+    ratio: 'ratio-16x9',
+    fit: 'object-fit-cover',
+    action_icon: { src: '', alt: '', width: 20, height: 20 },
+    action_button_variant: 'default',
+  },
+} %}
+{% embed 'vartheme_bs5_educare:card-featured' with _context %}
+  {% block content %}
+    <p class="text-muted mb-1 small">05 June, 2025</p>
+    <h3 class="h5 mb-0">Lorem Ipsum Dolor Sit ttTTb . trtr44vffAmet Lorem Ipsum Dolor Sit AmetLorem Ipsum Dolor</h3>
+  {% endblock %}
+{% endembed %}
+{% endstory %}
+
+{# ── Story: Accent icon (orange circle) ── #}
+{% story AccentIcon with {
+  name: 'Accent icon (orange circle)',
+  args: {
+    card_border: true,
+    corner_style: 'rounded-3',
+    padded: true,
+    equal_height: false,
+    stretched_link: false,
+    link_url: '',
+    link_target: 'default',
+    media_position: 'start',
+    content_vertical_alignment: 'align-items-start',
+    gutters_between: 'g-2 g-lg-3',
+    columns_xs_size: '06_06',
+    columns_md_size: '08_04',
+    media_image: {
+      src: '/components/foundation/images/assets/teaser-3.jpg',
+      alt: 'Featured image',
+      width: 800,
+      height: 600,
+    },
+    ratio: 'ratio-16x9',
+    fit: 'object-fit-cover',
+    action_icon: { src: '', alt: '', width: 20, height: 20 },
+    action_button_variant: 'accent',
+  },
+} %}
+{% embed 'vartheme_bs5_educare:card-featured' with _context %}
+  {% block content %}
+    <p class="text-muted mb-1 small">05 June, 2025</p>
+    <h3 class="h5 mb-0">Lorem Ipsum Dolor Sit ttTTb . trtr44vffAmet Lorem Ipsum Dolor Sit AmetLorem Ipsum Dolor</h3>
   {% endblock %}
 {% endembed %}
 {% endstory %}

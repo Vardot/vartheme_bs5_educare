@@ -2,4 +2,77 @@
 
 .nav {
   --bs-nav-link-font-size: 1rem;
+
+  // Mega-menu dropdown background image.
+  //
+  // `.field-image-background` is rendered as a sibling of the Bootstrap
+  // `.dropdown-menu`, not inside it (see nav.twig). Left unstyled it stays
+  // in normal flow, which inflates the `<li class="dropdown">`'s height;
+  // Bootstrap positions `.dropdown-menu` with `top: 100%` relative to that
+  // same `<li>`, so the inflated height shifts the submenu down
+  // behind/below the image instead of under the toggle — the submenu then
+  // reads as "under the image" and its links land off the clickable area.
+  // Taking the image out of flow (and behind the menu in stacking order)
+  // fixes both: it can no longer affect the `<li>`'s layout, and it can
+  // no longer intercept clicks meant for the dropdown links.
+  //
+  // Collapsed state is `height: 0`, not `display: none`: the element's own
+  // markup already carries Bootstrap's `d-none d-lg-block` utility classes,
+  // which set `display: block !important` from `lg` up — that beats a
+  // plain `display: none` here regardless of the `.show` gate below, so the
+  // div stayed permanently "visible" (an empty, 12.5rem-tall absolutely
+  // positioned box) at desktop widths on every dropdown item, including
+  // menus reused in the footer near the bottom of the page — inflating the
+  // whole page's scrollable height with invisible empty space. `height: 0`
+  // (with the existing `overflow: hidden`) collapses it to nothing
+  // regardless of `display`, so it can't do that even while `d-lg-block`
+  // forces it "on".
+  //
+  // `.dropdown-menu`'s own `z-index` (Bootstrap's `--bs-dropdown-zindex:
+  // 1000`) is left untouched — it already clears every other in-theme
+  // z-index (hero sliders, cards, …), and pinning it to a low value here
+  // would let page content in the DOM after the header paint over it.
+  .nav-item.dropdown {
+    .field-image-background {
+      --nav-mega-image-height: #{$spacer * 12.5};
+
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      min-width: var(--bs-dropdown-min-width, 10rem);
+      height: 0;
+      overflow: hidden;
+      pointer-events: none;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .dropdown-menu.show ~ .field-image-background {
+      height: var(--nav-mega-image-height);
+    }
+  }
+}
+
+// Escape the header's `.position-relative.z-2` stacking context so an open
+// mega-menu can rise above sibling page sections.
+//
+// `atoms/section.twig` wraps every Section's content in `.position-relative
+// .z-2` — including the header. `position: relative` + an explicit
+// `z-index` (not `auto`) creates a new stacking context, so the dropdown's
+// `z-index: 1000` only wins comparisons *inside* that context; from outside,
+// the whole header is worth exactly `z-index: 2`. A hero section built from
+// the same atom is *also* `z-index: 2` — on that tie, later DOM order wins,
+// so the hero paints over the entire header, dropdown included. Bumping the
+// header's local stacking context above the hero's while a dropdown is open
+// fixes it without touching the shared section atom. `!important` is
+// required: Bootstrap's `.z-2` utility itself sets `z-index: 2 !important`,
+// which otherwise wins regardless of selector specificity.
+.position-relative.z-2:has(.navbar .dropdown-menu.show) {
+  z-index: 1030 !important;
 }

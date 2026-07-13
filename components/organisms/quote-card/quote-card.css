@@ -1,0 +1,29 @@
+.quote-card .stretched-link{
+  z-index:99;
+}
+
+.quote-card__icon{
+  --icon-max-inline-size:2.5rem;
+  line-height:0;
+}
+
+.quote-card__icon figure{
+  margin:0;
+  max-inline-size:var(--icon-max-inline-size);
+}
+
+.quote-card__icon figure img{
+  display:block;
+  max-inline-size:100%;
+  block-size:auto;
+}
+
+.quote-card__description{
+  font-size:1.265625rem;
+  line-height:1.5;
+}
+
+.quote-card__author{
+  opacity:0.75;
+  font-size:0.984375rem;
+}

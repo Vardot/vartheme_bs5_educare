@@ -1,0 +1,118 @@
+{#
+/**
+ * @file
+ * Vartheme BS5 Educare Starter Kit implementation for the Subtitle component.
+ *
+ * Renders a subtitle eyebrow label with an optional horizontal line decorator.
+ * Designed to be placed above a heading component to introduce a section.
+ * The horizontal line automatically inherits the text color.
+ *
+ * Available properties:
+ * - subtitle_text: The subtitle text. Defaults to `Enter subtitle`.
+ * - font_size: Bootstrap font size utility.
+ *              (small | fs-6 | fs-5 | fs-4 | fs-3 | fs-2 | fs-1)
+ *              Defaults to `small`.
+ * - text_color: Bootstrap text color utility. Leave empty for theme default.
+ *               Also applied to the horizontal line automatically.
+ *               (text-primary | text-secondary | text-success | text-danger
+ *                | text-warning | text-info | text-muted | text-white | text-dark)
+ *               Defaults to empty.
+ * - font_weight: Bootstrap font weight utility.
+ *                (fw-light | fw-normal | fw-medium | fw-semibold | fw-bold)
+ *                Defaults to `fw-semibold`.
+ * - text_transform: Bootstrap text transform utility.
+ *                   (text-uppercase | text-lowercase | text-capitalize)
+ *                   Defaults to `text-uppercase`.
+ * - align: Horizontal alignment of the subtitle label within its container.
+ *          (justify-content-start | justify-content-center | justify-content-end)
+ *          Defaults to empty (left-aligned by default).
+ * - line_position: Position of the horizontal line relative to the subtitle text.
+ *                  (both | start | end | none) Defaults to `start`.
+ * - line_size: Width of the horizontal line. `sm` renders a 16px accent line;
+ *              `full` expands the line to fill all available space.
+ *              (sm | full) Defaults to `sm`.
+ *
+ * Available attributes:
+ * - attributes: Attributes array for the wrapper element.
+ * - line_attributes: HTML attributes for the horizontal line element.
+ * - text_attributes: HTML attributes for the subtitle text span element.
+ *
+ * Available slots:
+ * - N/A
+ */
+#}
+
+{# AI guidance:
+ # - Do not alter property descriptions or existing logic unless new
+ #   properties are added.
+ # - Keep the structure: 1) variables, 2) logical variable manipulations,
+ #   3) print the HTML.
+ # - Always handle classes as arrays with `merge` (never string
+ #   concatenation) to avoid duplicate classes and data type conflicts.
+ #}
+
+{# Variables: scalar props with schema defaults. #}
+{% set subtitle_text = subtitle_text|default('') %}
+{% set font_size = font_size|default('small') %}
+{% set text_color = text_color|default('') %}
+{% set font_weight = font_weight|default('fw-semibold') %}
+{% set text_transform = text_transform|default('text-uppercase') %}
+{% set align = align|default('') %}
+{% set line_position = line_position|default('start') %}
+{% set line_size = line_size|default('sm') %}
+
+{# Logic: derive the line border color from the text color. #}
+{% set text_to_border_map = {
+  'text-primary':   'border-primary',
+  'text-secondary': 'border-secondary',
+  'text-success':   'border-success',
+  'text-danger':    'border-danger',
+  'text-warning':   'border-warning',
+  'text-info':      'border-info',
+  'text-muted':     'border-secondary',
+  'text-white':     'border-white',
+  'text-dark':      'border-dark',
+} %}
+{% set derived_line_color = text_color is not empty ? text_to_border_map[text_color]|default('') : '' %}
+
+{# Logic: root wrapper classes. #}
+{% set classes = ['d-flex', 'align-items-center', 'gap-2']|merge(
+  align is not empty ? [align] : []
+) %}
+{% set attributes = attributes.addClass(classes) %}
+
+{# Logic: text span classes. #}
+{% set text_classes = [font_size]|merge(
+  [text_transform, font_weight, text_color]|filter(v => v is not empty)
+) %}
+
+{# Logic: horizontal line classes. sdc-subtitle__line provides the 16px fixed
+ # width for the 'sm' variant via subtitle.scss; 'full' adds flex-grow-1 on top.
+ #}
+{% set line_grow_class = line_size != 'sm' ? ['flex-grow-1'] : [] %}
+{% set line_classes = ['sdc-subtitle__line', 'm-0', 'opacity-100']
+  |merge(line_grow_class)
+  |merge(derived_line_color is not empty ? [derived_line_color] : [])
+%}
+
+{# Logic: named attributes for nested elements. #}
+{% if not text_attributes %}
+  {% set text_attributes = create_attribute() %}
+{% endif %}
+{% set text_attributes = text_attributes.addClass(text_classes) %}
+
+{% if not line_attributes %}
+  {% set line_attributes = create_attribute() %}
+{% endif %}
+{% set line_attributes = line_attributes.addClass(line_classes) %}
+
+{# Print the HTML. #}
+<div{{ attributes }}>
+  {% if line_position == 'start' or line_position == 'both' %}
+    <hr{{ line_attributes }}>
+  {% endif %}
+  <span{{ text_attributes }}>{{ subtitle_text }}</span>
+  {% if line_position == 'end' or line_position == 'both' %}
+    <hr{{ line_attributes }}>
+  {% endif %}
+</div>

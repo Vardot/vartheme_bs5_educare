@@ -17,6 +17,7 @@
 
   &.scrolled {
     box-shadow: 0 0.3125rem 0.625rem 0 rgba(var(--bs-body-color-rgb), 0.1);
+    background-color: var(--bs-body-bg);
   }
 }
 

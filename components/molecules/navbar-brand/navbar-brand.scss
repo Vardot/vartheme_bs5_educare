@@ -3,3 +3,42 @@
 .brand-logo-image {
   height: 1.88rem;
 }
+
+// Keep the logo and the nav's hamburger toggler on the same row below the
+// `md` breakpoint, without disturbing the expanded `.navbar-collapse`
+// panel's width.
+//
+// The header's brand and nav columns come from the generic Section+Group
+// layout as `col-12 col-md-3` (logo) / `col-12 col-md-9` (nav). Below `md`
+// both are full-width `col-12`s, so Bootstrap's grid stacks them — the
+// toggler then renders on its own line, right-aligned under the logo,
+// instead of beside it. Shrinking the nav column's own width to sit beside
+// the logo would also shrink the expanded collapse panel nested inside it
+// (it needs the full row width when open), so instead only the toggler is
+// taken out of flow and positioned beside the logo; the nav column itself,
+// and the collapse panel it contains, keep their normal full-width stack.
+@include media-breakpoint-down(md) {
+  header .row:has(.navbar-brand) {
+    position: relative;
+  }
+
+  // `.navbar` is `position: relative` by default (Bootstrap); that would
+  // make the toggler's `position: absolute` below resolve against the
+  // navbar's own (still stacked, lower) box instead of the row that also
+  // contains the logo.
+  header .navbar {
+    position: static;
+  }
+
+  header .navbar-toggler {
+    position: absolute;
+    // The row's own box (the containing block for this absolute position)
+    // sits `--bs-gutter-y` above the logo's actual position: Bootstrap's
+    // `.row` applies `margin-top: calc(-1 * var(--bs-gutter-y))`, and the
+    // column compensates with matching `padding-top` — so `top: 0` here
+    // would land `--bs-gutter-y` (1rem, from this row's `gy-3`) above the
+    // logo instead of level with it.
+    top: var(--bs-gutter-y, 0);
+    right: 0;
+  }
+}

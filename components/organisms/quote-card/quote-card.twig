@@ -1,0 +1,140 @@
+{#
+/**
+ * @file
+ * Vartheme BS5 Educare Starter Kit implementation for the Quote Card component.
+ *
+ * - Stacked layout (no media)
+ * - Optional uploaded icon image above the description
+ * - Quote description text and an author name
+ *
+ * Available attributes:
+ * - icon_wrap_attributes: Attributes for the optional icon image wrapper.
+ * - description_attributes: Attributes for the description element.
+ * - author_attributes: Attributes for the author name element.
+ */
+#}
+
+{# AI guidance:
+ # - Do not alter property descriptions or existing logic unless new
+ #   properties are added.
+ # - Keep the structure: 1) variables, 2) logical variable manipulations,
+ #   3) print the HTML.
+ # - Always handle classes as arrays with `merge` (never string
+ #   concatenation) to avoid duplicate classes and data type conflicts.
+ #}
+
+{# Variables: scalar props with schema defaults. #}
+{% set background_color = background_color|default('none') %}
+{% set background_color_class = (background_color != 'none') ? background_color : '' %}
+{% set box_shadow = box_shadow|default('shadow-none') %}
+{% set corner_style = corner_style|default('rounded-0') %}
+{% set link_url = link_url|default('')|trim %}
+{% set link_target_raw = link_target|default('default') %}
+{% set link_target = (link_target_raw == 'default') ? '_self' : link_target_raw %}
+{% set icon_alignment = icon_alignment|default('me-auto') %}
+{% set description = description|default('') %}
+{% set author_name = author_name|default('') %}
+
+{# Variables: boolean props.
+ # SDC validates `type: boolean` props and applies their schema defaults,
+ # so the values arrive as real booleans — only a presence fallback is
+ # needed here, never type coercion.
+ #}
+{% set card_border = card_border ?? false %}
+{% set padded = padded ?? false %}
+{% set equal_height = equal_height ?? false %}
+{% set stretched_link = stretched_link ?? false %}
+
+{# Logic: icon image (optional — only rendered when an image is uploaded). #}
+{% set icon_image = icon_image|default({}) %}
+{% set has_icon = (icon_image.src is defined) and (icon_image.src|trim is not empty) %}
+
+{# Logic: fix relative assets/ paths injected by component.yml examples. #}
+{% if has_icon and icon_image.src starts with 'assets/' and component_metadata.path is defined %}
+  {% set icon_image = icon_image|merge({ src: component_metadata.path ~ '/' ~ icon_image.src }) %}
+{% endif %}
+
+{# Logic: description and author presence checks. #}
+{% set has_description = description|trim is not empty %}
+{% set has_author = author_name|trim is not empty %}
+
+{# Logic: stretched link — only rendered when enabled and a URL is set. #}
+{% set use_stretched_link = stretched_link and (link_url is not empty) %}
+{% set link_accessible_label = (author_name|default(description))|striptags|trim %}
+{% set link_attributes = create_attribute().setAttribute('aria-label', link_accessible_label) %}
+
+{# Logic: merge card classes as arrays. #}
+{% set attributes = attributes.addClass([
+  'card',
+  'quote-card',
+  'd-flex',
+  'flex-column',
+  'overflow-hidden',
+  'position-relative',
+  background_color_class,
+  corner_style,
+  (card_border ? 'border' : 'border-0'),
+  box_shadow,
+  (equal_height ? 'h-100' : ''),
+]|filter(v => v is not empty)) %}
+
+{% set card_body_attributes = create_attribute().addClass([
+  'card-body',
+  (padded ? 'p-4' : 'p-0'),
+]) %}
+
+{% set icon_wrap_attributes = create_attribute().addClass([
+  'quote-card__icon',
+  'mb-3',
+]) %}
+
+{% set description_attributes = create_attribute().addClass([
+  'quote-card__description',
+  'mb-3',
+]) %}
+
+{% set author_attributes = create_attribute().addClass([
+  'quote-card__author',
+  'mb-0',
+]) %}
+
+{# Print the HTML. #}
+<div{{ attributes }}>
+  <div{{ card_body_attributes }}>
+
+    {# Optional icon image — shown only when icon_image is uploaded #}
+    {% if has_icon %}
+      <div{{ icon_wrap_attributes }}>
+        {{ include('vartheme_bs5_educare:image', {
+          media: icon_image,
+          ratio: 'ratio-auto',
+          fit: 'object-fit-contain',
+          align: icon_alignment,
+          width: 'w-auto',
+          loading: 'eager',
+        }, with_context = false) }}
+      </div>
+    {% endif %}
+
+    {# Quote description #}
+    {% if has_description %}
+      <p{{ description_attributes }}>{{ description }}</p>
+    {% endif %}
+
+    {# Author name #}
+    {% if has_author %}
+      <p{{ author_attributes }}>{{ author_name }}</p>
+    {% endif %}
+
+  </div>
+
+  {% if use_stretched_link %}
+    {{ include('vartheme_bs5_educare:link', {
+      url: link_url,
+      target: link_target,
+      attributes: link_attributes,
+      content: '',
+      link_utility_classes: ['stretched-link'],
+    }) }}
+  {% endif %}
+</div>

@@ -1,0 +1,53 @@
+.card-action-text .stretched-link{
+  z-index:99;
+}
+
+.card-action-text__icon{
+  --icon-size:3rem;
+  --arrow-size:1.25rem;
+  --icon-transition-duration:0.35s;
+  --icon-transition-easing:ease;
+  width:var(--icon-size);
+  height:var(--icon-size);
+  line-height:0;
+}
+
+.card-action-text__icon-fill{
+  position:absolute;
+  transition:transform var(--icon-transition-duration) var(--icon-transition-easing);
+  transform:translateX(-100%);
+  border-radius:inherit;
+  background:var(--bs-accent);
+  inset:0;
+}
+
+[dir="rtl"] .card-action-text__icon-fill{
+  transform:translateX(100%);
+}
+
+.card-action-text__icon-glyph{
+  position:relative;
+  z-index:1;
+  transition:transform var(--icon-transition-duration) var(--icon-transition-easing);
+  transform:rotate(-45deg);
+  font-size:var(--arrow-size);
+  line-height:1;
+}
+
+[dir="rtl"] .card-action-text__icon-glyph{
+  transform:rotate(45deg);
+}
+
+.card-action-text:hover .card-action-text__icon-fill, .card-action-text:focus-within .card-action-text__icon-fill{
+  transform:translateX(0);
+}
+
+.card-action-text:hover .card-action-text__icon-glyph, .card-action-text:focus-within .card-action-text__icon-glyph{
+  transform:rotate(0deg);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .card-action-text__icon-fill, .card-action-text__icon-glyph{
+    transition:none;
+  }
+}

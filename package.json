@@ -3,7 +3,7 @@
   "description": "Starterkit theme for Varbase standard websites. Based on Bootstrap 5 framework using SASS.",
   "private": true,
   "engines": {
-    "yarn": ">= 4.9.3",
+    "yarn": ">= 4.17.1",
     "node": ">= 20.0"
   },
   "scripts": {
@@ -121,5 +121,5 @@
     "last 1 Samsung version",
     "Firefox ESR"
   ],
-  "packageManager": "yarn@4.9.3"
+  "packageManager": "yarn@4.17.1"
 }

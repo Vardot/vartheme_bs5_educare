@@ -1,0 +1,84 @@
+import { Meta, Source, Canvas, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as QuoteCardStories from './quote-card.stories.json';
+import templateSource from './quote-card.twig?raw';
+
+<Meta of={QuoteCardStories} name="Docs" />
+
+# Quote Card
+
+A lightweight Bootstrap card for quotes and testimonials with an optional uploaded icon image, a description, and an author name. Controls icon size and alignment, border, padding, background, shadow, border radius, equal height, and full-card stretched link.
+
+- **Icon is optional** — upload an image to `icon_image` to show it above the description; leave empty for a plain quote card
+- `icon_alignment` positions the icon: `me-auto` (left), `mx-auto` (center), `ms-auto` (right)
+- `description` holds the quote text; `author_name` holds the name (and optional title) of the person being quoted
+- `stretched_link` requires `link_url` to be set — makes the entire card clickable
+- `padded: true` adds `p-4` to the content wrapper; `padded: false` removes all padding
+- `equal_height: true` adds `h-100` for consistent heights in grid row layouts
+
+> ### Bootstrap documentation
+> - [Cards](https://getbootstrap.com/docs/5.3/components/card/)
+> - [Background utilities](https://getbootstrap.com/docs/5.3/utilities/background/)
+> - [Stretched link](https://getbootstrap.com/docs/5.3/helpers/stretched-link/)
+> - [Shadows](https://getbootstrap.com/docs/5.3/utilities/shadows/)
+
+## Properties
+
+<Canvas of={QuoteCardStories.Default} />
+<Controls of={QuoteCardStories.Default} />
+
+## Stories
+
+<Stories of={QuoteCardStories} />
+
+## Examples
+
+### Example 1 — Dark quote card with icon
+
+```twig
+{% embed 'vartheme_bs5_educare:quote-card' with {
+  icon_image: { src: '/path/to/quote-mark.svg', alt: '', width: 40, height: 40 },
+  icon_alignment: 'me-auto',
+  background_color: 'bg-dark',
+  padded: true,
+  box_shadow: 'shadow-sm',
+  corner_style: 'rounded-3',
+  description: 'The scholarship program made it possible for me to pursue my dream of earning a world-class education.',
+  author_name: "John Doe, Master's in Economics",
+} %}
+{% endembed %}
+```
+
+### Example 2 — No icon
+
+```twig
+{% embed 'vartheme_bs5_educare:quote-card' with {
+  card_border: true,
+  padded: true,
+  box_shadow: 'shadow-sm',
+  corner_style: 'rounded-3',
+  description: 'A simple quote card without an icon, useful for compact testimonial lists.',
+  author_name: 'Jane Smith',
+} %}
+{% endembed %}
+```
+
+### Example 3 — Linked card (entire card clickable)
+
+```twig
+{% embed 'vartheme_bs5_educare:quote-card' with {
+  card_border: true,
+  padded: true,
+  box_shadow: 'shadow-sm',
+  corner_style: 'rounded-3',
+  description: 'Clicking anywhere on this card follows the link.',
+  author_name: 'Jane Smith',
+  stretched_link: true,
+  link_url: 'https://example.com',
+  link_target: '_blank',
+} %}
+{% endembed %}
+```
+
+## Source code
+[//]: # (Twig Template source code)
+<Source code={templateSource} />

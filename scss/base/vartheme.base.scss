@@ -1,6 +1,6 @@
 @import "../defaults";   // Global defaults.
 
-// Vartheme BS5 Educare Base Global styling.
+// Educare Base Global styling.
 // -----------------------------------------------------------------------------
 
 /* Temp fix for:
@@ -122,60 +122,6 @@ a {
   --bs-emphasis-color-rgb: #{to-rgb($black)};
 }
 
-// Header chrome — background and shadow transition. The sticky positioning,
-// scroll shadow and Canvas-preview handling live in the `sticky-header` library
-// (scss/theme/sticky-header.theme.scss), attached only when the theme setting
-// is enabled.
-.page > header[role="banner"] {
-  background-color: var(--bs-body-bg);
-  transition: box-shadow 0.3s ease-out;
-
-  .navbar {
-    transition: height 0.3s ease-out;
-  }
-}
-
-// Below lg the header region's two grid columns (brand + menu) each take a full
-// row, stacking the logo above the hamburger and over-growing the header. Anchor
-// the toggler to the brand's line (top-right) so the logo and hamburger share
-// one line, while the menu column keeps its full width and the open menu drops
-// full-width below.
-@include media-breakpoint-down(lg) {
-  .page > header[role="banner"] {
-    .row {
-      position: relative;
-    }
-
-    // The menu column right-aligns + shrinks its block at lg+; on mobile let the
-    // block fill the column so the open menu spans the full width below the logo.
-    .block:has(.navbar) {
-      flex: 1 1 100%;
-      width: 100%;
-    }
-
-    // Neutralize Bootstrap's relative navbar so the toggler anchors to the row.
-    .navbar {
-      position: static;
-    }
-
-    // Float the hamburger up onto the logo's line (top-right of the row). The
-    // gutter offsets match the column padding (x) and row gutter (y) so it lines
-    // up with the brand.
-    .navbar-toggler {
-      position: absolute;
-      inset-block-start: var(--bs-gutter-y, 0);
-      inset-inline-end: calc(var(--bs-gutter-x, 1.5rem) * 0.5);
-      z-index: 2;
-      padding-inline: 0;
-      border: 0;
-
-      &:focus {
-        box-shadow: none;
-      }
-    }
-  }
-}
-
 // Header menu uses Bootstrap 5.3 navbar + navbar-expand-lg + navbar-toggler
 // (the wrapper lives in templates/menu/menu--main.html.twig). At lg+ the
 // items render inline horizontally; below lg they stack inside the
@@ -183,37 +129,35 @@ a {
 // stock Bootstrap classes rather than custom media queries.
 
 // Default stacked gap inside the collapsed navbar (< lg).
-.page > header[role="banner"] .navbar-nav {
+header[role="banner"] .navbar-nav {
   gap: 0.25rem;
 }
 
-// At lg+ inline items get a wider 1.875rem gap.
+// At lg+ the Figma spec calls for a 30px gap between inline items.
 @include media-breakpoint-up(lg) {
-  .page > header[role="banner"] .navbar-nav {
-    gap: 1.875rem;
+  header[role="banner"] .navbar-nav {
+    gap: 1.5rem;
   }
 }
 
-// Header menu link styling (bold 1rem, body-color default, primary on hover).
-.page > header[role="banner"] .nav-link {
+// Header menu link styling (Figma: bold 16px, #212529 default, primary on hover).
+header[role="banner"] .nav-link {
   position: relative;
   padding: 0.625rem 0;
-  color: var(--bs-body-color);
-  font-weight: 700;
-  font-size: 1rem;
+  color: #050833 var(--bs-text-dark);
+  font-size: 0.875;
   line-height: 1.4;
   text-decoration: none;
 
   &:hover,
   &:focus,
   &:active {
-    color: var(--bs-primary) !important;
     text-decoration: none;
   }
 }
 
 // Dropdown chevron inherits the link color so it also turns primary on hover.
-.page > header[role="banner"] .nav-link.dropdown-toggle::after {
+header[role="banner"] .nav-link.dropdown-toggle::after {
   border-top-color: currentColor;
   vertical-align: 0.15em;
 }
@@ -221,42 +165,40 @@ a {
 // Hover underline indicator — lg+ only (pointer-hover context). Uses ::before
 // so it doesn't collide with Bootstrap's ::after dropdown chevron.
 @include media-breakpoint-up(lg) {
-  .page > header[role="banner"] .nav-link::before {
+  header[role="banner"] .nav-link::before {
     content: "";
     position: absolute;
+    right: 0;
     bottom: 0.25rem;
     left: 0;
-    width: 100%;
-    height: 0.05em;
-    background: currentcolor;
-    border-radius: $border-radius-pill;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.25s ease-out;
+    height: 0.125rem;
+    background-color: var(--bs-accent);
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
   }
 
-  .page > header[role="banner"] .nav-link:hover::before,
-  .page > header[role="banner"] .nav-link:focus::before,
-  .page > header[role="banner"] .nav-link:active::before {
-    transform: scaleX(1);
-    transform-origin: left;
+  header[role="banner"] .nav-link:hover::before,
+  header[role="banner"] .nav-link:focus::before,
+  header[role="banner"] .nav-link:active::before {
+    opacity: 1;
   }
 }
 
 // Header dropdown panel for child menu links (desktop floating panel).
-.page > header[role="banner"] .dropdown-menu {
+header[role="banner"] .dropdown-menu {
   margin-top: 0.25rem;
   padding: 0.5rem 0;
   border: 0;
   border-radius: 0.375rem;
-  background-color: var(--bs-body-bg);
+  background-color: var(--bs-white);
   box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.12);
 
-  // Child menu link styling - matches the parent (bold, dark) with the same
-  // primary-blue hover treatment but no underline (panel rows already separate).
+  // Child menu link styling - matches the parent (bold, dark) with an
+  // orange-accent hover text color and no underline (panel rows already
+  // separate).
   .dropdown-item {
     padding: 0.5rem 1.25rem;
-    color: var(--bs-body-color);
+    color: #212529;
     font-weight: 700;
     font-size: 0.9375rem;
     line-height: 1.4;
@@ -265,7 +207,7 @@ a {
     &:focus,
     &.active,
     &:active {
-      color: var(--bs-primary);
+      color: var(--bs-orange);
       background-color: transparent;
     }
   }
@@ -275,7 +217,7 @@ a {
 // its children inline (no second click required) and drop the panel chrome
 // so it reads as a nested sub-list.
 @include media-breakpoint-down(lg) {
-  .page > header[role="banner"] .dropdown-menu {
+  header[role="banner"] .dropdown-menu {
     display: block;
     position: static;
     margin: 0 0 0 1rem;
@@ -286,7 +228,7 @@ a {
     box-shadow: none;
   }
 
-  .page > header[role="banner"] .dropdown-menu .dropdown-item {
+  header[role="banner"] .dropdown-menu .dropdown-item {
     padding: 0.25rem 0;
     font-size: 0.9375rem;
     font-weight: 400;
@@ -328,7 +270,6 @@ footer.footer {
     &:focus,
     &:active {
       color: var(--bs-emphasis-color);
-      text-decoration: underline;
     }
   }
 
@@ -504,32 +445,39 @@ footer.footer {
       background: transparent;
       transition: color 0.15s ease-in-out;
 
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 0.05em;
-        background: currentcolor;
-        border-radius: $border-radius-pill;
-        transform: scaleX(0);
-        transform-origin: right;
-        transition: transform 0.25s ease-out;
-      }
-
       &:hover,
       &:focus,
       &:active {
-        color: var(--bs-primary);
         text-decoration: none;
         background: transparent;
       }
 
+      // Accent underline: grows in from the center on hover/focus — same
+      // mechanic as organisms/nav-menu's .nav-link__underline (the "primary
+      // menu hover effect"), swapped in for the previous static instant-show
+      // bar so the footer's secondary menu matches it.
+      &::after {
+        content: "";
+        position: absolute;
+        top: calc(100% + 2px);
+        left: 50%;
+        width: 100%;
+        height: 0.0625rem;
+        background-color: var(--bs-accent);
+        transform: translateX(-50%) scaleX(0);
+        transform-origin: center;
+        transition: transform 0.35s ease;
+      }
+
       &:hover::after,
       &:focus::after {
-        transform: scaleX(1);
-        transform-origin: left;
+        transform: translateX(-50%) scaleX(1);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        &::after {
+          transition: none;
+        }
       }
     }
   }
@@ -548,7 +496,7 @@ footer.footer {
       justify-content: center;
       width: 1.875rem;
       height: 1.875rem;
-      color: var(--bs-primary);
+      color: var(--bs-body-color);
       font-size: 0 !important;
       line-height: 0 !important;
       letter-spacing: -9999px !important;
@@ -557,7 +505,7 @@ footer.footer {
       &::before {
         display: inline-block;
         margin: 0;
-        color: var(--bs-primary);
+        color: var(--bs-body-color);
         font-size: 1.125rem;
         letter-spacing: normal;
       }
@@ -566,9 +514,11 @@ footer.footer {
       &:focus,
       &:active {
         text-decoration: none;
+        color: var(--bs-accent);
 
         &::before {
           opacity: 0.85;
+          color: var(--bs-accent);
         }
       }
     }
@@ -599,6 +549,7 @@ footer.footer {
   }
 }
 
+
 // Blog exposed filter row — horizontal Search / Industry / Type with ghost
 // Apply Filter + Reset actions.
 #views-exposed-form-blog-all {
@@ -627,7 +578,6 @@ footer.footer {
 
   .form-item-search input[type="text"] {
     padding-left: 2.25rem;
-    /* stroke %23001D38 = $navy = --bs-dark; can't use CSS vars inside SVG data URIs */
     background-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2714%27 height=%2714%27 viewBox=%270 0 14 14%27 fill=%27none%27%3E%3Cpath d=%27M6.125 11.375a5.25 5.25 0 1 0 0-10.5 5.25 5.25 0 0 0 0 10.5ZM13.125 13.125 9.84 9.84%27 stroke=%27%23001D38%27 stroke-width=%271.3%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: 1rem center;
@@ -678,7 +628,7 @@ footer.footer {
     &:focus {
       border-color: var(--vb-filter-input-focus);
       outline: 0;
-      box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.15);
+      box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
     }
   }
 
@@ -719,7 +669,6 @@ footer.footer {
     &:hover,
     &:focus {
       opacity: 1;
-      color: var(--bs-primary);
     }
   }
 }

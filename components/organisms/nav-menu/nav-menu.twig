@@ -3,11 +3,23 @@
  * @file
  * Vartheme BS5 Educare Starter Kit implementation for the Nav Menu component.
  *
+ * - Top-level links: an accent underline grows in from the center on
+ *   hover/focus; expandable items also get a chevron that rotates 180deg
+ *   while their mega menu is open.
+ * - Expandable items (item.is_expanded and item.below) open a full-width
+ *   mega menu panel — a grid of arrow-button cards, one per submenu link —
+ *   instead of a classic Bootstrap dropdown. See molecules/mega-menu and
+ *   nav-menu.js (open/close + staggered card reveal).
+ *
  * Available config:
  * - alignment: left | right | center | vertical.
  * - style: tabs | pills
  * - fill: fill | justify
  * - nav_menu_utility_classes: An array of utility classes.
+ *
+ * Available attributes:
+ * - attributes: HTML attributes for the root element.
+ * - list_attributes: HTML attributes for the top-level <ul>.
  */
 #}
 
@@ -23,8 +35,6 @@
 {# Variables: utility classes and config props. #}
 {% set nav_menu_utility_classes = nav_menu_utility_classes ? nav_menu_utility_classes : [] %}
 
-{% import _self as menus %}
-
 {# Logic: map config props to Bootstrap classes. #}
 {% if alignment == 'right' %}
   {% set alignment = 'justify-content-end' %}
@@ -39,9 +49,9 @@
 {% set style = style ? 'nav-' ~ style : '' %}
 {% set fill = fill ? 'nav-' ~ fill : '' %}
 
-{# Logic: merge root nav classes as an array. #}
+{# Logic: merge top-level <ul> classes as an array. #}
 {%
-  set nav_menu_classes = [
+  set list_classes = [
     'nav',
     'level-1',
     style,
@@ -50,43 +60,76 @@
   ]|merge(nav_menu_utility_classes)
 %}
 
+{% if not list_attributes %}
+  {% set list_attributes = create_attribute() %}
+{% endif %}
+{% set list_attributes = list_attributes.addClass(list_classes) %}
+
+{# Logic: a single random seed shared by both passes below so each
+ # expandable item's toggle and its mega menu panel derive the same id
+ # independently, without needing a cross-loop lookup map. #}
+{% set nav_menu_uid = random(1000000) %}
+
 {# Print the HTML. #}
 {% if items %}
-  {% set attributes = attributes.addClass(nav_menu_classes) %}
-  <ul{{ attributes }}>
-    {% for item in items %}
-      {% set nav_item_classes = [
-        'nav-item',
-        item.is_expanded and item.below ? 'dropdown' : '',
-        item.in_active_trail ? 'active',
-      ] %}
-      {% set nav_link_classes = ['nav-link'] %}
-      {% if item.url.options.attributes.class is iterable %}
-        {% set nav_link_classes = nav_link_classes|merge(item.url.options.attributes.class) %}
-      {% elseif item.url.options.attributes.class %}
-        {% set nav_link_classes = nav_link_classes|merge([item.url.options.attributes.class]) %}
-      {% endif %}
-      <li class="{{ nav_item_classes|merge(['menu-item--expanded'])|join(' ') }}">
-        {% if item.is_expanded and item.below %}
-          <a href="{{ item.url }}" class="{{ nav_link_classes|merge(['dropdown-toggle'])|join(' ') }}" data-bs-toggle="dropdown">{{ item.title }}</a>
-          {% if item.below %}
-          {% set second_level = 2 %}
-            {{ include('vartheme_bs5_educare:dropdown-menu', {
-              items: item.below,
-              menu_level: (item.below|first).menu_link_level,
-              parent_item: item,
-              attributes: create_attribute(),
-            }) }}
-          {% endif %}
-          <div class="field-image-background d-none d-lg-block">
-            {{ item.content.field_media }}
-          </div>
-        {% else %}
-          {% if item.url %}
-          {{ link(item.title, item.url, {class: nav_link_classes}) }}
-          {% endif %}
+  {% set attributes = attributes.addClass(['nav-menu']) %}
+  <div{{ attributes }}>
+    <ul{{ list_attributes }}>
+      {% for item in items %}
+        {% set is_expandable = item.is_expanded and item.below %}
+        {% set panel_id = 'mega-menu-' ~ nav_menu_uid ~ '-' ~ loop.index0 %}
+
+        {% set nav_item_classes = [
+          'nav-item',
+          item.in_active_trail ? 'active' : '',
+        ]|filter(v => v is not empty) %}
+
+        {% set nav_link_classes = ['nav-link'] %}
+        {% if item.url.options.attributes.class is iterable %}
+          {% set nav_link_classes = nav_link_classes|merge(item.url.options.attributes.class) %}
+        {% elseif item.url.options.attributes.class %}
+          {% set nav_link_classes = nav_link_classes|merge([item.url.options.attributes.class]) %}
         {% endif %}
-      </li>
+
+        {% set nav_link_inner %}
+          <span class="nav-link__text-wrap">
+            <span class="nav-link__text">{{ item.title }}</span>
+            <span class="nav-link__underline" aria-hidden="true"></span>
+          </span>
+          {% if is_expandable %}
+            <span class="nav-link__chevron" aria-hidden="true">
+              <svg viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          {% endif %}
+        {% endset %}
+
+        {% set nav_link_attributes = {class: nav_link_classes} %}
+        {% if is_expandable %}
+          {% set nav_link_attributes = nav_link_attributes|merge({
+            'data-mega-menu-toggle': panel_id,
+            'aria-expanded': 'false',
+            'aria-controls': panel_id,
+          }) %}
+        {% endif %}
+
+        <li class="{{ nav_item_classes|merge(['menu-item--expanded'])|join(' ') }}">
+          {% if item.url %}
+            {{ link(nav_link_inner, item.url, nav_link_attributes) }}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+
+    {% for item in items %}
+      {% if item.is_expanded and item.below %}
+        {% set panel_id = 'mega-menu-' ~ nav_menu_uid ~ '-' ~ loop.index0 %}
+        {{ include('vartheme_bs5_educare:mega-menu', {
+          items: item.below,
+          panel_id: panel_id,
+        }, with_context: false) }}
+      {% endif %}
     {% endfor %}
-  </ul>
+  </div>
 {% endif %}

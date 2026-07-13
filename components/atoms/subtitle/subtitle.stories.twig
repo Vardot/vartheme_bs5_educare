@@ -1,0 +1,174 @@
+{% stories Subtitle with {
+  title: 'Base/Subtitle',
+  parameters: {
+    componentSubtitle: 'Bootstrap subtitle eyebrow component',
+    docs: {
+      description: {
+        component: 'Renders a subtitle eyebrow label with an optional horizontal line. Place above a heading component to introduce a section. The line color automatically follows the text color.',
+      },
+      story: {
+        inline: true,
+      },
+    },
+  },
+  argTypes: {
+    subtitle_text: {
+      name: 'Subtitle text',
+      defaultValue: 'Enter subtitle',
+      control: 'text',
+    },
+    font_size: {
+      name: 'Font size',
+      description: 'Bootstrap font size utility.',
+      defaultValue: 'small',
+      control: 'select',
+      options: {
+        'Extra Small': 'small',
+        Small: 'fs-6',
+        Medium: 'fs-5',
+        Large: 'fs-4',
+        'Extra Large': 'fs-3',
+        '2X Large': 'fs-2',
+        '3X Large': 'fs-1',
+      },
+    },
+    text_color: {
+      name: 'Text color',
+      description: 'Bootstrap text color utility. Also applied to the horizontal line.',
+      control: 'select',
+      options: {
+        Primary: 'text-primary',
+        Secondary: 'text-secondary',
+        Success: 'text-success',
+        Danger: 'text-danger',
+        Warning: 'text-warning',
+        Info: 'text-info',
+        Muted: 'text-muted',
+        White: 'text-white',
+        Dark: 'text-dark',
+      },
+    },
+    font_weight: {
+      name: 'Font weight',
+      description: 'Bootstrap font weight utility.',
+      defaultValue: 'fw-semibold',
+      control: 'select',
+      options: {
+        Light: 'fw-light',
+        Normal: 'fw-normal',
+        Medium: 'fw-medium',
+        Semibold: 'fw-semibold',
+        Bold: 'fw-bold',
+      },
+    },
+    text_transform: {
+      name: 'Text transform',
+      description: 'Bootstrap text transform utility.',
+      defaultValue: 'text-capitalize',
+      control: 'select',
+      options: {
+        Uppercase: 'text-uppercase',
+        Lowercase: 'text-lowercase',
+        Capitalize: 'text-capitalize',
+      },
+    },
+    align: {
+      name: 'Alignment',
+      description: 'Horizontal alignment of the subtitle within its container.',
+      control: 'select',
+      options: {
+        Left: 'justify-content-start',
+        Center: 'justify-content-center',
+        Right: 'justify-content-end',
+      },
+    },
+    line_position: {
+      name: 'Line position',
+      description: 'Position of the horizontal line relative to the subtitle text.',
+      defaultValue: 'start',
+      control: 'select',
+      options: {
+        "'Before text'": 'start',
+        "'After text'": 'end',
+        "'Both sides'": 'both',
+        "'No line'": 'none',
+      },
+    },
+    line_size: {
+      name: 'Line size',
+      description: "Width of the horizontal line. 'sm' renders a short accent line; 'full' expands to fill available space.",
+      defaultValue: 'sm',
+      control: 'select',
+      options: {
+        Short: 'sm',
+        'Full width': 'full',
+      },
+    },
+  },
+} %}
+
+{% story Default with {
+  name: 'Default',
+  args: {
+    subtitle_text: 'Programs',
+    line_position: 'start',
+    line_size: 'sm',
+    font_weight: 'fw-semibold',
+    text_transform: 'text-capitalize',
+    font_size: 'small',
+  },
+} %}
+{{ include('vartheme_bs5_educare:subtitle') }}
+{% endstory %}
+
+{% story BothLines with {
+  name: 'Both lines full width',
+  args: {
+    subtitle_text: 'Our Services',
+    line_position: 'both',
+    line_size: 'full',
+    font_weight: 'fw-semibold',
+    text_transform: 'text-uppercase',
+    font_size: 'small',
+  },
+} %}
+{{ include('vartheme_bs5_educare:subtitle') }}
+{% endstory %}
+
+{% story Colored with {
+  name: 'Colored',
+  args: {
+    subtitle_text: 'Get In Touch',
+    line_position: 'start',
+    line_size: 'sm',
+    font_weight: 'fw-semibold',
+    text_transform: 'text-capitalize',
+    text_color: 'text-primary',
+    font_size: 'small',
+  },
+} %}
+{{ include('vartheme_bs5_educare:subtitle') }}
+{% endstory %}
+
+{% story NoLine with {
+  name: 'No line',
+  args: {
+    subtitle_text: 'Featured Work',
+    line_position: 'none',
+    font_weight: 'fw-semibold',
+    text_transform: 'text-capitalize',
+    font_size: 'small',
+  },
+} %}
+{{ include('vartheme_bs5_educare:subtitle') }}
+{% endstory %}
+
+{% story WithHeading with {
+  name: 'With heading',
+  args: {},
+} %}
+{{ include('vartheme_bs5_educare:subtitle', { subtitle_text: 'Our Programs', line_position: 'start', line_size: 'sm', font_weight: 'fw-semibold', text_transform: 'text-capitalize' }, with_context: false) }}
+{{ include('vartheme_bs5_educare:heading', { heading_text: 'Explore What We Offer', level: 2 }, with_context: false) }}
+{% endstory %}
+
+{% endstories %}

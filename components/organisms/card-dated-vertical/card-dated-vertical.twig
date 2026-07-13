@@ -1,0 +1,169 @@
+{#
+/**
+ * @file
+ * Vartheme BS5 Educare Starter Kit implementation for the Card Dated Vertical component.
+ *
+ * - Horizontal row layout: centred date block (left) | title heading (centre) | action icon (right)
+ * - Date block: day number (large bold) stacked above month abbreviation (small uppercase), both centred
+ * - ISO 8601 date prop — day and month extracted via Twig date filters
+ * - Title rendered as a configurable heading level (default h5)
+ * - Bootstrap action icon floated right: bi-arrow-right in a white circle.
+ *   On card hover: the circle fills with the accent color (slide-in) and the
+ *   arrow glyph rotates from -45deg (pointing up-right) to 0deg (pointing right).
+ *
+ * Available properties:
+ * - date: ISO 8601 date string (YYYY-MM-DD). Day and month are extracted automatically.
+ *         Leave empty to hide the date block. Defaults to `''`.
+ * - title: Card title text rendered as a heading in the centre of the row. Defaults to `''`.
+ * - heading_level: HTML heading tag for the title. (h1 | h2 | h3 | h4 | h5 | h6) Defaults to `h5`.
+ * - show_action_icon: show or hide the Bootstrap arrow icon. Defaults to `true`.
+ * - background_color: brand background color applied to the card. Defaults to `none`.
+ * - card_border: add Bootstrap border. Defaults to `false`.
+ * - padded: adds p-4 to the card body (otherwise p-3). Defaults to `false`.
+ * - box_shadow: shadow utility. (shadow-none | shadow-sm | shadow | shadow-lg) Defaults to `shadow-none`.
+ * - corner_style: rounded utility. (rounded-0 … rounded-pill) Defaults to `rounded-0`.
+ * - equal_height: adds h-100 to the card wrapper. Defaults to `false`.
+ * - stretched_link: makes the entire card clickable when link_url is set. Defaults to `false`.
+ * - link_url: optional URL for the card link. Defaults to `''`.
+ * - link_target: link target attribute. (default | _self | _blank) Defaults to `default`.
+ *
+ * Available attributes:
+ * - attributes: HTML attributes for the root element.
+ * - card_body_attributes: HTML attributes for the card body wrapper.
+ * - date_attributes: HTML attributes for the date block wrapper.
+ * - action_icon_attributes: HTML attributes for the action icon wrapper.
+ *
+ * Available slots:
+ * - N/A
+ */
+#}
+
+{# AI guidance:
+ # - Do not alter property descriptions or existing logic unless new
+ #   properties are added.
+ # - Keep the structure: 1) variables, 2) logical variable manipulations,
+ #   3) print the HTML.
+ # - Always handle classes as arrays with `merge` (never string
+ #   concatenation) to avoid duplicate classes and data type conflicts.
+ #}
+
+{# Variables: scalar props with schema defaults. #}
+{% set background_color = background_color|default('none') %}
+{% set background_color_class = (background_color != 'none') ? background_color : '' %}
+{% set box_shadow = box_shadow|default('shadow-none') %}
+{% set corner_style = corner_style|default('rounded-0') %}
+{% set link_url = link_url|default('')|trim %}
+{% set link_target_raw = link_target|default('default') %}
+{% set link_target = (link_target_raw == 'default') ? '_self' : link_target_raw %}
+{% set date = date|default('') %}
+{% set title = title|default('') %}
+{% set heading_level = heading_level|default('h5') %}
+
+{# Variables: boolean props.
+ # SDC validates `type: boolean` props and applies their schema defaults,
+ # so the values arrive as real booleans — only a presence fallback is
+ # needed here, never type coercion.
+ #}
+{% set show_action_icon = show_action_icon ?? true %}
+{% set card_border = card_border ?? false %}
+{% set padded = padded ?? false %}
+{% set equal_height = equal_height ?? false %}
+{% set stretched_link = stretched_link ?? false %}
+
+{# Logic: date — parse ISO 8601 string into display parts. #}
+{% set has_date = date is not empty %}
+{% if has_date %}
+  {% set date_day_display = date|date('d') %}
+  {% set date_month_display = date|date('M')|upper %}
+{% endif %}
+
+{% set use_stretched_link = stretched_link and (link_url is not empty) %}
+
+{# Logic: merge card classes as arrays. #}
+{% set attributes = attributes.addClass([
+  'card',
+  'card-dated-vertical',
+  'overflow-hidden',
+  'position-relative',
+  background_color_class,
+  corner_style,
+  (card_border ? 'border' : 'border-0'),
+  box_shadow,
+  (equal_height ? 'h-100' : ''),
+]|filter(v => v is not empty)) %}
+
+{% set card_body_attributes = create_attribute().addClass([
+  'card-body',
+  'd-flex',
+  'align-items-center',
+  (padded ? 'p-4' : 'p-3'),
+]) %}
+
+{% set date_attributes = create_attribute().addClass([
+  'card-dated-vertical__date',
+  'd-flex',
+  'flex-column',
+  'justify-content-center',
+  'align-items-center',
+  'text-center',
+  'flex-shrink-0',
+  (padded ? 'me-4' : 'me-3'),
+]) %}
+
+{% set action_icon_attributes = create_attribute().addClass([
+  'card-dated-vertical__icon',
+  'flex-shrink-0',
+  'ms-3',
+  'position-relative',
+  'overflow-hidden',
+  'rounded-circle',
+  'border-0',
+  'shadow-none',
+  'bg-white',
+  'd-flex',
+  'align-items-center',
+  'justify-content-center',
+]) %}
+
+{# Print the HTML. #}
+<div{{ attributes }}>
+  <div{{ card_body_attributes }}>
+
+    {# Date block: centred day (large bold) + month (small uppercase), hidden when date is empty #}
+    {% if has_date %}
+      <div{{ date_attributes }}>
+        <span class="card-dated-vertical__day d-block fw-bold lh-1">{{ date_day_display }}</span>
+        <span class="card-dated-vertical__month d-block text-uppercase lh-1 mt-1">{{ date_month_display }}</span>
+      </div>
+    {% endif %}
+
+    {# Title heading — grows to fill the available space between date and action icon #}
+    <div class="card-dated-vertical__content flex-grow-1">
+      {% if title is not empty %}
+        <{{ heading_level }} class="card-dated-vertical__title mb-0">{{ title }}</{{ heading_level }}>
+      {% else %}
+        <span class="text-muted small pe-none">Add a title</span>
+      {% endif %}
+    </div>
+
+    {# Bootstrap action icon — on card hover the circle fills with the
+     # accent color and the arrow glyph rotates into place. #}
+    {% if show_action_icon %}
+      <div{{ action_icon_attributes }} aria-hidden="true">
+        <span class="card-dated-vertical__icon-fill"></span>
+        <i class="bi bi-arrow-right card-dated-vertical__icon-glyph text-dark"></i>
+      </div>
+    {% endif %}
+
+  </div>
+
+  {% if use_stretched_link %}
+    {{ include('vartheme_bs5_educare:link', {
+      url: link_url,
+      target: link_target,
+      attributes: create_attribute().setAttribute('aria-label', title|striptags|trim),
+      content: '',
+      link_utility_classes: ['stretched-link'],
+    }) }}
+  {% endif %}
+</div>

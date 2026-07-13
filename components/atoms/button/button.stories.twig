@@ -12,6 +12,18 @@
     },
   },
   argTypes: {
+    icon_circle: {
+      name: 'Circle icon',
+      description: 'Display the icon inside a filled orange circular container.',
+      defaultValue: false,
+      control: 'boolean',
+    },
+    icon_circle_grow: {
+      name: 'Circle icon — grow to full pill',
+      description: 'When Circle icon is enabled, the circle expands into a full pill filling the button on hover/focus instead of the default fade-in-place fill.',
+      defaultValue: false,
+      control: 'boolean',
+    },
     variant: {
       name: 'Variant',
       description: 'Bootstrap button style class.',
@@ -285,6 +297,64 @@
     icon_first: false,
     alignment: 'inline',
     radius: 'rounded',
+  },
+} %}
+{{ include('vartheme_bs5_educare:button') }}
+{% endstory %}
+
+{% story CircleIcon with {
+  name: 'Circle icon (default)',
+  args: {
+    variant: 'btn-primary',
+    size: 'btn-md',
+    label: 'BUTTON',
+    href: '',
+    target: 'self',
+    disabled: false,
+    icon: 'chevron-right',
+    icon_first: true,
+    icon_circle: true,
+    alignment: 'inline',
+    radius: 'rounded-pill',
+  },
+} %}
+{{ include('vartheme_bs5_educare:button') }}
+{% endstory %}
+
+{% story CircleIconGrow with {
+  name: 'Circle icon (grow to full pill)',
+  args: {
+    variant: 'btn-primary',
+    size: 'btn-md',
+    label: 'BUTTON',
+    href: '',
+    target: 'self',
+    disabled: false,
+    icon: 'chevron-right',
+    icon_first: true,
+    icon_circle: true,
+    icon_circle_grow: true,
+    alignment: 'inline',
+    radius: 'rounded-pill',
+  },
+} %}
+{{ include('vartheme_bs5_educare:button') }}
+{% endstory %}
+
+{% story CircleIconDisabled with {
+  name: 'Circle icon (disabled)',
+  args: {
+    variant: 'btn-primary',
+    size: 'btn-md',
+    label: 'BUTTON',
+    href: '',
+    target: 'self',
+    disabled: true,
+    icon: 'chevron-right',
+    icon_first: true,
+    icon_circle: true,
+    alignment: 'inline',
+    radius: 'rounded-pill',
   },
 } %}
 {{ include('vartheme_bs5_educare:button') }}

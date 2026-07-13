@@ -1,0 +1,138 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Subtitle
+group: Base
+status: stable
+props:
+  type: object
+  properties:
+    subtitle_text:
+      type: string
+      title: Subtitle text
+      default: "Enter subtitle"
+      examples:
+        - "Enter subtitle"
+    font_size:
+      type: string
+      title: Font size
+      description: "Bootstrap font size utility. Leave empty for default size."
+      default: "small"
+      examples:
+        - "small"
+      enum:
+        - small
+        - fs-6
+        - fs-5
+        - fs-4
+        - fs-3
+        - fs-2
+        - fs-1
+      'meta:enum':
+        small: Extra Small
+        fs-6: Small
+        fs-5: Medium
+        fs-4: Large
+        fs-3: Extra Large
+        fs-2: 2X Large
+        fs-1: 3X Large
+    text_color:
+      type: string
+      title: Text color
+      description: "Bootstrap text color utility. Leave empty for theme default. Also applied to the horizontal line."
+      default: ""
+      enum:
+        - text-primary
+        - text-secondary
+        - text-success
+        - text-danger
+        - text-warning
+        - text-info
+        - text-muted
+        - text-white
+        - text-dark
+      'meta:enum':
+        text-primary: Primary
+        text-secondary: Secondary
+        text-success: Success
+        text-danger: Danger
+        text-warning: Warning
+        text-info: Info
+        text-muted: Muted
+        text-white: White
+        text-dark: Dark
+    font_weight:
+      type: string
+      title: Font weight
+      description: "Bootstrap font weight utility."
+      default: "fw-semibold"
+      examples:
+        - "fw-semibold"
+      enum:
+        - fw-light
+        - fw-normal
+        - fw-medium
+        - fw-semibold
+        - fw-bold
+      'meta:enum':
+        fw-light: Light
+        fw-normal: Normal
+        fw-medium: Medium
+        fw-semibold: Semibold
+        fw-bold: Bold
+    text_transform:
+      type: string
+      title: Text transform
+      description: "Bootstrap text transform utility."
+      default: "text-uppercase"
+      examples:
+        - "text-uppercase"
+      enum:
+        - text-uppercase
+        - text-lowercase
+        - text-capitalize
+      'meta:enum':
+        text-uppercase: Uppercase
+        text-lowercase: Lowercase
+        text-capitalize: Capitalize
+    align:
+      type: string
+      title: Alignment
+      description: "Horizontal alignment of the subtitle label within its container."
+      default: ""
+      enum:
+        - justify-content-start
+        - justify-content-center
+        - justify-content-end
+      'meta:enum':
+        justify-content-start: Left
+        justify-content-center: Center
+        justify-content-end: Right
+    line_position:
+      type: string
+      title: Line position
+      description: "Position of the horizontal line relative to the subtitle text."
+      default: "start"
+      examples:
+        - "start"
+      enum:
+        - both
+        - start
+        - end
+        - none
+      'meta:enum':
+        both: Both sides
+        start: Before text
+        end: After text
+        none: No line
+    line_size:
+      type: string
+      title: Line size
+      description: "Controls the width of the horizontal line. 'sm' renders a 16px fixed accent line; 'full' expands to fill available space."
+      default: "sm"
+      examples:
+        - "sm"
+      enum:
+        - sm
+        - full
+      'meta:enum':
+        sm: Short
+        full: Full width

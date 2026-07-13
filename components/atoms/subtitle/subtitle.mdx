@@ -1,0 +1,87 @@
+import { Meta, Source, Canvas, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as SubtitleStories from './subtitle.stories.json';
+import templateSource from './subtitle.twig?raw';
+
+<Meta of={SubtitleStories} name="Docs" />
+
+# Subtitle
+
+Renders a subtitle eyebrow label with an optional short horizontal line decorator. Use this component immediately above a `vartheme_bs5_educare:heading` to introduce a section topic.
+
+- `line_position` controls where the line appears: before the text (`start`), after (`end`), on both sides (`both`), or not at all (`none`)
+- `line_size` switches between a short accent line (`sm`, default) and a full-width expanding line (`full`)
+- `text_color` applies a Bootstrap color utility to both the label text and the horizontal line automatically — no separate line-color prop needed
+- `font_size`, `font_weight`, and `text_transform` apply Bootstrap typography utilities to the label
+- `align` controls horizontal placement of the subtitle within its container (`Left`, `Center`, `Right`)
+
+> ### Bootstrap documentation
+> - [Typography – Text utilities](https://getbootstrap.com/docs/5.3/utilities/text/)
+> - [Typography – Horizontal rules](https://getbootstrap.com/docs/5.3/content/typography/#horizontal-rules)
+> - [Utilities – Flex](https://getbootstrap.com/docs/5.3/utilities/flex/)
+> - [Utilities – Sizing](https://getbootstrap.com/docs/5.3/utilities/sizing/)
+
+## Properties
+
+<Canvas of={SubtitleStories.Default} />
+<Controls of={SubtitleStories.Default} />
+
+## Stories
+
+<Stories of={SubtitleStories} />
+
+## Examples
+
+### Example #1: Short line before text (default)
+
+```twig
+{% include 'vartheme_bs5_educare:subtitle' with {
+  subtitle_text: 'Programs',
+} only %}
+```
+
+### Example #2: Subtitle above a heading
+
+```twig
+{% include 'vartheme_bs5_educare:subtitle' with {
+  subtitle_text: 'Our Programs',
+} only %}
+
+{% include 'vartheme_bs5_educare:heading' with {
+  heading_text: 'Explore What We Offer',
+  level: 2,
+} only %}
+```
+
+### Example #3: Colored subtitle (line inherits color automatically)
+
+```twig
+{% include 'vartheme_bs5_educare:subtitle' with {
+  subtitle_text: 'Get In Touch',
+  text_color: 'text-primary',
+} only %}
+```
+
+### Example #4: Full-width lines on both sides
+
+```twig
+{% include 'vartheme_bs5_educare:subtitle' with {
+  subtitle_text: 'Our Services',
+  line_position: 'both',
+  line_size: 'full',
+  text_transform: 'text-uppercase',
+} only %}
+```
+
+### Example #5: No line, plain label
+
+```twig
+{% include 'vartheme_bs5_educare:subtitle' with {
+  subtitle_text: 'Featured Work',
+  line_position: 'none',
+  font_weight: 'fw-bold',
+} only %}
+```
+
+## Source code
+
+<Source code={templateSource} />

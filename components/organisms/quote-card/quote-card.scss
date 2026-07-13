@@ -1,0 +1,38 @@
+@import "../../defaults"; // Global component defaults.
+
+.quote-card {
+  .stretched-link {
+    z-index: 99;
+  }
+
+  // --- Optional icon --------------------------------------------------------
+
+  // Icon wrapper: constrains the uploaded image to the chosen size.
+  &__icon {
+    --icon-max-inline-size: 2.5rem; // 40 px default (icon-md)
+    line-height: 0; // collapse any descendant inline spacing
+
+    figure {
+      max-inline-size: var(--icon-max-inline-size);
+      margin: 0;
+
+      img {
+        display: block;
+        max-inline-size: 100%;
+        block-size: auto;
+      }
+    }
+  }
+
+  // --- Description ------------------------------------------------------------
+  &__description {
+    font-size: #{$font-size-base * 1.125};
+    line-height: $line-height-base;
+  }
+
+  // --- Author -------------------------------------------------------------------
+  &__author {
+    font-size: #{$font-size-base * .875};
+    opacity: .75;
+  }
+}

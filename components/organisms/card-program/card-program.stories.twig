@@ -1,0 +1,262 @@
+{% stories ProgramCard with {
+  title: 'Cards/Program Card',
+  parameters: {
+    componentSubtitle: 'Horizontal row card with an animated accent line, a program title on the left, and up to four metadata columns on the right.',
+    docs: {
+      description: {
+        component: 'A horizontal row card for programme listings. An accent line before the title grows from 0 to 1rem wide on row hover/focus. The title occupies the left side; up to four short metadata values are shown on the right. An optional em-dash prefix indicates a sub-programme. A separator border-bottom can be enabled to visually divide stacked rows.',
+      },
+      story: {
+        inline: true,
+      },
+    },
+  },
+  argTypes: {
+    title: {
+      name: 'Title',
+      description: 'Programme title rendered as a heading.',
+      defaultValue: '',
+      control: 'text',
+    },
+    heading_level: {
+      name: 'Heading level',
+      description: 'HTML heading tag for the title.',
+      defaultValue: 'h5',
+      control: 'select',
+      options: {
+        H1: 'h1',
+        H2: 'h2',
+        H3: 'h3',
+        H4: 'h4',
+        H5: 'h5',
+        H6: 'h6',
+      },
+    },
+    indented: {
+      name: 'Indented',
+      description: 'Shows an em-dash (—) prefix to indicate a sub-programme.',
+      defaultValue: false,
+      control: 'boolean',
+    },
+    col_1: {
+      name: 'Column 1',
+      description: 'First metadata column value.',
+      defaultValue: '',
+      control: 'text',
+    },
+    col_2: {
+      name: 'Column 2',
+      description: 'Second metadata column value.',
+      defaultValue: '',
+      control: 'text',
+    },
+    col_3: {
+      name: 'Column 3',
+      description: 'Third metadata column value.',
+      defaultValue: '',
+      control: 'text',
+    },
+    col_4: {
+      name: 'Column 4',
+      description: 'Fourth metadata column value.',
+      defaultValue: '',
+      control: 'text',
+    },
+    separator: {
+      name: 'Separator',
+      description: 'Adds a bottom border to separate rows in a list.',
+      defaultValue: false,
+      control: 'boolean',
+    },
+    card_border: {
+      name: 'Card border',
+      description: 'Adds a Bootstrap border around the full card.',
+      defaultValue: false,
+      control: 'boolean',
+    },
+    background_color: {
+      name: 'Background',
+      description: 'Brand background color applied to the card.',
+      defaultValue: 'none',
+      control: 'select',
+      options: {
+        None: 'none',
+        "'Body tertiary'": 'bg-body-tertiary',
+        Tertiary: 'bg-tertiary',
+        Accent: 'bg-accent',
+        Primary: 'bg-primary',
+        "'Primary subtle'": 'bg-primary-subtle',
+        Secondary: 'bg-secondary',
+        "'Secondary subtle'": 'bg-secondary-subtle',
+        Dark: 'bg-dark',
+      },
+    },
+    padded: {
+      name: 'Padded',
+      description: 'Adds p-4 to the card body (otherwise p-3).',
+      defaultValue: false,
+      control: 'boolean',
+    },
+    box_shadow: {
+      name: 'Shadow',
+      description: 'Bootstrap shadow utility.',
+      defaultValue: 'shadow-none',
+      control: 'select',
+      options: {
+        None: 'shadow-none',
+        Small: 'shadow-sm',
+        Medium: 'shadow',
+        Large: 'shadow-lg',
+      },
+    },
+    corner_style: {
+      name: 'Border radius',
+      description: 'Rounded utility for the card.',
+      defaultValue: 'rounded-0',
+      control: 'select',
+      options: {
+        "'None (square)'": 'rounded-0',
+        Small: 'rounded-1',
+        Medium: 'rounded-2',
+        Large: 'rounded-3',
+        "'Extra Large'": 'rounded-4',
+        Pill: 'rounded-pill',
+      },
+    },
+    equal_height: {
+      name: 'Equal height',
+      description: 'Apply h-100 for grid alignment.',
+      defaultValue: false,
+      control: 'boolean',
+    },
+    stretched_link: {
+      name: 'Stretched link',
+      description: 'Make the entire card clickable.',
+      defaultValue: false,
+      control: 'boolean',
+    },
+    link_url: {
+      name: 'Link URL',
+      description: 'Optional card link URL.',
+      defaultValue: '',
+      control: 'text',
+    },
+    link_target: {
+      name: 'Link target',
+      description: 'Target attribute for the card link.',
+      defaultValue: 'default',
+      control: 'select',
+      options: {
+        "'Default (same tab)'": 'default',
+        "'Same tab'": '_self',
+        "'New tab'": '_blank',
+      },
+    },
+  },
+} %}
+
+{# ── Story 1: Default (no indent, with 4 meta columns) ── #}
+{% story Default with {
+  name: 'Default',
+  args: {
+    title: 'Lorem Ipsum Dolor Sit Amet',
+    heading_level: 'h5',
+    indented: false,
+    col_1: 'A.A',
+    col_2: 'A.A',
+    col_3: 'A.A',
+    col_4: 'A.A',
+    separator: true,
+    card_border: false,
+    background_color: 'none',
+    padded: false,
+    box_shadow: 'shadow-none',
+    corner_style: 'rounded-0',
+    equal_height: false,
+    stretched_link: false,
+    link_url: '',
+    link_target: 'default',
+  },
+} %}
+{{ include('vartheme_bs5_educare:card-program', _context, with_context = false) }}
+{% endstory %}
+
+{# ── Story 2: Indented (em-dash sub-programme variant) ── #}
+{% story Indented with {
+  name: 'Indented (sub-programme)',
+  args: {
+    title: 'Lorem Ipsum Dolor Sit Amet',
+    heading_level: 'h5',
+    indented: true,
+    col_1: 'A.A',
+    col_2: 'A.A',
+    col_3: 'A.A',
+    col_4: 'A.A',
+    separator: true,
+    card_border: false,
+    background_color: 'none',
+    padded: false,
+    box_shadow: 'shadow-none',
+    corner_style: 'rounded-0',
+    equal_height: false,
+    stretched_link: false,
+    link_url: '',
+    link_target: 'default',
+  },
+} %}
+{{ include('vartheme_bs5_educare:card-program', _context, with_context = false) }}
+{% endstory %}
+
+{# ── Story 3: Linked card ── #}
+{% story LinkedCard with {
+  name: 'Linked card',
+  args: {
+    title: 'Lorem Ipsum Dolor Sit Amet',
+    heading_level: 'h5',
+    indented: false,
+    col_1: 'A.A',
+    col_2: 'A.A',
+    col_3: 'A.A',
+    col_4: 'A.A',
+    separator: true,
+    card_border: false,
+    background_color: 'bg-body-tertiary',
+    padded: false,
+    box_shadow: 'shadow-none',
+    corner_style: 'rounded-0',
+    equal_height: false,
+    stretched_link: true,
+    link_url: 'https://example.com',
+    link_target: '_blank',
+  },
+} %}
+{{ include('vartheme_bs5_educare:card-program', _context, with_context = false) }}
+{% endstory %}
+
+{# ── Story 4: Equal height ── #}
+{% story EqualHeight with {
+  name: 'Equal height',
+  args: {
+    title: 'Lorem Ipsum Dolor Sit Amet',
+    heading_level: 'h5',
+    indented: false,
+    col_1: 'A.A',
+    col_2: 'A.A',
+    col_3: 'A.A',
+    col_4: 'A.A',
+    separator: true,
+    card_border: false,
+    background_color: 'none',
+    padded: false,
+    box_shadow: 'shadow-none',
+    corner_style: 'rounded-0',
+    equal_height: true,
+    stretched_link: false,
+    link_url: '',
+    link_target: 'default',
+  },
+} %}
+{{ include('vartheme_bs5_educare:card-program', _context, with_context = false) }}
+{% endstory %}
+
+{% endstories %}

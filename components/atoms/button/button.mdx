@@ -30,7 +30,20 @@ import templateSource from './button.twig?raw';
 
 ## Examples
 
-### Example #1: Link button (opens in a new tab)
+### Example #1: Circle icon button (pill)
+```
+{% include "vartheme_bs5_educare:button" with {
+  variant: 'btn-primary',
+  size: 'btn-md',
+  label: 'Read more',
+  icon: 'chevron-right',
+  icon_first: true,
+  icon_circle: true,
+  radius: 'rounded-pill'
+} %}
+```
+
+### Example #2: Link button (opens in a new tab)
 ```
 {% include "vartheme_bs5_educare:button" with {
   variant: 'btn-primary',
@@ -47,7 +60,7 @@ import templateSource from './button.twig?raw';
 } %}
 ```
 
-### Example #2: Large button with icon first
+### Example #3: Large button with icon first
 ```
 {% include "vartheme_bs5_educare:button" with {
   variant: 'btn-dark',
@@ -60,7 +73,7 @@ import templateSource from './button.twig?raw';
 } %}
 ```
 
-### Example #3: Full width button
+### Example #4: Full width button
 ```
 {% include "vartheme_bs5_educare:button" with {
   variant: 'btn-primary',

@@ -144,7 +144,17 @@
   {% else %}
     <div{{ demo_1_item_attributes }}>
       <h2{{ demo_1_heading_attributes }}>
-        <button{{ demo_1_button_attributes }}>Accordion 1</button>
+        <button{{ demo_1_button_attributes }}>
+          <span class="accordion-button__line" aria-hidden="true"></span>
+          <span class="accordion-button__title">Accordion 1</span>
+          <span class="accordion-button__action" aria-hidden="true">
+            <span class="accordion-button__action-bg"></span>
+            <span class="accordion-button__toggle-icon">
+              <span class="accordion-button__toggle-icon-h"></span>
+              <span class="accordion-button__toggle-icon-v"></span>
+            </span>
+          </span>
+        </button>
       </h2>
       <div{{ demo_1_collapse_attributes }}>
         <div{{ demo_1_body_attributes }}>
@@ -155,7 +165,17 @@
 
     <div{{ demo_2_item_attributes }}>
       <h2{{ demo_2_heading_attributes }}>
-        <button{{ demo_2_button_attributes }}>Accordion 2</button>
+        <button{{ demo_2_button_attributes }}>
+          <span class="accordion-button__line" aria-hidden="true"></span>
+          <span class="accordion-button__title">Accordion 2</span>
+          <span class="accordion-button__action" aria-hidden="true">
+            <span class="accordion-button__action-bg"></span>
+            <span class="accordion-button__toggle-icon">
+              <span class="accordion-button__toggle-icon-h"></span>
+              <span class="accordion-button__toggle-icon-v"></span>
+            </span>
+          </span>
+        </button>
       </h2>
       <div{{ demo_2_collapse_attributes }}>
         <div{{ demo_2_body_attributes }}>

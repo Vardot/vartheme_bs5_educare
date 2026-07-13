@@ -4,20 +4,19 @@
 // Override default bootstrap accordion variables.
 $accordion-padding-y: 0.9375rem;
 $accordion-padding-x: 0.9375rem;
-$accordion-border-width: 1px;
-$accordion-border-color: var(--bs-border-color);
+$accordion-border-width: 0;
 $accordion-border-radius: 0.125rem;
 $accordion-inner-border-radius: subtract($accordion-border-radius, $accordion-border-width) !default;
 
-// Design: $secondary-bg-subtle ($linen) bg, dark text, $secondary ($sand) hover bg, primary hover text.
-$accordion-bg: $secondary-bg-subtle;
+// Design: warm-white (#fefbf8) bg, dark text; no border.
+$accordion-bg: #fefbf8;
 
 $accordion-body-padding-y: $accordion-padding-y;
 $accordion-body-padding-x: $accordion-padding-x;
 
 $accordion-button-padding-y: $accordion-padding-y;
 $accordion-button-padding-x: $accordion-padding-x;
-$accordion-button-active-bg: $secondary-bg-subtle;
+$accordion-button-active-bg: #fefbf8;
 $accordion-button-active-color: var(--bs-dark);
 
 $accordion-button-focus-border-color: var(--bs-border-color);
@@ -27,23 +26,28 @@ $accordion-icon-width: 0.9375rem;
 
 @import "../../../node_modules/bootstrap/scss/accordion";
 
-// Design overrides: secondary-subtle background, dark default text, secondary hover bg, primary hover text.
+// Circular toggle button size.
+$accordion-toggle-size: 2.5rem;
+
 .accordion {
+  // Component-local tokens: warm-white item bg, light-linen toggle circle bg.
+  --accordion-block-item-bg: #fefbf8;
+  --accordion-block-toggle-bg: #f8f3ed;
+  --accordion-block-hover-duration: 0.35s;
+  --accordion-block-hover-easing: ease;
+
   .accordion-item {
     margin-block-start: 1.25rem;
 
     &:first-of-type {
       margin-block-start: 0;
     }
-
-    &:not(:first-of-type) {
-      border-block-start: $accordion-border-width solid $accordion-border-color;
-    }
   }
 
   .accordion-button {
+    position: relative;
     font-weight: 700;
-    background-color: var(--bs-secondary-bg-subtle);
+    background-color: var(--accordion-block-item-bg);
     color: var(--bs-dark);
     box-shadow: none;
     text-align: start;
@@ -51,21 +55,160 @@ $accordion-icon-width: 0.9375rem;
     &,
     &.collapsed,
     &:not(.collapsed) {
-      background-color: var(--bs-secondary-bg-subtle);
+      background-color: var(--accordion-block-item-bg);
       color: var(--bs-dark);
       box-shadow: none;
     }
 
+    // Remove Bootstrap's default chevron — replaced by __action below.
     &::after {
-      margin-inline-start: auto;
+      display: none;
+    }
+
+    // Hover/focus/active: keep button bg unchanged (only the chrome below animates).
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: var(--accordion-block-item-bg);
+      color: var(--bs-dark);
+      box-shadow: none;
+    }
+
+    // Accent line before the title: grows from 0 to 1rem wide on hover/focus,
+    // pushing the title over via its own margin (kept out of flex flow so it
+    // takes zero space at rest — no phantom gap before the title).
+    &__line {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 0;
+      height: #{$spacer * 0.125}; // 0.125rem ≈ 2px
+      background: var(--bs-secondary-color);
+      transform: translateY(-50%);
+      transition: width var(--accordion-block-hover-duration) var(--accordion-block-hover-easing);
+    }
+
+    &__title {
+      flex: 1 0 0;
+      min-width: 0;
+      margin-inline-start: 0;
+      transition: margin-inline-start var(--accordion-block-hover-duration) var(--accordion-block-hover-easing);
     }
 
     &:hover,
     &:focus,
-    &:active {
-      background-color: var(--bs-secondary);
-      color: #0D6EFD;
-      box-shadow: none;
+    &:focus-visible {
+      .accordion-button__line {
+        width: #{$spacer}; // 1rem ≈ 16px
+      }
+
+      .accordion-button__title {
+        margin-inline-start: #{$spacer * 1.75}; // 1.75rem ≈ 28px
+      }
+    }
+
+    // dash-always: line always at full width, title always shifted over.
+    &--dash-always {
+      .accordion-button__line {
+        width: #{$spacer};
+      }
+
+      .accordion-button__title {
+        margin-inline-start: #{$spacer * 1.75};
+      }
+    }
+
+    // dash-never: line never shows, title never shifts.
+    &--dash-never {
+      .accordion-button__line {
+        width: 0 !important;
+      }
+
+      &:hover .accordion-button__title,
+      &:focus .accordion-button__title,
+      &:focus-visible .accordion-button__title {
+        margin-inline-start: 0;
+      }
+    }
+
+    // Circular toggle button (replaces Bootstrap chevron).
+    &__action {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: $accordion-toggle-size;
+      height: $accordion-toggle-size;
+      flex-shrink: 0;
+      margin-inline-start: auto;
+      border-radius: 50%;
+      background: var(--accordion-block-toggle-bg);
+      overflow: hidden;
+    }
+
+    // Accent-colour circle fill, slid off-screen until the button is hovered.
+    &__action-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--bs-accent);
+      border-radius: inherit;
+      transform: translateX(-100%);
+      transition: transform var(--accordion-block-hover-duration) var(--accordion-block-hover-easing);
+    }
+
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      .accordion-button__action-bg {
+        transform: translateX(0);
+      }
+    }
+
+    // Plus/minus icon: a fixed horizontal bar plus a vertical bar that scales
+    // away to 0 when expanded, so the plus visibly morphs into a minus.
+    &__toggle-icon {
+      position: relative;
+      z-index: 1;
+      width: #{$spacer};
+      height: #{$spacer};
+    }
+
+    &__toggle-icon-h,
+    &__toggle-icon-v {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background: var(--bs-dark);
+      border-radius: #{$spacer * 0.0625};
+      transform: translate(-50%, -50%);
+    }
+
+    &__toggle-icon-h {
+      width: #{$spacer * 0.7};
+      height: #{$spacer * 0.0875};
+    }
+
+    &__toggle-icon-v {
+      width: #{$spacer * 0.0875};
+      height: #{$spacer * 0.7};
+      transition: transform var(--accordion-block-hover-duration) var(--accordion-block-hover-easing);
+    }
+
+    // Expanded (Bootstrap removes `.collapsed` when the item opens): morph
+    // the vertical bar away so the plus becomes a minus.
+    &:not(.collapsed) {
+      .accordion-button__toggle-icon-v {
+        transform: translate(-50%, -50%) scaleY(0);
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .accordion-button__line,
+    .accordion-button__title,
+    .accordion-button__action-bg,
+    .accordion-button__toggle-icon-v {
+      transition: none;
     }
   }
 }

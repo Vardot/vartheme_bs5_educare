@@ -10,9 +10,20 @@ $breadcrumb-padding-x: 0.0625rem;
 // Change default bootstrap breadcrumb style.
 
 // Change the color for text in the breadcrumb.
+//
+// Linked items render through atoms/link as a plain <a> with no color
+// class, so without the nested selector below they'd fall back to
+// Bootstrap's default link color (blue) instead of inheriting this — an
+// element's own explicit color always wins over inheritance from its
+// parent, so `.breadcrumb-item { color: … }` alone only reaches the
+// non-linked (active/current) item, which has no <a> to override it.
 .breadcrumb {
   .breadcrumb-item {
     color: var(--bs-dark);
+
+    a {
+      color: inherit;
+    }
   }
 }
 

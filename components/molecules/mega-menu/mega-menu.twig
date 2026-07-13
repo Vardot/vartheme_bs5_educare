@@ -1,0 +1,63 @@
+{#
+/**
+ * @file
+ * Vartheme BS5 Educare Starter Kit implementation for the Mega Menu component.
+ *
+ * Full-width panel rendered as a grid of arrow-button cards, one per menu
+ * item. Hidden by default (`hidden` + `aria-hidden="true"`); the parent
+ * organisms/nav-menu's JS toggles visibility and staggers each card's
+ * fade-in reveal via the `is-visible` class — see nav-menu.js.
+ *
+ * Available properties:
+ * - items: Menu items to render as cards. Each item needs a title and a
+ *   url. (required)
+ * - panel_id: Unique id applied to the panel root; referenced by the
+ *   parent toggle's aria-controls/data-mega-menu-toggle. (required)
+ *
+ * Available attributes:
+ * - attributes: HTML attributes for the panel root element.
+ * - card_attributes: HTML attributes for each card, created fresh per loop
+ *   iteration.
+ */
+#}
+
+{# AI guidance:
+ # - Do not alter property descriptions or existing logic unless new
+ #   properties are added.
+ # - Keep the structure: 1) variables, 2) logical variable manipulations,
+ #   3) print the HTML.
+ # - Always handle classes as arrays with `merge` (never string
+ #   concatenation) to avoid duplicate classes and data type conflicts.
+ #}
+
+{# Variables: scalar props. #}
+{% set panel_id = panel_id|default('') %}
+
+{# Logic: root panel classes — hidden by default, JS reveals it. #}
+{% set attributes = attributes
+  .addClass(['mega-menu'])
+  .setAttribute('id', panel_id)
+  .setAttribute('hidden', 'hidden')
+  .setAttribute('aria-hidden', 'true')
+%}
+
+{# Print the HTML. #}
+<div{{ attributes }}>
+  <div class="mega-menu__inner">
+    {% for item in items %}
+      {% set card_attributes = create_attribute()
+        .addClass(['mega-menu__card'])
+        .setAttribute('href', item.url.toString())
+      %}
+      <a{{ card_attributes }}>
+        <span class="mega-menu__arrow" aria-hidden="true">
+          <span class="mega-menu__arrow-bg"></span>
+          <svg class="mega-menu__arrow-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 8H12.5M12.5 8L9 4.5M12.5 8L9 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <p class="mega-menu__title">{{ item.title }}</p>
+      </a>
+    {% endfor %}
+  </div>
+</div>

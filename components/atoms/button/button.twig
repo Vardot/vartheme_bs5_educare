@@ -24,6 +24,17 @@
  * - icon: Optional Bootstrap Icon name (without the "bi-" prefix).
  *         Use "none" to disable. Defaults to `none`.
  * - icon_first: (true|false) Change icon position to left. Defaults to `false`.
+ * - icon_circle: (true|false) Display the icon inside a filled orange circular
+ *               container. On hover/active the button fill fades in behind
+ *               the label and the icon glyph crossfades to an arrow.
+ *               Defaults to `false`.
+ * - icon_circle_white_text: (true|false) When Circle icon is enabled, renders
+ *               the button label text in white (for dark/coloured backgrounds).
+ *               The icon inside the circle keeps its dark colour. Defaults to `false`.
+ * - icon_circle_grow: (true|false) When Circle icon is enabled, the circle
+ *               expands into a full pill filling the button on hover/focus
+ *               instead of Circle icon's default fade-in-place button fill.
+ *               Defaults to `false`.
  * - alignment: Alignment wrapper for a single button. Use Inline for
  *              multiple buttons. (inline | left | center | right)
  *              Defaults to `inline`.
@@ -67,6 +78,9 @@
 {% set is_disabled = disabled ?? false %}
 {% set full_width = full_width ?? false %}
 {% set is_icon_first = icon_first ?? false %}
+{% set icon_circle = icon_circle ?? false %}
+{% set icon_circle_white_text = icon_circle_white_text ?? false %}
+{% set icon_circle_grow = icon_circle_grow ?? false %}
 
 {# Logic: variant, outline and link handling. #}
 {% set variant_class = (is_outline and variant != 'btn-link') ? variant|replace({'btn-': 'btn-outline-'}) : variant %}
@@ -90,7 +104,11 @@
 {% set width_classes = full_width ? ['w-100'] : [] %}
 {% set padding_classes = is_link_variant ? ['p-0'] : [] %}
 {% set inline_classes = is_inline ? ['me-3', 'mb-3'] : [] %}
-{% set icon_order_classes = (has_icon and not is_icon_first) ? ['flex-row-reverse'] : [] %}
+{# icon_circle forces icon before label; icon_first controls order otherwise. #}
+{% set icon_order_classes = (has_icon and not is_icon_first and not icon_circle) ? ['flex-row-reverse'] : [] %}
+{% set icon_circle_classes = icon_circle ? ['btn--icon-circle'] : [] %}
+{% set icon_circle_white_text_classes = (icon_circle and icon_circle_white_text) ? ['btn--icon-circle-white-text'] : [] %}
+{% set icon_circle_grow_classes = (icon_circle and icon_circle_grow) ? ['btn--icon-circle-grow'] : [] %}
 
 {#
  # Inline buttons (no alignment wrapper) receive me-3 mb-3 so that when
@@ -107,7 +125,7 @@
   'justify-content-center',
   'gap-2',
   'fw-bold',
-]|merge(size_text_classes)|merge(width_classes)|merge(padding_classes)|merge(inline_classes)|merge(icon_order_classes) %}
+]|merge(size_text_classes)|merge(width_classes)|merge(padding_classes)|merge(inline_classes)|merge(icon_order_classes)|merge(icon_circle_classes)|merge(icon_circle_white_text_classes)|merge(icon_circle_grow_classes) %}
 
 {# Logic: alignment wrapper class, only for non-inline alignments. #}
 {% set wrapper_class = alignment == 'left' ? 'd-flex justify-content-start'
@@ -158,9 +176,26 @@
 {% endif %}
 
 {% if has_icon %}
-  {{ include('vartheme_bs5_educare:bootstrap-icon', {
-    icon: icon_value
-  }, with_context = false) }}
+  {% if icon_circle %}
+    <span class="btn__icon-circle">
+      {{ include('vartheme_bs5_educare:bootstrap-icon', {
+        icon: icon_value,
+        icon_size: 'fs-5',
+        attributes: create_attribute().addClass('btn__icon-circle-glyph')
+      }, with_context = false) }}
+      {{ include('vartheme_bs5_educare:bootstrap-icon', {
+        icon: 'arrow-right',
+        icon_size: 'fs-5',
+        attributes: create_attribute()
+          .addClass('btn__icon-circle-glyph-hover')
+          .setAttribute('aria-hidden', 'true')
+      }, with_context = false) }}
+    </span>
+  {% else %}
+    {{ include('vartheme_bs5_educare:bootstrap-icon', {
+      icon: icon_value
+    }, with_context = false) }}
+  {% endif %}
 {% endif %}
 
 <span{{ label_attributes }}>{{ label }}</span>
