@@ -25,7 +25,18 @@
 
 {# Variables: scalar props with schema defaults. #}
 {% set background_color = background_color|default('none') %}
-{% set background_color_class = (background_color != 'none') ? background_color : '' %}
+{% set background_color_map = {
+  'none': '',
+  'bg-body-tertiary': 'bg-body-tertiary text-white',
+  'bg-tertiary': 'text-bg-tertiary',
+  'bg-accent': 'text-bg-accent',
+  'bg-primary': 'text-bg-primary',
+  'bg-primary-subtle': 'bg-primary-subtle',
+  'bg-secondary': 'text-bg-secondary',
+  'bg-secondary-subtle': 'bg-secondary-subtle',
+  'bg-dark': 'text-bg-dark',
+} %}
+{% set background_color_class = background_color_map[background_color] %}
 {% set box_shadow = box_shadow|default('shadow-none') %}
 {% set corner_style = corner_style|default('rounded-0') %}
 {% set link_url = link_url|default('')|trim %}

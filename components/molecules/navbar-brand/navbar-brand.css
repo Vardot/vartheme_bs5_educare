@@ -1,24 +1,24 @@
-.brand-logo-image{
-  height:1.88rem;
+.brand-logo-image {
+  height: 1.88rem;
 }
 
-@media (max-width: 767.98px){
-  header .row:has(.navbar-brand){
-    position:relative;
+@media (max-width: 767.98px) {
+  header .row:has(.navbar-brand) {
+    position: relative;
   }
 
-  header .navbar{
-    position:static;
+  header .navbar {
+    position: static;
   }
 
-  header .navbar-toggler{
-    position:absolute;
-    top:var(--bs-gutter-y, 0);
-    right:0;
+  header .navbar-toggler {
+    position: absolute;
+    top: var(--bs-gutter-y, 0);
+    right: 0;
   }
 
-  [dir="rtl"] header .navbar-toggler{
-    right:auto;
-    left:0;
+  [dir="rtl"] header .navbar-toggler {
+    right: auto;
+    left: 0;
   }
 }
