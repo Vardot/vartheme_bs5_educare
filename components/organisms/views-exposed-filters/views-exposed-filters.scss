@@ -1,0 +1,112 @@
+// @file
+// Vartheme BS5 Educare — Views exposed filters component styles.
+//
+// The Educare skin for the exposed filter controls of a view listing:
+// keyword search icon, input/select styling, labels, and the ghost Apply
+// Filter / Reset actions. Layout — the flex row, the gap, the column
+// widths, the `--stacked` modifier, the breakpoint collapse — is provided
+// by the `views-exposed-filters` component contract this one mirrors
+// (https://www.drupal.org/project/vartheme_bs5/issues/3611865); this file
+// only carries the skin on top of it.
+
+@import "../../defaults"; // Global component defaults.
+
+.views-exposed-filters .views-exposed-form {
+  // ── Skin tokens (all derived from this theme's Bootstrap tokens) ──
+  --views-exposed-filters-input-bg: var(--bs-body-bg);
+  --views-exposed-filters-input-border: var(--bs-border-color);
+  --views-exposed-filters-input-radius: var(--bs-border-radius);
+  --views-exposed-filters-input-focus-color: var(--bs-primary);
+  --views-exposed-filters-input-focus-ring: #{rgba($primary, 0.15)};
+
+  > [class*="form-item-search"] input[type="text"] {
+    padding-left: #{$spacer * 2.25}; // room for the search icon
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2714%27 height=%2714%27 viewBox=%270 0 14 14%27 fill=%27none%27%3E%3Cpath d=%27M6.125 11.375a5.25 5.25 0 1 0 0-10.5 5.25 5.25 0 0 0 0 10.5ZM13.125 13.125 9.84 9.84%27 stroke=%27%23001D38%27 stroke-width=%271.3%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: #{$spacer} center;
+    background-size: #{$spacer * 0.875};
+  }
+
+  label {
+    margin-bottom: #{$spacer * 0.5};
+    color: var(--bs-body-color);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .form-text,
+  .form-select,
+  input[type="text"],
+  select {
+    width: 100%;
+    padding: #{$spacer * 0.75} #{$spacer};
+    transition:
+      border-color 0.15s ease-in-out,
+      box-shadow 0.15s ease-in-out;
+    color: var(--bs-body-color);
+    border: var(--bs-border-width) solid var(--views-exposed-filters-input-border);
+    border-radius: var(--views-exposed-filters-input-radius);
+    background-color: var(--views-exposed-filters-input-bg);
+    font-size: 1rem;
+    line-height: 1.5;
+
+    &::placeholder {
+      color: var(--bs-secondary-color);
+    }
+
+    &:focus {
+      border-color: var(--views-exposed-filters-input-focus-color);
+      outline: 0;
+      box-shadow: 0 0 0 #{$spacer * 0.2} var(--views-exposed-filters-input-focus-ring);
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    align-items: center;
+    height: #{$spacer * 3.125};
+    gap: #{$spacer * 1.5};
+  }
+
+  .form-submit {
+    padding: 0;
+    transition:
+      opacity 0.15s ease-in-out,
+      color 0.15s ease-in-out;
+    color: var(--bs-link-color);
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.35;
+
+    &:hover,
+    &:focus {
+      opacity: 0.85;
+      color: var(--bs-primary-text-emphasis);
+      background: transparent;
+    }
+  }
+
+  // Matched on the widget Views renders for the Reset action, not a field
+  // name — the same rationale the sitewide `.bef-exposed-form` block in
+  // scss/base/vartheme.base.scss already applies to the listing filter
+  // widgets themselves.
+  [id*="edit-reset"],
+  input[name="reset"] {
+    opacity: 0.5;
+    color: var(--bs-secondary-color);
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+  }
+}
+
+[dir="rtl"] .views-exposed-filters .views-exposed-form [class*="form-item-search"] input[type="text"] {
+  padding-right: #{$spacer * 2.25};
+  padding-left: 0;
+}
