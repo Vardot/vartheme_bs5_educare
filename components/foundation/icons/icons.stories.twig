@@ -62,8 +62,22 @@
   <div class="border-top pt-4 mb-5">
     <h2 class="fw-bold mb-4">Other</h2>
     <div class="d-flex flex-wrap gap-4">
-      {% set common_icons = ['search', 'heart', 'heart-fill', 'star', 'star-fill', 'bell', 'bell-fill', 'calendar', 'calendar-fill', 'envelope', 'envelope-fill', 'gear', 'gear-fill', 'person', 'person-fill', 'house', 'house-fill', 'trash', 'trash-fill', 'pencil', 'pencil-fill', 'download', 'upload', 'share', 'share-fill', 'link', 'link-45deg', 'check-circle', 'check-circle-fill', 'x-circle', 'x-circle-fill', 'info-circle', 'info-circle-fill', 'exclamation-circle', 'exclamation-circle-fill', 'question-circle', 'question-circle-fill', 'plus-circle', 'plus-circle-fill', 'dash-circle', 'eye', 'eye-fill', 'eye-slash', 'lock', 'lock-fill', 'unlock', 'file', 'folder', 'image', 'camera', 'camera-fill', 'telephone', 'telephone-fill', 'map', 'map-fill', 'pin', 'pin-fill', 'tag', 'tag-fill', 'cart', 'cart-fill', 'bag', 'bag-fill', 'credit-card', 'credit-card-fill', 'cup', 'cup-fill', 'globe', 'globe2', 'wifi', 'bluetooth', 'battery', 'battery-full', 'play-circle', 'play-circle-fill', 'pause-circle', 'stop-circle'] %}
+      {% set common_icons = ['search', 'heart', 'star-fill', 'bell', 'calendar', 'envelope', 'gear', 'house', 'download', 'share', 'link-45deg', 'check-circle', 'x-circle', 'info-circle', 'question-circle', 'eye', 'lock', 'telephone', 'geo-alt', 'tag', 'play-circle'] %}
       {% for icon in common_icons %}
+        <div class="d-flex flex-column align-items-center gap-2" style="width: 80px;">
+          {{ include('vartheme_bs5_educare:bootstrap-icon', { icon: icon, icon_size: 'fs-3' }) }}
+          <span class="small text-muted text-center" style="font-size: 11px; word-break: break-all;">{{ icon }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {# Education icons #}
+  <div class="border-top pt-4 mb-5">
+    <h2 class="fw-bold mb-4">Education</h2>
+    <div class="d-flex flex-wrap gap-4">
+      {% set education_icons = ['mortarboard-fill', 'book-fill', 'backpack-fill', 'bookshelf', 'journal-text', 'pencil-fill', 'clipboard-check-fill', 'bookmark-star-fill', 'award-fill', 'trophy-fill', 'buildings-fill', 'bank'] %}
+      {% for icon in education_icons %}
         <div class="d-flex flex-column align-items-center gap-2" style="width: 80px;">
           {{ include('vartheme_bs5_educare:bootstrap-icon', { icon: icon, icon_size: 'fs-3' }) }}
           <span class="small text-muted text-center" style="font-size: 11px; word-break: break-all;">{{ icon }}</span>
@@ -86,11 +100,12 @@
     </div>
   </div>
 
-  {# Social Media icons #}
+  {# Social Media icons — the brand-coloured "vartheme_social" pack that
+   # actually ships with this theme (see vartheme_bs5_educare.icons.yml). #}
   <div class="border-top pt-4 mb-5">
     <h2 class="fw-bold mb-4">Social Media</h2>
     <div class="d-flex flex-wrap gap-4">
-      {% set social_icons = ['instagram', 'facebook', 'linkedin', 'twitter', 'twitter-x', 'youtube', 'github', 'whatsapp', 'telegram', 'discord', 'twitch', 'pinterest', 'reddit', 'snapchat', 'spotify', 'tiktok', 'vimeo', 'slack', 'skype', 'apple', 'google', 'google-play', 'windows', 'microsoft', 'dropbox', 'paypal', 'behance', 'dribbble', 'medium', 'wordpress'] %}
+      {% set social_icons = ['facebook', 'linkedin', 'x', 'pinterest', 'reddit', 'whatsapp', 'telegram', 'threads', 'bluesky', 'mastodon', 'envelope-fill', 'clipboard', 'share-fill'] %}
       {% for icon in social_icons %}
         <div class="d-flex flex-column align-items-center gap-2" style="width: 80px;">
           {{ include('vartheme_bs5_educare:bootstrap-icon', { icon: icon, icon_size: 'fs-3' }) }}
