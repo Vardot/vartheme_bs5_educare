@@ -1,15 +1,65 @@
 // @file
 // Vartheme BS5 Educare — Views exposed filters component styles.
 //
-// The Educare skin for the exposed filter controls of a view listing:
-// keyword search icon, input/select styling, labels, and the ghost Apply
-// Filter / Reset actions. Layout — the flex row, the gap, the column
-// widths, the `--stacked` modifier, the breakpoint collapse — is provided
-// by the `views-exposed-filters` component contract this one mirrors
-// (https://www.drupal.org/project/vartheme_bs5/issues/3611865); this file
-// only carries the skin on top of it.
+// This component is self-contained: it carries BOTH the outer-form layout
+// (flex row, gap, column widths, the `--inline`/`--stacked` modifiers, the
+// breakpoint collapse) and the Educare skin (keyword search icon,
+// input/select styling, labels, and the ghost Apply Filter / Reset
+// actions) on top of it. SDC attaches only the CSS of the component that
+// is actually rendering, so when a view is repointed to this component
+// (via setViewsComponentStyleTheme) the base theme's
+// `vartheme_bs5:views-exposed-filters` CSS — which carries that layout —
+// is never loaded; this component cannot rely on it and must not assume
+// the layout comes from elsewhere.
 
 @import "../../defaults"; // Global component defaults.
+
+.views-exposed-filters {
+  // ── Layout tokens (all derived from this theme's Bootstrap tokens) ──
+  --views-exposed-filters-gap: #{$spacer};
+  --views-exposed-filters-margin-block-end: #{$spacer * 2};
+  --views-exposed-filters-search-basis: #{$spacer * 16};
+  --views-exposed-filters-search-min-width: #{$spacer * 12};
+  --views-exposed-filters-select-basis: #{$spacer * 16.4375};
+
+  .views-exposed-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--views-exposed-filters-gap);
+    margin-bottom: var(--views-exposed-filters-margin-block-end);
+
+    > .form-item,
+    > .js-form-item {
+      margin: 0;
+    }
+
+    > [class*="form-item-search"] {
+      flex: 1 0 var(--views-exposed-filters-search-basis);
+      min-width: var(--views-exposed-filters-search-min-width);
+    }
+
+    > .js-form-type-select {
+      flex: 0 0 var(--views-exposed-filters-select-basis);
+    }
+  }
+}
+
+.views-exposed-filters--stacked {
+  .views-exposed-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .views-exposed-filters .views-exposed-form {
+    > .form-item,
+    > .js-form-item {
+      flex: 1 1 100%;
+    }
+  }
+}
 
 .views-exposed-filters .views-exposed-form {
   // ── Skin tokens (all derived from this theme's Bootstrap tokens) ──
