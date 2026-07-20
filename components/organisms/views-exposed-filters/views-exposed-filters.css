@@ -43,7 +43,7 @@
 .views-exposed-filters .views-exposed-form {
   --views-exposed-filters-input-bg: var(--bs-body-bg);
   --views-exposed-filters-input-border: var(--bs-border-color);
-  --views-exposed-filters-input-radius: var(--bs-border-radius);
+  --views-exposed-filters-input-radius: var(--bs-border-radius-sm);
   --views-exposed-filters-input-focus-color: var(--bs-primary);
   --views-exposed-filters-input-focus-ring: rgba(13, 110, 253, 0.15);
 }
@@ -63,7 +63,7 @@
 
 .views-exposed-filters .views-exposed-form label {
   margin-bottom: 0.5rem;
-  color: var(--bs-body-color);
+  color: var(--bs-tertiary-color);
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -78,11 +78,11 @@
   transition:
     border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
-  color: var(--bs-body-color);
+  color: #404456;
   border: var(--bs-border-width) solid var(--views-exposed-filters-input-border);
   border-radius: var(--views-exposed-filters-input-radius);
   background-color: var(--views-exposed-filters-input-bg);
-  font-size: 1rem;
+  font-size: 0.875rem;
   line-height: 1.5;
 }
 
@@ -90,7 +90,7 @@
 .views-exposed-filters .views-exposed-form .form-select::placeholder,
 .views-exposed-filters .views-exposed-form input[type="text"]::placeholder,
 .views-exposed-filters .views-exposed-form select::placeholder {
-  color: var(--bs-secondary-color);
+  color: #404456;
 }
 
 .views-exposed-filters .views-exposed-form .form-text:focus,
@@ -114,6 +114,7 @@
   transition:
     opacity 0.15s ease-in-out,
     color 0.15s ease-in-out;
+  text-transform: uppercase;
   color: var(--bs-link-color);
   border: 0;
   background: transparent;
@@ -132,6 +133,7 @@
 
 .views-exposed-filters .views-exposed-form [id*="edit-reset"],
 .views-exposed-filters .views-exposed-form input[name="reset"] {
+  text-transform: uppercase;
   opacity: 0.5;
   color: var(--bs-secondary-color);
 }

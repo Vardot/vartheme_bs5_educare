@@ -1,8 +1,8 @@
 .pagination {
   --bs-pagination-padding-x: 0.75rem;
   --bs-pagination-padding-y: 0.375rem;
-  --bs-pagination-font-size: 1.25rem;
-  --bs-pagination-color: var(--bs-link-color);
+  --bs-pagination-font-size: 1rem;
+  --bs-pagination-color: var(--bs-dark);
   --bs-pagination-bg: transparent;
   --bs-pagination-border-width: 0;
   --bs-pagination-border-color: var(--bs-border-color);
@@ -10,11 +10,11 @@
   --bs-pagination-hover-color: var(--bs-link-hover-color);
   --bs-pagination-hover-bg: transparent;
   --bs-pagination-hover-border-color: var(--bs-border-color);
-  --bs-pagination-focus-color: var(--bs-dark-text-emphasis);
+  --bs-pagination-focus-color: var(--bs-dark);
   --bs-pagination-focus-bg: transparent;
   --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-  --bs-pagination-active-color: var(--bs-dark-text-emphasis);
-  --bs-pagination-active-bg: transparent;
+  --bs-pagination-active-color: var(--bs-dark);
+  --bs-pagination-active-bg: var(--bs-secondary-bg-subtle);
   --bs-pagination-active-border-color: #0d6efd;
   --bs-pagination-disabled-color: var(--bs-secondary-color);
   --bs-pagination-disabled-bg: transparent;
@@ -111,8 +111,23 @@
 }
 
 .pagination {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.pagination .page-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+}
+
+.pagination .active > .page-link,
+.pagination .page-link.active {
+  border-radius: 50%;
 }
 
 .pagination .pager__item--previous a,
@@ -133,6 +148,20 @@
 .pagination .pager__item--ellipsis a:hover,
 .pagination .pager__item--ellipsis .page-link:hover {
   color: var(--bs-link-hover-color);
+}
+
+.pagination .pager__item--previous .page-link,
+.pagination .pager__item--next .page-link,
+.pagination .pager__item--first .page-link,
+.pagination .pager__item--last .page-link {
+  border-radius: var(--bs-border-radius-pill, 50rem);
+}
+
+.pagination .pager__item--previous.disabled .page-link,
+.pagination .pager__item--next.disabled .page-link,
+.pagination .pager__item--first.disabled .page-link,
+.pagination .pager__item--last.disabled .page-link {
+  opacity: 0.5;
 }
 
 [data-bs-theme="dark"] .pagination .pager__item--previous a,

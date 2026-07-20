@@ -1,3 +1,7 @@
+.card-dated-vertical {
+  padding: 2rem 1.5rem;
+}
+
 .card-dated-vertical .stretched-link {
   z-index: 99;
 }

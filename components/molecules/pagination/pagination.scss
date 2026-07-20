@@ -2,24 +2,45 @@
 @import "../../defaults";   // Global component defaults.
 
 // Override default bootstrap pagination variables.
-$pagination-font-size: 1.25rem;
+// Figma "events-listing-view" (node 12050:6856): 16px page-number size,
+// navy text color (#050833 = var(--bs-dark) in this theme), and a cream
+// fill on the active page.
+$pagination-font-size: $spacer; // 16px
+$pagination-color: var(--bs-dark);
 $pagination-bg: transparent;
 $pagination-focus-bg: transparent;
 $pagination-disabled-bg: transparent;
 $pagination-hover-bg: transparent;
-$pagination-active-bg: transparent;
+$pagination-active-bg: var(--bs-secondary-bg-subtle); // cream "background/subtle-bg" fill.
 $pagination-border-radius: 0;
 $pagination-border-width: 0;
 
-$pagination-focus-color: var(--bs-dark-text-emphasis);
-$pagination-active-color: var(--bs-dark-text-emphasis);
+$pagination-focus-color: var(--bs-dark);
+$pagination-active-color: var(--bs-dark);
 
 @import "../../../node_modules/bootstrap/scss/pagination";
 
 // Change default bootstrap pagination style.
 .pagination {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: $spacer; // 16px
+  font-weight: 500;
+  line-height: 1.35;
+
+  // Every pager item is a 40x40 centered box (Figma "events-listing-view").
+  .page-link {
+    width: #{$spacer * 2.5};  // 40px
+    height: #{$spacer * 2.5}; // 40px
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  // Active page: cream circle fill (background comes from $pagination-active-bg above).
+  .active > .page-link,
+  .page-link.active {
+    border-radius: 50%;
+  }
 
   .pager__item--previous,
   .pager__item--next {
@@ -42,7 +63,20 @@ $pagination-active-color: var(--bs-dark-text-emphasis);
     }
   }
 
+  // Previous/next and first/last arrow controls: circular, per design.
+  .pager__item--previous .page-link,
+  .pager__item--next .page-link,
+  .pager__item--first .page-link,
+  .pager__item--last .page-link {
+    border-radius: var(--bs-border-radius-pill, 50rem);
+  }
 
+  .pager__item--previous.disabled .page-link,
+  .pager__item--next.disabled .page-link,
+  .pager__item--first.disabled .page-link,
+  .pager__item--last.disabled .page-link {
+    opacity: .5;
+  }
 }
 
 @if $enable-dark-mode {
