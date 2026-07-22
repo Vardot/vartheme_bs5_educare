@@ -488,6 +488,33 @@ footer.footer hr {
   border-top: 0.0625rem solid currentColor;
 }
 
+.programs-listing__title {
+  text-transform: none;
+  font-weight: 600;
+}
+
+@media (min-width: 992px) {
+  .view-id-programs {
+    position: relative;
+  }
+
+  .view-id-programs .form-item-level {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    min-block-size: 4.2rem;
+  }
+}
+
+.vb-result-summary {
+  color: #404456;
+  font-size: 0.875rem;
+}
+
 .views-exposed-form.bef-exposed-form {
   --vb-filter-gap: 1rem;
   --vb-filter-col-width: 16.4375rem;
@@ -535,6 +562,47 @@ footer.footer hr {
   .views-exposed-form.bef-exposed-form > .js-form-type-select {
     flex: 1 1 100%;
   }
+}
+
+.views-exposed-form.bef-exposed-form .bef-links {
+  margin-inline-start: auto;
+}
+
+.views-exposed-form.bef-exposed-form .bef-links ul {
+  display: flex;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius-pill);
+  gap: 0;
+}
+
+.views-exposed-form.bef-exposed-form .bef-links .bef-link {
+  display: inline-flex;
+  align-items: center;
+  height: 2.5rem;
+  text-decoration: none;
+  color: var(--bs-body-color);
+  border-radius: var(--bs-border-radius-pill);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  padding-inline: 1.5rem;
+}
+
+.views-exposed-form.bef-exposed-form .bef-links .bef-link:hover,
+.views-exposed-form.bef-exposed-form .bef-links .bef-link:focus {
+  color: var(--bs-body-color);
+}
+
+.views-exposed-form.bef-exposed-form .bef-links .bef-link--selected {
+  background-color: var(--bs-accent);
+}
+
+.views-exposed-form.bef-exposed-form .bef-links .bef-link--selected:hover,
+.views-exposed-form.bef-exposed-form .bef-links .bef-link--selected:focus {
+  background-color: var(--bs-accent);
 }
 
 .views-exposed-form.bef-exposed-form label {

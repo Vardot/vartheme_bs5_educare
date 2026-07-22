@@ -2,6 +2,10 @@
   z-index: 99;
 }
 
+.card-program .card-body {
+  column-gap: 2rem;
+}
+
 .card-program__title-wrap {
   overflow: hidden;
   gap: 0.75rem;
@@ -10,11 +14,15 @@
 .card-program__title {
   overflow: hidden;
   white-space: nowrap;
+  text-transform: none;
   text-overflow: ellipsis;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 .card-program__line {
-  --line-height: 0.125rem;
+  --line-height: 0.0625rem;
   --line-width: 1rem;
   --line-transition-duration: 0.35s;
   --line-transition-easing: ease;
@@ -37,6 +45,6 @@
 }
 
 .card-program__col {
-  min-width: 3rem;
-  text-align: center;
+  color: var(--bs-body-color);
+  font-size: 1.25rem;
 }

@@ -41,6 +41,17 @@ props:
       default: false
       examples:
         - false
+    degrees:
+      type: array
+      title: Degrees
+      description: 'A list of short metadata values (e.g. degrees offered) rendered as separate columns on the right. Accepts any number of values, so a multi-value field can be bound whole without picking a fixed delta.'
+      items:
+        type: string
+      default: {  }
+      examples:
+        - - 'A.B.'
+          - 'A.L.B.'
+          - 'M.A.'
     col_1:
       type: string
       title: 'Column 1'

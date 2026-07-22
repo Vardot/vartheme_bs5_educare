@@ -549,6 +549,43 @@ footer.footer {
   }
 }
 
+// Programs listing H1: semibold + sentence-case (opt out of the global
+// heading capitalize so the page title reads as authored).
+.programs-listing__title {
+  font-weight: $font-weight-semibold;
+  text-transform: none;
+}
+
+// Programs listing top band (desktop): lift the study-level pill toggle out of
+// the exposed-filter row and pin it to the top-right so it shares the H1 line
+// (title left, Undergraduate/Graduate pills right), leaving keyword, Type and
+// the Apply/Reset actions on the filter row below. The toggle lives inside the
+// exposed <form> (a sibling of the .view-header holding the H1), so it is
+// positioned rather than reordered. Mobile keeps the natural stacked flow.
+.view-id-programs {
+  @include media-breakpoint-up(lg) {
+    position: relative;
+
+    .form-item-level {
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-end: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      margin: 0;
+      // Centre the pills on the H1 (.h2) line box: font-size x line-height.
+      min-block-size: $h2-font-size * divide($headings-line-height, 100%);
+    }
+  }
+}
+
+// Listing result summary ("Showing 1-12 of N"): small subtle text.
+.vb-result-summary {
+  color: $subtle-text;
+  font-size: 0.875rem;
+}
+
 // Listing exposed filter row — a horizontal keyword + facets row with ghost
 // Apply Filter and Reset actions. Matched on the exposed form itself, so every
 // listing gets it — News, Events, and whatever a site template adds next —
@@ -596,6 +633,50 @@ footer.footer {
     > [class*="form-item-search"],
     > .js-form-type-select {
       flex: 1 1 100%;
+    }
+  }
+
+  // A bef_links exposed filter renders as a pill toggle inside a bordered
+  // rounded container; the selected option is filled with the brand accent.
+  // Matched on the widget, so any listing exposing a filter as links matches.
+  .bef-links {
+    margin-inline-start: auto;
+
+    ul {
+      display: flex;
+      gap: 0;
+      margin: 0;
+      padding: #{$spacer * 0.25};
+      list-style: none;
+      border: var(--bs-border-width) solid var(--bs-border-color);
+      border-radius: var(--bs-border-radius-pill);
+    }
+
+    .bef-link {
+      display: inline-flex;
+      align-items: center;
+      height: #{$spacer * 2.5};
+      padding-inline: #{$spacer * 1.5};
+      color: var(--bs-body-color);
+      border-radius: var(--bs-border-radius-pill);
+      font-size: 1rem;
+      font-weight: $font-weight-semibold;
+      line-height: 1.35;
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        color: var(--bs-body-color);
+      }
+    }
+
+    .bef-link--selected {
+      background-color: var(--bs-accent);
+
+      &:hover,
+      &:focus {
+        background-color: var(--bs-accent);
+      }
     }
   }
 

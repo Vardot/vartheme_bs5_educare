@@ -14,6 +14,9 @@
  * - title: program title string rendered as a heading. Defaults to ''.
  * - heading_level: HTML tag for the title. (h1 | h2 | h3 | h4 | h5 | h6) Defaults to 'h5'.
  * - indented: shows an em-dash (—) prefix before the title. Defaults to false.
+ * - degrees: array of right-side metadata strings (e.g. degrees offered),
+ *   rendered as one column each. Any length, so a multi-value field binds
+ *   whole. Defaults to [].
  * - col_1 … col_4: right-side metadata column strings. Defaults to ''.
  * - separator: adds a border-bottom to the card body. Defaults to false.
  * - background_color: brand background utility. Defaults to 'none'.
@@ -68,6 +71,7 @@
 {% set col_2 = col_2|default('') %}
 {% set col_3 = col_3|default('') %}
 {% set col_4 = col_4|default('') %}
+{% set degrees = degrees|default([]) %}
 
 {# Variables: boolean props.
  # SDC validates `type: boolean` props and applies their schema defaults,
@@ -83,7 +87,7 @@
 
 {# Logic: derived state. #}
 {% set use_stretched_link = stretched_link and (link_url is not empty) %}
-{% set has_cols = (col_1 is not empty) or (col_2 is not empty) or (col_3 is not empty) or (col_4 is not empty) %}
+{% set has_cols = (degrees is not empty) or (col_1 is not empty) or (col_2 is not empty) or (col_3 is not empty) or (col_4 is not empty) %}
 
 {# Logic: root card classes. #}
 {% set attributes = attributes.addClass([
@@ -103,7 +107,7 @@
   'card-body',
   'd-flex',
   'align-items-center',
-  (padded ? 'p-4' : 'p-3'),
+  (padded ? 'p-4' : 'py-4'),
   (separator ? 'border-bottom' : ''),
 ]|filter(v => v is not empty)) %}
 
@@ -121,9 +125,8 @@
   'card-program__cols',
   'd-flex',
   'align-items-center',
-  'gap-4',
+  'gap-3',
   'flex-shrink-0',
-  'ms-3',
 ]) %}
 
 {# Print the HTML. #}
@@ -146,6 +149,11 @@
     {# Metadata columns (right) #}
     {% if has_cols %}
       <div{{ cols_attributes }}>
+        {% for degree in degrees %}
+          {% if degree is not empty %}
+            <span class="card-program__col">{{ degree }}</span>
+          {% endif %}
+        {% endfor %}
         {% if col_1 is not empty %}
           <span class="card-program__col">{{ col_1 }}</span>
         {% endif %}
