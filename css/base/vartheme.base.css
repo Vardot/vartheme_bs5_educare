@@ -493,7 +493,7 @@ footer.footer hr {
   --vb-filter-col-width: 16.4375rem;
   --vb-filter-input-bg: var(--bs-body-bg);
   --vb-filter-input-border: var(--bs-border-color);
-  --vb-filter-input-radius: 0.5rem;
+  --vb-filter-input-radius: var(--bs-border-radius-sm);
   --vb-filter-input-focus: var(--bs-primary);
 
   display: flex;
@@ -539,7 +539,7 @@ footer.footer hr {
 
 .views-exposed-form.bef-exposed-form label {
   margin-bottom: 0.5rem;
-  color: var(--bs-body-color);
+  color: var(--bs-tertiary-color);
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -554,11 +554,11 @@ footer.footer hr {
   transition:
     border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
-  color: var(--bs-body-color);
+  color: #404456;
   border: var(--bs-border-width) solid var(--vb-filter-input-border);
   border-radius: var(--vb-filter-input-radius);
   background-color: var(--vb-filter-input-bg);
-  font-size: 1rem;
+  font-size: 0.875rem;
   line-height: 1.5;
 }
 
@@ -566,7 +566,7 @@ footer.footer hr {
 .views-exposed-form.bef-exposed-form .form-select::placeholder,
 .views-exposed-form.bef-exposed-form input[type="text"]::placeholder,
 .views-exposed-form.bef-exposed-form select::placeholder {
-  color: var(--bs-secondary-color);
+  color: #404456;
 }
 
 .views-exposed-form.bef-exposed-form .form-text:focus,
@@ -591,6 +591,7 @@ footer.footer hr {
   transition:
     opacity 0.15s ease-in-out,
     color 0.15s ease-in-out;
+  text-transform: uppercase;
   color: var(--bs-link-color);
   border: 0;
   background: transparent;
@@ -609,6 +610,7 @@ footer.footer hr {
 
 .views-exposed-form.bef-exposed-form [id*="edit-reset"],
 .views-exposed-form.bef-exposed-form input[name="reset"] {
+  text-transform: uppercase;
   opacity: 0.5;
   color: var(--bs-secondary-color);
 }

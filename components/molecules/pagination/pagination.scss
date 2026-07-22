@@ -1,10 +1,8 @@
 
 @import "../../defaults";   // Global component defaults.
 
-// Override default bootstrap pagination variables.
-// Figma "events-listing-view" (node 12050:6856): 16px page-number size,
-// navy text color (#050833 = var(--bs-dark) in this theme), and a cream
-// fill on the active page.
+// Override default bootstrap pagination variables: 1rem page-number size,
+// navy text color (var(--bs-dark)), and a cream fill on the active page.
 $pagination-font-size: $spacer; // 16px
 $pagination-color: var(--bs-dark);
 $pagination-bg: transparent;
@@ -26,7 +24,7 @@ $pagination-active-color: var(--bs-dark);
   font-weight: 500;
   line-height: 1.35;
 
-  // Every pager item is a 40x40 centered box (Figma "events-listing-view").
+  // Every pager item is a 40x40 centered box.
   .page-link {
     width: #{$spacer * 2.5};  // 40px
     height: #{$spacer * 2.5}; // 40px

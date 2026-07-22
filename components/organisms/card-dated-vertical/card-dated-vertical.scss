@@ -2,8 +2,8 @@
 @import "../../defaults";
 
 .card-dated-vertical {
-  // Figma "events-listing-view" (node 12050:6856): 32px block / 24px inline —
-  // overrides the p-4/p-3 utility applied in the twig, which is 24px uniform.
+  // 32px block / 24px inline padding — overrides the p-4/p-3 utility applied
+  // in the twig, which is 24px uniform.
   padding: #{$spacer * 2} #{$spacer * 1.5};
 
   .stretched-link {

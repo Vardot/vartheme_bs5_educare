@@ -14,6 +14,9 @@
  * - suffix: Text appended when content is trimmed. Defaults to `...`.
  * - strip_html: (true|false) Strip HTML before trimming. Only works when Trim
  *               is enabled. Defaults to `false`.
+ *
+ * Available attributes:
+ * - attributes: HTML attributes for the root element.
  */
 #}
 
@@ -95,8 +98,14 @@
   {% endif %}
 {% endif %}
 
+{# Logic: root class. SDC provides `attributes`; guard for direct/include renders that omit it. #}
+{% if attributes is not defined or not attributes %}
+  {% set attributes = create_attribute() %}
+{% endif %}
+{% set attributes = attributes.addClass(['rich-text-block']) %}
+
 {# Print the HTML. #}
-<div>
+<div{{ attributes }}>
   {% if render_raw %}
     {{ output|raw }}
   {% else %}

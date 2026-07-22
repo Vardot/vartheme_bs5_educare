@@ -65,7 +65,7 @@
   // ── Skin tokens (all derived from this theme's Bootstrap tokens) ──
   --views-exposed-filters-input-bg: var(--bs-body-bg);
   --views-exposed-filters-input-border: var(--bs-border-color);
-  --views-exposed-filters-input-radius: var(--bs-border-radius-sm); // Figma "border radius/input" = 4px.
+  --views-exposed-filters-input-radius: var(--bs-border-radius-sm);
   --views-exposed-filters-input-focus-color: var(--bs-primary);
   --views-exposed-filters-input-focus-ring: #{rgba($primary, 0.15)};
 
@@ -79,7 +79,7 @@
 
   label {
     margin-bottom: #{$spacer * 0.5};
-    color: var(--bs-tertiary-color); // Figma "text&icons/primary" = #212529.
+    color: var(--bs-tertiary-color);
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -94,11 +94,11 @@
     transition:
       border-color 0.15s ease-in-out,
       box-shadow 0.15s ease-in-out;
-    color: $subtle-text; // Figma "text/dark-subtle-text" = #404456.
+    color: $subtle-text;
     border: var(--bs-border-width) solid var(--views-exposed-filters-input-border);
     border-radius: var(--views-exposed-filters-input-radius);
     background-color: var(--views-exposed-filters-input-bg);
-    font-size: #{$spacer * 0.875}; // Figma "Form/Placeholder" = 14px.
+    font-size: #{$spacer * 0.875}; // 14px.
     line-height: 1.5;
 
     &::placeholder {

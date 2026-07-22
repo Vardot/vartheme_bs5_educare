@@ -33,6 +33,7 @@
 {% set overlay_opacity = overlay_opacity|default('opacity-50') %}
 {% set overlay_image_mode = overlay_image_mode|default('object-fit-cover') %}
 {% set object_position = object_position|default('center') %}
+{% set corner_style = corner_style|default('rounded-0') %}
 
 {# Variables: boolean props.
  # SDC validates `type: boolean` props and applies their schema defaults,
@@ -89,7 +90,7 @@
   {% set inner_classes = [container_type]|merge(inner_classes) %}
 {% endif %}
 
-{% set card_classes = ['card', 'position-relative', 'overflow-hidden', 'rounded-3'] %}
+{% set card_classes = ['card-hero', 'card', 'position-relative', 'overflow-hidden', corner_style] %}
 {% if bg_edge2edge %}
   {% set card_classes = card_classes|merge(['bg-transparent']) %}
 {% else %}
@@ -191,8 +192,8 @@
   {% set top_media_wrapper_classes = top_media_wrapper_classes|merge(['mb-0', 'rounded-top']) %}
   {% set bottom_media_wrapper_classes = bottom_media_wrapper_classes|merge(['mt-0', 'rounded-bottom']) %}
 {% else %}
-  {% set top_media_wrapper_classes = top_media_wrapper_classes|merge(['mb-3', 'rounded-3']) %}
-  {% set bottom_media_wrapper_classes = bottom_media_wrapper_classes|merge(['mt-3', 'rounded-3']) %}
+  {% set top_media_wrapper_classes = top_media_wrapper_classes|merge(['mb-3', corner_style]) %}
+  {% set bottom_media_wrapper_classes = bottom_media_wrapper_classes|merge(['mt-3', corner_style]) %}
 {% endif %}
 
 {% set overlay_background_media_classes = ['card-img', 'position-absolute', 'top-0', 'start-0', 'w-100', 'h-100', 'z-0'] %}
@@ -291,7 +292,7 @@
 {% set standard_image_props = image_component_props|merge({
   width: 'w-100',
   align: 'me-auto',
-  rounded: media_position == 'content' ? 'rounded-3' : 'rounded-0',
+  rounded: 'rounded-0',
   ratio: 'ratio-auto',
 }) %}
 

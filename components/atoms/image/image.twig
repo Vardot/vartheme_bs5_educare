@@ -77,7 +77,7 @@
 {% set rounded_class = rounded != 'none' ? rounded : '' %}
 
 {# Logic: figure wrapper classes. #}
-{% set figure_classes = (['d-block', 'm-0', width_class, align_class])|filter(v => v is not empty) %}
+{% set figure_classes = (['image', 'd-block', 'm-0', width_class, align_class])|filter(v => v is not empty) %}
 {% set attributes = attributes.addClass(figure_classes) %}
 
 {# Logic: image classes — w-100 always; h-100 only inside a ratio box. #}

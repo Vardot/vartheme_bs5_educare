@@ -124,7 +124,7 @@ $border-color:            $stone-600;   // #E2E2E4  subtle-border
 $primary-border-subtle:   #0D6EFD;
 $secondary-border-subtle: $lilac-600;   // #C5CADD
 
-// Override body text color and background to match Figma tokens.
+// Override body text color and background to match this theme's color tokens.
 // Must come after $navy-600 and $sky-600 are defined so shade-color() has run.
 $body-color: $navy-600;    // dark-text:  #050833
 $body-bg:    $sky-600;     // white-bg:   #FEFBF8

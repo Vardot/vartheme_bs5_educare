@@ -1,17 +1,15 @@
 // @file
 // Vartheme BS5 Educare — Share component (override of `webshare:share`).
 //
-// Implements the Figma "Share" design (file RJkuWNHla1P8VYHa5z6dnL,
-// nodes 9740:3590 + 9668:2669). All visual values flow through
-// `--webshare-*` tokens that resolve to Bootstrap 5 SCSS variables
-// (`$spacer`, `$primary`, `$border-radius-sm`, `$font-weight-bold`,
-// …) or Bootstrap CSS custom properties (`--bs-*`), so the component
-// inherits the active theme automatically.
+// All visual values flow through `--webshare-*` tokens that resolve to
+// Bootstrap 5 SCSS variables (`$spacer`, `$primary`, `$border-radius-pill`,
+// `$font-weight-bold`, …) or Bootstrap CSS custom properties (`--bs-*`), so
+// the component inherits the active theme automatically.
 //
 // LinkedIn note: the `vartheme_social` SVG ships a coloured rounded
-// rect + white "in" glyph. The Figma design shows only the "in" glyph
-// in brand-primary on the secondary surface, so the rect is hidden
-// and the path is recoloured to the Bootstrap primary token.
+// rect + white "in" glyph. The design shows only the "in" glyph in
+// brand-primary on the secondary surface, so the rect is hidden and
+// the path is recoloured to the Bootstrap primary token.
 
 @import "../../defaults";
 
@@ -50,32 +48,32 @@
 
 .webshare {
   // ── Sizing tokens (all derived from Bootstrap's $spacer = 1rem) ──
-  --webshare-button-size: #{$spacer * 2.5};   // 40 px
-  --webshare-icon-size: #{$spacer * 1.5};     // 24 px — Figma node 9740:3621 social-btns/02 frame
-  --webshare-gap: #{$spacer * 0.5};           // 8 px
-  --webshare-heading-gap: #{$spacer};         // 16 px
+  --webshare-button-size: #{$spacer * 2.5};
+  --webshare-icon-size: #{$spacer};           // the glyph sits well inside the button
+  --webshare-gap: #{$spacer * 0.5};
+  --webshare-heading-gap: #{$spacer};
 
   // ── Colour + surface tokens (Bootstrap CSS variables) ───────────
-  // Figma "brand/secondary" (#ebe8e5) has no exact Bootstrap default;
-  // map it to --bs-secondary-bg so themes that re-skin secondary
-  // surfaces propagate automatically.
-  --webshare-button-bg: var(--bs-secondary-bg);
+  // The approved design's subtle button surface is Bootstrap's
+  // secondary-bg-subtle, not the stronger secondary-bg — keep the two
+  // distinct so a re-skinned secondary palette still tracks correctly.
+  --webshare-button-bg: var(--bs-secondary-bg-subtle);
   --webshare-button-bg-hover: var(--bs-primary-bg-subtle);
   --webshare-button-bg-active: var(--bs-primary-border-subtle);
   --webshare-button-color: var(--bs-body-color);
-  --webshare-button-radius: #{$border-radius-sm};
+  --webshare-button-radius: #{$border-radius-pill};
   --webshare-button-shadow: none;
 
   // ── Heading typography (Bootstrap font variables) ───────────────
   --webshare-heading-color: var(--bs-body-color);
   --webshare-heading-font: var(--bs-body-font-family);
-  --webshare-heading-font-size: 1.125rem; // 18 px — Figma spec
+  --webshare-heading-font-size: 1.125rem;
   --webshare-heading-font-weight: #{$font-weight-bold};
   --webshare-heading-line-height: #{$line-height-base};
 
   // ── Focus + interaction (Bootstrap focus ring + transition) ─────
   --webshare-focus-ring: #{$focus-ring-width} solid var(--bs-focus-ring-color);
-  --webshare-focus-offset: #{$spacer * 0.125}; // 2 px
+  --webshare-focus-offset: #{$spacer * 0.125};
   --webshare-transition: #{$transition-base};
 
   // ── Rail-end placement ──────────────────────────────────────────
@@ -110,6 +108,17 @@
     line-height: var(--webshare-heading-line-height);
   }
 
+  // Horizontal: heading sits inline with the icon list, not stacked above it.
+  &--horizontal {
+    display: flex;
+    align-items: center;
+    gap: var(--webshare-heading-gap);
+  }
+
+  &--horizontal &__heading {
+    margin: 0;
+  }
+
   &__list {
     display: flex;
     gap: var(--webshare-gap);
@@ -141,10 +150,9 @@
     align-items: flex-end;
   }
 
-  // Align the heading with whichever edge the button column sits on
-  // (Figma 9668:2669 centres heading above the 40 px button stack;
-  // the rail-end variant aligns both to the inline-end of the
-  // container).
+  // Align the heading with whichever edge the button column sits on:
+  // centred above the button stack by default, or aligned to the
+  // inline-end of the container for the rail-end variant.
   &--align-end &__heading {
     text-align: end;
   }

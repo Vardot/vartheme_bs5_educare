@@ -133,14 +133,14 @@ header[role="banner"] .navbar-nav {
   gap: 0.25rem;
 }
 
-// At lg+ the Figma spec calls for a 30px gap between inline items.
+// Desktop (lg+): wider gap between items.
 @include media-breakpoint-up(lg) {
   header[role="banner"] .navbar-nav {
     gap: 1.5rem;
   }
 }
 
-// Header menu link styling (Figma: bold 16px, #212529 default, primary on hover).
+// Header menu link styling.
 header[role="banner"] .nav-link {
   position: relative;
   padding: 0.625rem 0;
@@ -237,9 +237,9 @@ header[role="banner"] .dropdown-menu {
 
 // Footer styling - layout + colors are driven by canvas section/group components
 // (bg-primary + text-white via page_region YAML). Override --bs-primary-rgb here
-// so the section's `bg-primary` paints in the Vardot dark blue per Figma.
+// so the section's `bg-primary` paints in the Vardot dark blue.
 footer.footer {
-  // Footer outer padding: 80px top, 60px bottom (Figma padding/footer).
+  // Footer outer padding: 80px top, 60px bottom.
   padding-block: 3rem 0rem;
 
   @include media-breakpoint-down(md) {
@@ -558,7 +558,7 @@ footer.footer {
   --vb-filter-col-width: 16.4375rem;
   --vb-filter-input-bg: var(--bs-body-bg);
   --vb-filter-input-border: var(--bs-border-color);
-  --vb-filter-input-radius: 0.5rem;
+  --vb-filter-input-radius: var(--bs-border-radius-sm);
   --vb-filter-input-focus: var(--bs-primary);
 
   display: flex;
@@ -601,7 +601,7 @@ footer.footer {
 
   label {
     margin-bottom: 0.5rem;
-    color: var(--bs-body-color);
+    color: var(--bs-tertiary-color);
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -616,21 +616,21 @@ footer.footer {
     transition:
       border-color 0.15s ease-in-out,
       box-shadow 0.15s ease-in-out;
-    color: var(--bs-body-color);
+    color: $subtle-text;
     border: var(--bs-border-width) solid var(--vb-filter-input-border);
     border-radius: var(--vb-filter-input-radius);
     background-color: var(--vb-filter-input-bg);
-    font-size: 1rem;
+    font-size: #{$spacer * 0.875};
     line-height: 1.5;
 
     &::placeholder {
-      color: var(--bs-secondary-color);
+      color: $subtle-text; // Same token as the input text.
     }
 
     &:focus {
       border-color: var(--vb-filter-input-focus);
       outline: 0;
-      box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+      box-shadow: 0 0 0 0.2rem rgba($primary, 0.15);
     }
   }
 
@@ -654,6 +654,7 @@ footer.footer {
     font-size: 1rem;
     font-weight: 700;
     line-height: 1.35;
+    text-transform: uppercase; // Design renders Apply Filter uppercase.
 
     &:hover,
     &:focus {
@@ -667,6 +668,7 @@ footer.footer {
   input[name="reset"] {
     opacity: 0.5;
     color: var(--bs-secondary-color);
+    text-transform: uppercase; // Design renders Reset uppercase.
 
     &:hover,
     &:focus {

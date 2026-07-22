@@ -177,3 +177,4 @@ module.exports = {
     ignored: ['components/**/**/*.js', '**/*.woff', '**/*.json', '**/*.woff2', '**/*.jpg', '**/*.png', '**/*.svg', 'node_modules'],
   }
 };
+

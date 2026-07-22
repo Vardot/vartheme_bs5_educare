@@ -2,7 +2,7 @@
   --bs-breadcrumb-padding-x: 0.0625rem;
   --bs-breadcrumb-padding-y: 0;
   --bs-breadcrumb-margin-bottom: 1rem;
-  --bs-breadcrumb-font-size: 1rem;
+  --bs-breadcrumb-font-size: 0.75rem;
   --bs-breadcrumb-bg:;
   --bs-breadcrumb-border-radius:;
   --bs-breadcrumb-divider-color: var(--bs-secondary-color);
@@ -46,15 +46,22 @@
 }
 
 .breadcrumb .breadcrumb-item {
-  color: var(--bs-dark);
+  color: #404456;
+  font-weight: 600;
 }
 
 .breadcrumb .breadcrumb-item a {
+  text-decoration: none;
   color: inherit;
 }
 
+.breadcrumb .breadcrumb-item a:hover,
+.breadcrumb .breadcrumb-item a:focus {
+  text-decoration: underline;
+}
+
 .breadcrumb-item + .breadcrumb-item::before {
-  color: var(--bs-dark);
+  color: #404456;
 }
 
 [data-bs-theme="dark"] .breadcrumb .breadcrumb-item {
