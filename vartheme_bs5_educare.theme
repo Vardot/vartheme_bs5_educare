@@ -194,6 +194,18 @@ function vartheme_bs5_educare_form_alter(&$form, $form_state, $form_id) {
       $form['industry']['#options']['All'] = t('Select industry');
     }
   }
+
+  // Events exposed filter row (components_exposed_form).
+  // Core builds the Reset action but hides it (#access FALSE) until an exposed
+  // input is present; BEF listings (News, Programs) show it always via
+  // reset_button_always_show, which components_exposed_form has no equivalent
+  // for. Reveal the already-built, functional Reset so the events filter row
+  // matches the other listings. Upstream gap in Varbase Components.
+  if ($form_id === 'views_exposed_form'
+    && ($form_state->get('view')?->id() ?? '') === 'events'
+    && isset($form['actions']['reset'])) {
+    $form['actions']['reset']['#access'] = TRUE;
+  }
 }
 
 /**
