@@ -1,12 +1,16 @@
-.views-exposed-filters {
+.views-exposed-filters .views-exposed-form,
+.views-exposed-form.bef-exposed-form {
   --views-exposed-filters-gap: 1rem;
   --views-exposed-filters-margin-block-end: 2rem;
   --views-exposed-filters-search-basis: 16rem;
   --views-exposed-filters-search-min-width: 12rem;
   --views-exposed-filters-select-basis: 16.4375rem;
-}
+  --views-exposed-filters-input-bg: var(--bs-white);
+  --views-exposed-filters-input-border: var(--bs-border-color);
+  --views-exposed-filters-input-radius: var(--bs-border-radius-sm);
+  --views-exposed-filters-input-focus-color: var(--bs-primary);
+  --views-exposed-filters-input-focus-ring: rgba(13, 110, 253, 0.15);
 
-.views-exposed-filters .views-exposed-form {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
@@ -15,40 +19,20 @@
 }
 
 .views-exposed-filters .views-exposed-form > .form-item,
-.views-exposed-filters .views-exposed-form > .js-form-item {
+.views-exposed-filters .views-exposed-form > .js-form-item,
+.views-exposed-form.bef-exposed-form > .form-item,
+.views-exposed-form.bef-exposed-form > .js-form-item {
   margin: 0;
 }
 
-.views-exposed-filters .views-exposed-form > [class*="form-item-search"] {
+.views-exposed-filters .views-exposed-form > [class*="form-item-search"],
+.views-exposed-form.bef-exposed-form > [class*="form-item-search"] {
   flex: 1 0 var(--views-exposed-filters-search-basis);
   min-width: var(--views-exposed-filters-search-min-width);
 }
 
-.views-exposed-filters .views-exposed-form > .js-form-type-select {
-  flex: 0 0 var(--views-exposed-filters-select-basis);
-}
-
-.views-exposed-filters--stacked .views-exposed-form {
-  flex-direction: column;
-  align-items: stretch;
-}
-
-@media (max-width: 767.98px) {
-  .views-exposed-filters .views-exposed-form > .form-item,
-  .views-exposed-filters .views-exposed-form > .js-form-item {
-    flex: 1 1 100%;
-  }
-}
-
-.views-exposed-filters .views-exposed-form {
-  --views-exposed-filters-input-bg: var(--bs-body-bg);
-  --views-exposed-filters-input-border: var(--bs-border-color);
-  --views-exposed-filters-input-radius: var(--bs-border-radius-sm);
-  --views-exposed-filters-input-focus-color: var(--bs-primary);
-  --views-exposed-filters-input-focus-ring: rgba(13, 110, 253, 0.15);
-}
-
-.views-exposed-filters .views-exposed-form > [class*="form-item-search"] input[type="text"] {
+.views-exposed-filters .views-exposed-form > [class*="form-item-search"] input[type="text"],
+.views-exposed-form.bef-exposed-form > [class*="form-item-search"] input[type="text"] {
   padding-left: 2.25rem;
   background-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2714%27 height=%2714%27 viewBox=%270 0 14 14%27 fill=%27none%27%3E%3Cpath d=%27M6.125 11.375a5.25 5.25 0 1 0 0-10.5 5.25 5.25 0 0 0 0 10.5ZM13.125 13.125 9.84 9.84%27 stroke=%27%23001D38%27 stroke-width=%271.3%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -56,12 +40,81 @@
   background-size: 0.875rem;
 }
 
-[dir="rtl"] .views-exposed-filters .views-exposed-form > [class*="form-item-search"] input[type="text"] {
+[dir="rtl"] .views-exposed-filters .views-exposed-form > [class*="form-item-search"] input[type="text"],
+[dir="rtl"] .views-exposed-form.bef-exposed-form > [class*="form-item-search"] input[type="text"] {
   padding-right: 2.25rem;
   padding-left: 0;
 }
 
-.views-exposed-filters .views-exposed-form label {
+.views-exposed-filters .views-exposed-form > .js-form-type-select,
+.views-exposed-form.bef-exposed-form > .js-form-type-select {
+  flex: 0 0 var(--views-exposed-filters-select-basis);
+}
+
+@media (max-width: 767.98px) {
+  .views-exposed-filters .views-exposed-form > .form-item,
+  .views-exposed-filters .views-exposed-form > .js-form-item,
+  .views-exposed-filters .views-exposed-form > [class*="form-item-search"],
+  .views-exposed-filters .views-exposed-form > .js-form-type-select,
+  .views-exposed-form.bef-exposed-form > .form-item,
+  .views-exposed-form.bef-exposed-form > .js-form-item,
+  .views-exposed-form.bef-exposed-form > [class*="form-item-search"],
+  .views-exposed-form.bef-exposed-form > .js-form-type-select {
+    flex: 1 1 100%;
+  }
+}
+
+.views-exposed-filters .views-exposed-form .bef-links,
+.views-exposed-form.bef-exposed-form .bef-links {
+  margin-inline-start: auto;
+}
+
+.views-exposed-filters .views-exposed-form .bef-links ul,
+.views-exposed-form.bef-exposed-form .bef-links ul {
+  display: flex;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius-pill);
+  gap: 0;
+}
+
+.views-exposed-filters .views-exposed-form .bef-links .bef-link,
+.views-exposed-form.bef-exposed-form .bef-links .bef-link {
+  display: inline-flex;
+  align-items: center;
+  height: 2.5rem;
+  text-decoration: none;
+  color: var(--bs-body-color);
+  border-radius: var(--bs-border-radius-pill);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  padding-inline: 1.5rem;
+}
+
+.views-exposed-filters .views-exposed-form .bef-links .bef-link:hover,
+.views-exposed-filters .views-exposed-form .bef-links .bef-link:focus,
+.views-exposed-form.bef-exposed-form .bef-links .bef-link:hover,
+.views-exposed-form.bef-exposed-form .bef-links .bef-link:focus {
+  color: var(--bs-body-color);
+}
+
+.views-exposed-filters .views-exposed-form .bef-links .bef-link--selected,
+.views-exposed-form.bef-exposed-form .bef-links .bef-link--selected {
+  background-color: var(--bs-accent);
+}
+
+.views-exposed-filters .views-exposed-form .bef-links .bef-link--selected:hover,
+.views-exposed-filters .views-exposed-form .bef-links .bef-link--selected:focus,
+.views-exposed-form.bef-exposed-form .bef-links .bef-link--selected:hover,
+.views-exposed-form.bef-exposed-form .bef-links .bef-link--selected:focus {
+  background-color: var(--bs-accent);
+}
+
+.views-exposed-filters .views-exposed-form label,
+.views-exposed-form.bef-exposed-form label {
   margin-bottom: 0.5rem;
   color: var(--bs-tertiary-color);
   font-size: 1rem;
@@ -72,7 +125,11 @@
 .views-exposed-filters .views-exposed-form .form-text,
 .views-exposed-filters .views-exposed-form .form-select,
 .views-exposed-filters .views-exposed-form input[type="text"],
-.views-exposed-filters .views-exposed-form select {
+.views-exposed-filters .views-exposed-form select,
+.views-exposed-form.bef-exposed-form .form-text,
+.views-exposed-form.bef-exposed-form .form-select,
+.views-exposed-form.bef-exposed-form input[type="text"],
+.views-exposed-form.bef-exposed-form select {
   width: 100%;
   padding: 0.75rem 1rem;
   transition:
@@ -89,33 +146,45 @@
 .views-exposed-filters .views-exposed-form .form-text::placeholder,
 .views-exposed-filters .views-exposed-form .form-select::placeholder,
 .views-exposed-filters .views-exposed-form input[type="text"]::placeholder,
-.views-exposed-filters .views-exposed-form select::placeholder {
+.views-exposed-filters .views-exposed-form select::placeholder,
+.views-exposed-form.bef-exposed-form .form-text::placeholder,
+.views-exposed-form.bef-exposed-form .form-select::placeholder,
+.views-exposed-form.bef-exposed-form input[type="text"]::placeholder,
+.views-exposed-form.bef-exposed-form select::placeholder {
   color: #404456;
 }
 
 .views-exposed-filters .views-exposed-form .form-text:focus,
 .views-exposed-filters .views-exposed-form .form-select:focus,
 .views-exposed-filters .views-exposed-form input[type="text"]:focus,
-.views-exposed-filters .views-exposed-form select:focus {
+.views-exposed-filters .views-exposed-form select:focus,
+.views-exposed-form.bef-exposed-form .form-text:focus,
+.views-exposed-form.bef-exposed-form .form-select:focus,
+.views-exposed-form.bef-exposed-form input[type="text"]:focus,
+.views-exposed-form.bef-exposed-form select:focus {
   border-color: var(--views-exposed-filters-input-focus-color);
   outline: 0;
   box-shadow: 0 0 0 0.2rem var(--views-exposed-filters-input-focus-ring);
 }
 
-.views-exposed-filters .views-exposed-form .form-actions {
+.views-exposed-filters .views-exposed-form .form-actions,
+.views-exposed-form.bef-exposed-form .form-actions {
   display: flex;
   align-items: center;
   height: 3.125rem;
+  margin: 0;
   gap: 1.5rem;
 }
 
-.views-exposed-filters .views-exposed-form .form-submit {
+.views-exposed-filters .views-exposed-form .form-submit,
+.views-exposed-form.bef-exposed-form .form-submit {
   padding: 0;
   transition:
-    opacity 0.15s ease-in-out,
-    color 0.15s ease-in-out;
+    color 0.15s ease-in-out,
+    text-decoration-color 0.15s ease-in-out;
+  text-decoration: none;
   text-transform: uppercase;
-  color: var(--bs-link-color);
+  color: var(--bs-dark);
   border: 0;
   background: transparent;
   box-shadow: none;
@@ -125,32 +194,51 @@
 }
 
 .views-exposed-filters .views-exposed-form .form-submit:hover,
-.views-exposed-filters .views-exposed-form .form-submit:focus {
-  opacity: 0.85;
-  color: var(--bs-primary-text-emphasis);
+.views-exposed-filters .views-exposed-form .form-submit:focus,
+.views-exposed-form.bef-exposed-form .form-submit:hover,
+.views-exposed-form.bef-exposed-form .form-submit:focus {
+  text-decoration: underline;
+  color: var(--bs-dark);
   background: transparent;
 }
 
 .views-exposed-filters .views-exposed-form [id*="edit-reset"],
-.views-exposed-filters .views-exposed-form input[name="reset"] {
+.views-exposed-filters .views-exposed-form input[name="reset"],
+.views-exposed-form.bef-exposed-form [id*="edit-reset"],
+.views-exposed-form.bef-exposed-form input[name="reset"] {
+  transition:
+    color 0.15s ease-in-out,
+    text-decoration-color 0.15s ease-in-out;
+  text-decoration: none;
   text-transform: uppercase;
-  opacity: 0.5;
-  color: var(--bs-secondary-color);
+  color: #404456;
 }
 
 .views-exposed-filters .views-exposed-form [id*="edit-reset"]:hover,
 .views-exposed-filters .views-exposed-form [id*="edit-reset"]:focus,
 .views-exposed-filters .views-exposed-form input[name="reset"]:hover,
-.views-exposed-filters .views-exposed-form input[name="reset"]:focus {
-  opacity: 1;
+.views-exposed-filters .views-exposed-form input[name="reset"]:focus,
+.views-exposed-form.bef-exposed-form [id*="edit-reset"]:hover,
+.views-exposed-form.bef-exposed-form [id*="edit-reset"]:focus,
+.views-exposed-form.bef-exposed-form input[name="reset"]:hover,
+.views-exposed-form.bef-exposed-form input[name="reset"]:focus {
+  text-decoration: underline;
+  color: var(--bs-dark);
 }
 
-[dir="rtl"] .views-exposed-filters .views-exposed-form [class*="form-item-search"] input[type="text"] {
+.views-exposed-filters--stacked .views-exposed-form {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+[dir="rtl"] .views-exposed-filters .views-exposed-form [class*="form-item-search"] input[type="text"],
+[dir="rtl"] .views-exposed-form.bef-exposed-form [class*="form-item-search"] input[type="text"] {
   padding-right: 2.25rem;
   padding-left: 0;
 }
 
-[dir="rtl"] [dir="rtl"] .views-exposed-filters .views-exposed-form [class*="form-item-search"] input[type="text"] {
+[dir="rtl"] [dir="rtl"] .views-exposed-filters .views-exposed-form [class*="form-item-search"] input[type="text"],
+[dir="rtl"] [dir="rtl"] .views-exposed-form.bef-exposed-form [class*="form-item-search"] input[type="text"] {
   padding-right: 0;
   padding-left: 2.25rem;
 }

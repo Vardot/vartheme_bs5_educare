@@ -91,11 +91,11 @@
   --bs-tertiary-bg: #212529;
   --bs-tertiary-bg-rgb: 33, 37, 41;
   --bs-heading-color: inherit;
-  --bs-link-color: #0d6efd;
-  --bs-link-color-rgb: 13, 110, 253;
+  --bs-link-color: #050833;
+  --bs-link-color-rgb: 5, 8, 51;
   --bs-link-decoration: underline;
-  --bs-link-hover-color: #084298;
-  --bs-link-hover-color-rgb: 8, 66, 152;
+  --bs-link-hover-color: #050833;
+  --bs-link-hover-color-rgb: 5, 8, 51;
   --bs-link-hover-decoration: none;
   --bs-code-color: #d63384;
   --bs-highlight-color: #050833;

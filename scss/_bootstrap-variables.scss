@@ -159,8 +159,9 @@ $btn-border-radius: 0;
 $btn-border-radius-sm: 0;
 $btn-border-radius-lg: 0;
 
-// Override the color and decoration of links.
-$link-hover-color: #084298;
+// Override the color and decoration of links. Educare navy, not Bootstrap blue.
+$link-color: $dark;
+$link-hover-color: $dark;
 $link-hover-decoration: none;
 
 // Override the default card variables.
