@@ -182,6 +182,11 @@ function vartheme_bs5_educare_form_alter(&$form, $form_state, $form_id) {
     $form['#attached']['library'][] = 'vartheme_bs5_educare/content_moderation';
   }
 
+  // Load the exposed-filters SDC CSS only where a views exposed form renders.
+  if ($form_id === 'views_exposed_form') {
+    $form['#attached']['library'][] = 'core/components.vartheme_bs5_educare--views-exposed-filters';
+  }
+
   // Blog exposed filter row.
   // Search-by placeholder + label-hide are config-driven (BEF advanced settings
   // in views.view.blog). Only the select empty-option labels need a form alter,
