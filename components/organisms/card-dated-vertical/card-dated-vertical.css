@@ -7,16 +7,16 @@
 }
 
 .card-dated-vertical__day {
-  font-size: 1.75rem;
+  font-size: 1.625rem;
 }
 
 .card-dated-vertical__month {
-  font-size: 0.75rem;
+  font-size: 1rem;
 }
 
 .card-dated-vertical__icon {
-  --icon-size: 3rem;
-  --arrow-size: 1.25rem;
+  --icon-size: 2.5rem;
+  --arrow-size: 1rem;
   --icon-transition-duration: 0.35s;
   --icon-transition-easing: ease;
 

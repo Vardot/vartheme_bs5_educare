@@ -16,10 +16,15 @@
  *         Leave empty to hide the date block. Defaults to `''`.
  * - title: Card title text rendered as a heading in the centre of the row. Defaults to `''`.
  * - heading_level: HTML heading tag for the title. (h1 | h2 | h3 | h4 | h5 | h6) Defaults to `h5`.
+ * - title_size: Optional Bootstrap typography utility for the title. Leave empty
+ *               to match the selected heading level. (h1 | h2 | h3 | h4 | h5 | h6)
+ *               Defaults to `''`.
  * - show_action_icon: show or hide the Bootstrap arrow icon. Defaults to `true`.
  * - background_color: brand background color applied to the card. Defaults to `none`.
  * - card_border: add Bootstrap border. Defaults to `false`.
- * - padded: adds p-4 to the card body (otherwise p-3). Defaults to `false`.
+ * - padded: adds p-4 to the card body for a roomier card. Left off, the body
+ *           carries p-0 and the component's own padding is the only padding.
+ *           Defaults to `false`.
  * - box_shadow: shadow utility. (shadow-none | shadow-sm | shadow | shadow-lg) Defaults to `shadow-none`.
  * - corner_style: rounded utility. (rounded-0 … rounded-pill) Defaults to `rounded-0`.
  * - equal_height: adds h-100 to the card wrapper. Defaults to `false`.
@@ -31,7 +36,14 @@
  * - attributes: HTML attributes for the root element.
  * - card_body_attributes: HTML attributes for the card body wrapper.
  * - date_attributes: HTML attributes for the date block wrapper.
+ * - date_day_attributes: HTML attributes for the day number.
+ * - date_month_attributes: HTML attributes for the month abbreviation.
+ * - content_attributes: HTML attributes for the title content wrapper.
+ * - title_attributes: HTML attributes for the title heading.
+ * - title_placeholder_attributes: HTML attributes for the empty-title placeholder.
  * - action_icon_attributes: HTML attributes for the action icon wrapper.
+ * - action_icon_fill_attributes: HTML attributes for the action icon fill.
+ * - action_icon_glyph_attributes: HTML attributes for the action icon glyph.
  *
  * Available slots:
  * - N/A
@@ -69,6 +81,7 @@
 {% set date = date|default('') %}
 {% set title = title|default('') %}
 {% set heading_level = heading_level|default('h5') %}
+{% set title_size = title_size|default('') %}
 
 {# Variables: boolean props.
  # SDC validates `type: boolean` props and applies their schema defaults,
@@ -91,7 +104,7 @@
 {% set use_stretched_link = stretched_link and (link_url is not empty) %}
 
 {# Logic: merge card classes as arrays. #}
-{% set attributes = attributes.addClass([
+{% set classes = [
   'card',
   'card-dated-vertical',
   'overflow-hidden',
@@ -101,16 +114,21 @@
   (card_border ? 'border' : 'border-0'),
   box_shadow,
   (equal_height ? 'h-100' : ''),
-]|filter(v => v is not empty)) %}
+]|filter(v => v is not empty) %}
+{% set attributes = attributes.addClass(classes) %}
 
-{% set card_body_attributes = create_attribute().addClass([
+{% set card_body_classes = [
   'card-body',
   'd-flex',
   'align-items-center',
-  (padded ? 'p-4' : 'p-3'),
-]) %}
+  (padded ? 'p-4' : 'p-0'),
+] %}
+{% if not card_body_attributes %}
+  {% set card_body_attributes = create_attribute() %}
+{% endif %}
+{% set card_body_attributes = card_body_attributes.addClass(card_body_classes) %}
 
-{% set date_attributes = create_attribute().addClass([
+{% set date_classes = [
   'card-dated-vertical__date',
   'd-flex',
   'flex-column',
@@ -119,9 +137,46 @@
   'text-center',
   'flex-shrink-0',
   (padded ? 'me-4' : 'me-3'),
-]) %}
+] %}
+{% if not date_attributes %}
+  {% set date_attributes = create_attribute() %}
+{% endif %}
+{% set date_attributes = date_attributes.addClass(date_classes) %}
 
-{% set action_icon_attributes = create_attribute().addClass([
+{% set date_day_classes = ['card-dated-vertical__day', 'd-block', 'fw-bold', 'lh-1'] %}
+{% if not date_day_attributes %}
+  {% set date_day_attributes = create_attribute() %}
+{% endif %}
+{% set date_day_attributes = date_day_attributes.addClass(date_day_classes) %}
+
+{% set date_month_classes = ['card-dated-vertical__month', 'd-block', 'text-uppercase', 'lh-1', 'mt-1'] %}
+{% if not date_month_attributes %}
+  {% set date_month_attributes = create_attribute() %}
+{% endif %}
+{% set date_month_attributes = date_month_attributes.addClass(date_month_classes) %}
+
+{% set content_classes = ['card-dated-vertical__content', 'flex-grow-1'] %}
+{% if not content_attributes %}
+  {% set content_attributes = create_attribute() %}
+{% endif %}
+{% set content_attributes = content_attributes.addClass(content_classes) %}
+
+{% set title_classes = ['card-dated-vertical__title', 'mb-0'] %}
+{% if title_size is not empty %}
+  {% set title_classes = title_classes|merge([title_size]) %}
+{% endif %}
+{% if not title_attributes %}
+  {% set title_attributes = create_attribute() %}
+{% endif %}
+{% set title_attributes = title_attributes.addClass(title_classes) %}
+
+{% set title_placeholder_classes = ['opacity-75', 'small', 'pe-none'] %}
+{% if not title_placeholder_attributes %}
+  {% set title_placeholder_attributes = create_attribute() %}
+{% endif %}
+{% set title_placeholder_attributes = title_placeholder_attributes.addClass(title_placeholder_classes) %}
+
+{% set action_icon_classes = [
   'card-dated-vertical__icon',
   'flex-shrink-0',
   'ms-3',
@@ -134,7 +189,23 @@
   'd-flex',
   'align-items-center',
   'justify-content-center',
-]) %}
+] %}
+{% if not action_icon_attributes %}
+  {% set action_icon_attributes = create_attribute() %}
+{% endif %}
+{% set action_icon_attributes = action_icon_attributes.addClass(action_icon_classes).setAttribute('aria-hidden', 'true') %}
+
+{% set action_icon_fill_classes = ['card-dated-vertical__icon-fill'] %}
+{% if not action_icon_fill_attributes %}
+  {% set action_icon_fill_attributes = create_attribute() %}
+{% endif %}
+{% set action_icon_fill_attributes = action_icon_fill_attributes.addClass(action_icon_fill_classes) %}
+
+{% set action_icon_glyph_classes = ['bi', 'bi-arrow-right', 'card-dated-vertical__icon-glyph', 'text-dark'] %}
+{% if not action_icon_glyph_attributes %}
+  {% set action_icon_glyph_attributes = create_attribute() %}
+{% endif %}
+{% set action_icon_glyph_attributes = action_icon_glyph_attributes.addClass(action_icon_glyph_classes) %}
 
 {# Print the HTML. #}
 <div{{ attributes }}>
@@ -143,26 +214,26 @@
     {# Date block: centred day (large bold) + month (small uppercase), hidden when date is empty #}
     {% if has_date %}
       <div{{ date_attributes }}>
-        <span class="card-dated-vertical__day d-block fw-bold lh-1">{{ date_day_display }}</span>
-        <span class="card-dated-vertical__month d-block text-uppercase lh-1 mt-1">{{ date_month_display }}</span>
+        <span{{ date_day_attributes }}>{{ date_day_display }}</span>
+        <span{{ date_month_attributes }}>{{ date_month_display }}</span>
       </div>
     {% endif %}
 
     {# Title heading — grows to fill the available space between date and action icon #}
-    <div class="card-dated-vertical__content flex-grow-1">
+    <div{{ content_attributes }}>
       {% if title is not empty %}
-        <{{ heading_level }} class="card-dated-vertical__title mb-0">{{ title }}</{{ heading_level }}>
+        <{{ heading_level }}{{ title_attributes }}>{{ title }}</{{ heading_level }}>
       {% else %}
-        <span class="opacity-75 small pe-none">Add a title</span>
+        <span{{ title_placeholder_attributes }}>{{ 'Add a title'|t }}</span>
       {% endif %}
     </div>
 
     {# Bootstrap action icon — on card hover the circle fills with the
      # accent color and the arrow glyph rotates into place. #}
     {% if show_action_icon %}
-      <div{{ action_icon_attributes }} aria-hidden="true">
-        <span class="card-dated-vertical__icon-fill"></span>
-        <i class="bi bi-arrow-right card-dated-vertical__icon-glyph text-dark"></i>
+      <div{{ action_icon_attributes }}>
+        <span{{ action_icon_fill_attributes }}></span>
+        <i{{ action_icon_glyph_attributes }}></i>
       </div>
     {% endif %}
 
