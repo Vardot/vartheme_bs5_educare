@@ -2,7 +2,7 @@
 
 # Vartheme BS5 Educare
 [![pipeline status](https://git.drupalcode.org/project/vartheme_bs5_educare/badges/1.0.x/pipeline.svg)](https://git.drupalcode.org/project/vartheme_bs5_educare/-/pipelines)
-[![Vartheme BS5 Educare](https://img.shields.io/badge/Vartheme%20BS5%20Educare-1.0.0--alpha1-0d6efc?labelColor=001d38&style=flat-square)](https://git.drupalcode.org/project/vartheme_bs5_educare/-/pipelines?ref=1.0.0-alpha1)
+[![Vartheme BS5 Educare](https://img.shields.io/badge/Vartheme%20BS5%20Educare-1.0.0--alpha2-0d6efc?labelColor=001d38&style=flat-square)](https://git.drupalcode.org/project/vartheme_bs5_educare/-/pipelines?ref=1.0.0-alpha2)
 
 The Bootstrap 5 front-end theme for the Educare site template, with an education-focused design system.
 
