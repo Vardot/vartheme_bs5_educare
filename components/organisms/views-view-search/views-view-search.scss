@@ -1,0 +1,17 @@
+// @file
+// Vartheme BS5 Educare — Views view search component styles.
+//
+// Only the empty state needs a treatment of its own: the heading, the filter
+// bar and the rows are already carried by the heading atom, the Views exposed
+// filters component and the view's own row config. `--bs-tertiary-bg` is a dark
+// token here, so the notice sits on the theme's subtle surface instead.
+
+@import "../../defaults"; // Global component defaults.
+
+.view-empty--notice {
+  padding: $spacer * 1.5;
+  color: var(--bs-body-color);
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  background-color: var(--bs-secondary-bg-subtle);
+}

@@ -37,12 +37,17 @@
     margin: 0;
   }
 
-  > [class*="form-item-search"] {
+  // The keyword filter is named after its own field, so the listings render it
+  // as `form-item-search` while the site search view renders `form-item-keywords`
+  // - match the free-text widget as well, so both grow and carry the icon.
+  > [class*="form-item-search"],
+  > .js-form-type-textfield {
     flex: 1 0 var(--views-exposed-filters-search-basis);
     min-width: var(--views-exposed-filters-search-min-width);
   }
 
-  > [class*="form-item-search"] input[type="text"] {
+  > [class*="form-item-search"] input[type="text"],
+  > .js-form-type-textfield input[type="text"] {
     padding-left: #{$spacer * 2.25}; // room for the search icon
     background-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2714%27 height=%2714%27 viewBox=%270 0 14 14%27 fill=%27none%27%3E%3Cpath d=%27M6.125 11.375a5.25 5.25 0 1 0 0-10.5 5.25 5.25 0 0 0 0 10.5ZM13.125 13.125 9.84 9.84%27 stroke=%27%23001D38%27 stroke-width=%271.3%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E");
     background-repeat: no-repeat;
@@ -61,7 +66,9 @@
     > .form-item,
     > .js-form-item,
     > [class*="form-item-search"],
-    > .js-form-type-select {
+    > .js-form-type-textfield,
+    > .js-form-type-select,
+    > .form-actions {
       flex: 1 1 100%;
     }
   }
@@ -205,7 +212,9 @@
 }
 
 [dir="rtl"] .views-exposed-filters .views-exposed-form [class*="form-item-search"] input[type="text"],
-[dir="rtl"] .views-exposed-form.bef-exposed-form [class*="form-item-search"] input[type="text"] {
+[dir="rtl"] .views-exposed-filters .views-exposed-form .js-form-type-textfield input[type="text"],
+[dir="rtl"] .views-exposed-form.bef-exposed-form [class*="form-item-search"] input[type="text"],
+[dir="rtl"] .views-exposed-form.bef-exposed-form .js-form-type-textfield input[type="text"] {
   padding-right: #{$spacer * 2.25};
   padding-left: 0;
 }
