@@ -139,11 +139,22 @@
           const closedLabel = button.getAttribute('aria-label');
           const openLabel = button.dataset.iconToggleOpenLabel || closedLabel;
 
+          // With `show_label` the label is also on screen, so it swaps with the
+          // accessible name — a visible name that disagrees with the announced
+          // one fails WCAG 2.5.3 Label in Name.
+          const labelText = root.querySelector('.icon-toggle__label');
+          const setLabel = (text) => {
+            button.setAttribute('aria-label', text);
+            if (labelText) {
+              labelText.textContent = text;
+            }
+          };
+
           // `show` fires before the panel appears, when the bar needs geometry.
           root.addEventListener('show.bs.dropdown', () => {
             measure();
             root.classList.add('icon-toggle--open');
-            button.setAttribute('aria-label', openLabel);
+            setLabel(openLabel);
             if (icon && closedIconClass) {
               icon.classList.replace(closedIconClass, 'bi-x-lg');
             }
@@ -160,7 +171,7 @@
 
           root.addEventListener('hide.bs.dropdown', () => {
             root.classList.remove('icon-toggle--open');
-            button.setAttribute('aria-label', closedLabel);
+            setLabel(closedLabel);
             if (icon && closedIconClass) {
               icon.classList.replace('bi-x-lg', closedIconClass);
             }

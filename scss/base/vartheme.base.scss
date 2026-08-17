@@ -133,6 +133,18 @@ header[role="banner"] .navbar-nav {
   gap: 0.25rem;
 }
 
+// Open state: the hamburger becomes a close (X) glyph. The toggler icon is a
+// background image, so the open state swaps the image — Bootstrap Icons' `x-lg`
+// path, tinted with the body color, escaped the way Bootstrap escapes its own
+// inline SVGs. Bootstrap's Collapse plugin keeps `aria-expanded` in step with
+// the menu, so the state reads off the attribute rather than a class this
+// markup does not ship with.
+$header-toggler-close-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$body-color}'><path d='M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z'/></svg>");
+
+header[role="banner"] .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+  background-image: escape-svg($header-toggler-close-icon);
+}
+
 // Desktop (lg+): wider gap between items.
 @include media-breakpoint-up(lg) {
   header[role="banner"] .navbar-nav {

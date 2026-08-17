@@ -2,7 +2,7 @@
   --icon-toggle-button-size: 2.5rem;
   --icon-toggle-button-color: var(--bs-body-color);
   --icon-toggle-button-bg: transparent;
-  --icon-toggle-button-bg-hover: var(--bs-secondary-bg);
+  --icon-toggle-button-bg-hover: transparent;
   --icon-toggle-button-radius: 50rem;
   --icon-toggle-focus-ring: 0.25rem solid var(--bs-focus-ring-color);
   --icon-toggle-transition: all 0.2s ease-in-out;
@@ -18,11 +18,19 @@
   --icon-toggle-bar-max-width: 45rem;
   --icon-toggle-bar-brand-gap: 2rem;
   --icon-toggle-bar-unmeasured-available: 47rem;
-  --icon-toggle-bar-padding-inline: 1rem;
   --icon-toggle-bar-gap: 0.5rem;
   --icon-toggle-bar-page-padding: 1rem;
   --icon-toggle-bar-font-size: 0.875rem;
-  --icon-toggle-bar-subtle-color: var(--bs-secondary-color);
+  --icon-toggle-bar-line-height: 1.5;
+  --icon-toggle-bar-padding-block: 0.5rem;
+  --icon-toggle-bar-subtle-color: #404456;
+  --icon-toggle-bar-border-color: #404456;
+  --icon-toggle-bar-border-width: 0.5px;
+  --icon-toggle-submit-size: 2rem;
+  --icon-toggle-submit-bg: var(--bs-accent);
+  --icon-toggle-submit-icon-size: 1rem;
+  --icon-toggle-label-gap: 0.5rem;
+  --icon-toggle-label-padding-inline: 0.5rem;
   --icon-toggle-header-toggler-size: 1.6875rem;
   --icon-toggle-header-icon-gap: 1.5rem;
   --icon-toggle-header-icon-offset: 0.40625rem;
@@ -64,6 +72,17 @@
   line-height: 1;
 }
 
+.icon-toggle--labelled .icon-toggle__button {
+  width: auto;
+  border-radius: var(--icon-toggle-panel-radius);
+  gap: var(--icon-toggle-label-gap);
+  padding-inline: var(--icon-toggle-label-padding-inline);
+}
+
+.icon-toggle__label {
+  line-height: 1;
+}
+
 .icon-toggle__panel {
   position: absolute;
   z-index: 1000;
@@ -97,8 +116,10 @@
   gap: var(--icon-toggle-panel-gap);
 }
 
-.icon-toggle--panel-bar.icon-toggle--open .icon-toggle__button {
-  visibility: hidden;
+@media (min-width: 992px) {
+  .icon-toggle--panel-bar.icon-toggle--open .icon-toggle__button {
+    visibility: hidden;
+  }
 }
 
 .icon-toggle--panel-bar .icon-toggle__panel {
@@ -128,20 +149,23 @@
   flex-direction: row;
   align-items: center;
   height: var(--icon-toggle-bar-height);
-  padding-inline-start: var(--icon-toggle-bar-padding-inline);
-  border-block-end: 1px solid var(--icon-toggle-panel-border);
+  border-block-end: var(--icon-toggle-bar-border-width) solid var(--icon-toggle-bar-border-color);
   gap: var(--icon-toggle-bar-gap);
-}
-
-.icon-toggle--panel-bar .icon-toggle__panel-icon {
-  flex: 0 0 auto;
-  color: var(--icon-toggle-button-color);
-  line-height: 1;
+  padding-block: var(--icon-toggle-bar-padding-block);
 }
 
 .icon-toggle--panel-bar .icon-toggle__close {
   display: inline-flex;
   flex: 0 0 auto;
+}
+
+@media (max-width: 991.98px) {
+  .icon-toggle--panel-bar .icon-toggle__close {
+    display: none;
+  }
+}
+
+.icon-toggle--panel-bar .icon-toggle__close {
   align-items: center;
   justify-content: center;
   width: var(--icon-toggle-button-size);
@@ -188,12 +212,13 @@
   height: auto;
   min-height: 0;
   padding: 0;
+  color: var(--icon-toggle-bar-subtle-color);
   border: 0;
   border-radius: 0;
   background: none;
   box-shadow: none;
   font-size: var(--icon-toggle-bar-font-size);
-  line-height: 1.5;
+  line-height: var(--icon-toggle-bar-line-height);
 }
 
 .icon-toggle--panel-bar .icon-toggle__panel-inner .form-control::placeholder {
@@ -206,7 +231,25 @@
   box-shadow: none;
 }
 
-.icon-toggle--panel-bar .icon-toggle__panel-inner .form-actions,
+.icon-toggle--panel-bar .icon-toggle__panel-inner .form-actions {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.icon-toggle--panel-bar .icon-toggle__panel-inner .form-submit {
+  width: var(--icon-toggle-submit-size);
+  height: var(--icon-toggle-submit-size);
+  padding: 0;
+  border: 0;
+  border-radius: 50rem;
+  background-color: var(--icon-toggle-submit-bg);
+  background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23050833%27%3e%3cpath d=%27M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0%27/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: var(--icon-toggle-submit-icon-size);
+  font-size: 0;
+}
+
 .icon-toggle--panel-bar .icon-toggle__panel-inner .form-item > label,
 .icon-toggle--panel-bar .icon-toggle__panel-inner .js-form-item > label {
   position: absolute;

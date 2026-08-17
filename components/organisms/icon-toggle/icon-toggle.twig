@@ -13,10 +13,12 @@
  * Available properties:
  * - icon: Bootstrap Icon name shown in the closed state. Swaps to a close
  *         (X) icon while the panel is open. Defaults to `search`.
- * - label: Accessible label for the closed state (visually hidden).
+ * - label: Label for the closed state. Visually hidden unless `show_label`.
  *          Defaults to `Search`.
- * - open_label: Accessible label announced while the panel is open.
- *               Defaults to `Close search`.
+ * - open_label: Label announced (and shown, with `show_label`) while the panel
+ *               is open. Defaults to `Close search`.
+ * - show_label: Print the label next to the icon instead of only exposing it to
+ *               assistive technology. Defaults to `false`.
  * - placement: Which side the popover panel aligns to. (end | start)
  *              Defaults to `end`.
  * - panel: How the revealed panel looks — a boxed popover below the button, or
@@ -26,6 +28,12 @@
  *
  * Available attributes:
  * - attributes: HTML attributes for the root element.
+ * - button_attributes: HTML attributes for the trigger button.
+ * - label_attributes: HTML attributes for the trigger's label text.
+ * - panel_attributes: HTML attributes for the revealed panel.
+ * - close_attributes: HTML attributes for the inline bar's own close button.
+ * - inner_attributes: HTML attributes for the panel's inner row.
+ * - placeholder_attributes: HTML attributes for the empty-slot placeholder.
  *
  * Available slots:
  * - content: The content revealed in the popover.
@@ -47,6 +55,7 @@
 {% set open_label = open_label|default('Close search'|t) %}
 {% set placement = placement|default('end') %}
 {% set panel = panel|default('popover') %}
+{% set show_label = show_label is defined ? show_label : false %}
 {% set expand_in_editor = expand_in_editor is defined ? expand_in_editor : true %}
 
 {# Logic: merge root classes as an array. Bootstrap's `dropdown` carries the
@@ -56,13 +65,20 @@
   'dropdown',
   'icon-toggle--' ~ placement,
   'icon-toggle--panel-' ~ panel,
-] %}
+  show_label ? 'icon-toggle--labelled',
+]|filter(v => v is not empty) %}
 
 {# Logic: static structural class lists and a unique panel id. The panel is a
  # Bootstrap `dropdown-menu`, so Bootstrap owns showing and hiding it, the
  # `aria-expanded` state, Escape, outside clicks and returning focus to the
  # trigger. `dropdown-menu-end` is Bootstrap's own end-side alignment. #}
 {% set button_classes = ['icon-toggle__button'] %}
+{# The label rides the header's own `navbar-expand-lg` breakpoint: shown beside
+ # the icon once the menu is a row, hidden while the header is an icon line. #}
+{% set label_classes = ['icon-toggle__label', 'd-none', 'd-lg-inline'] %}
+{% set close_classes = ['icon-toggle__close'] %}
+{% set inner_classes = ['icon-toggle__panel-inner'] %}
+{% set placeholder_classes = ['icon-toggle__placeholder', 'text-muted', 'mb-0'] %}
 {% set panel_classes = ['icon-toggle__panel', 'dropdown-menu'] %}
 {% if placement == 'end' %}
   {% set panel_classes = panel_classes|merge(['dropdown-menu-end']) %}
@@ -82,33 +98,73 @@
 {% set panel_content %}{% block content %}{% endblock %}{% endset %}
 {% set has_content = panel_content|trim is not empty %}
 
+{# Logic: nested attribute objects, classes merged before any other setter. #}
+{% if not button_attributes %}
+  {% set button_attributes = create_attribute() %}
+{% endif %}
+{% set button_attributes = button_attributes.addClass(button_classes)
+  .setAttribute('type', 'button')
+  .setAttribute('data-bs-toggle', 'dropdown')
+  .setAttribute('aria-expanded', 'false')
+  .setAttribute('aria-controls', panel_id)
+  .setAttribute('data-icon-toggle-open-label', open_label)
+  .setAttribute('aria-label', label) %}
+{# The bar spans the band it sits in, so Popper's positioning is not wanted. #}
+{% if panel == 'bar' %}
+  {% set button_attributes = button_attributes.setAttribute('data-bs-display', 'static') %}
+{% endif %}
+
+{% if not label_attributes %}
+  {% set label_attributes = create_attribute() %}
+{% endif %}
+{% set label_attributes = label_attributes.addClass(label_classes) %}
+
+{% if not panel_attributes %}
+  {% set panel_attributes = create_attribute() %}
+{% endif %}
+{% set panel_attributes = panel_attributes.addClass(panel_classes).setAttribute('id', panel_id) %}
+
+{% if not close_attributes %}
+  {% set close_attributes = create_attribute() %}
+{% endif %}
+{% set close_attributes = close_attributes.addClass(close_classes)
+  .setAttribute('type', 'button')
+  .setAttribute('aria-controls', panel_id)
+  .setAttribute('aria-label', open_label) %}
+
+{% if not inner_attributes %}
+  {% set inner_attributes = create_attribute() %}
+{% endif %}
+{% set inner_attributes = inner_attributes.addClass(inner_classes) %}
+
+{% if not placeholder_attributes %}
+  {% set placeholder_attributes = create_attribute() %}
+{% endif %}
+{% set placeholder_attributes = placeholder_attributes.addClass(placeholder_classes) %}
+
 {# Print the HTML. #}
 {% set attributes = attributes.addClass(classes) %}
 <div{{ attributes }}>
-  <button type="button" class="{{ button_classes|join(' ') }}" data-bs-toggle="dropdown"{% if panel == 'bar' %} data-bs-display="static"{% endif %} aria-expanded="false" aria-controls="{{ panel_id }}" data-icon-toggle-open-label="{{ open_label }}" aria-label="{{ label }}">
+  <button{{ button_attributes }}>
     {{ include('vartheme_bs5_educare:bootstrap-icon', {
       icon: icon,
-      icon_size: 'fs-5',
+      icon_size: 'fs-4',
       attributes: create_attribute().addClass('icon-toggle__icon'),
     }, with_context = false) }}
+    {% if show_label %}
+      <span{{ label_attributes }}>{{ label }}</span>
+    {% endif %}
   </button>
 
-  <div class="{{ panel_classes|join(' ') }}" id="{{ panel_id }}">
-    <div class="icon-toggle__panel-inner">
-      {% if panel == 'bar' %}
-        {{ include('vartheme_bs5_educare:bootstrap-icon', {
-          icon: icon,
-          icon_size: 'fs-6',
-          attributes: create_attribute().addClass('icon-toggle__panel-icon'),
-        }, with_context = false) }}
-      {% endif %}
+  <div{{ panel_attributes }}>
+    <div{{ inner_attributes }}>
       {% if has_content %}
         {{ panel_content }}
       {% else %}
-        <p class="icon-toggle__placeholder text-muted mb-0">{{ 'Drop content here.'|t }}</p>
+        <p{{ placeholder_attributes }}>{{ 'Drop content here.'|t }}</p>
       {% endif %}
       {% if panel == 'bar' %}
-        <button type="button" class="icon-toggle__close" aria-controls="{{ panel_id }}" aria-label="{{ open_label }}">
+        <button{{ close_attributes }}>
           {{ include('vartheme_bs5_educare:bootstrap-icon', {
             icon: 'x-lg',
             icon_size: 'fs-6',

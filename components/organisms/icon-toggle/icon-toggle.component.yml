@@ -118,17 +118,24 @@ props:
     label:
       type: string
       title: Label
-      description: Accessible label for the button in its closed state (visually hidden).
+      description: Label for the button in its closed state. Exposed only to assistive technology unless "Show label" is on.
       default: Search
       examples:
         - Search
     open_label:
       type: string
       title: Open state label
-      description: Accessible label announced on the button while the panel is open.
+      description: Label announced on the button while the panel is open, and shown in its place when "Show label" is on.
       default: Close search
       examples:
         - Close search
+    show_label:
+      type: boolean
+      title: Show label
+      description: Print the label text next to the icon, once the header is wide enough to show its menu as a row. Below that the header is an icon line, so the label stays available to assistive technology only.
+      default: false
+      examples:
+        - false
     placement:
       type: string
       title: Panel alignment
@@ -152,7 +159,7 @@ props:
     panel:
       type: string
       title: Panel style
-      description: "How the revealed panel looks. A boxed popover drops below the button; an inline bar stretches across the header row (desktop) or a full-width row below it (mobile), showing the icon, the field and a close button on one hairline-underlined line."
+      description: "How the revealed panel looks. A boxed popover drops below the button; an inline bar stretches across the header row (desktop) or a full-width row below it (mobile), carrying the field and a round accent submit disc on one hairline-underlined line."
       enum:
         - popover
         - bar

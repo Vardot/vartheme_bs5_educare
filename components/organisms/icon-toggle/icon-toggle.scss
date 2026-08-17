@@ -7,8 +7,8 @@
 //
 // Panel styles (`panel` prop):
 // - `popover`: the Bootstrap dropdown panel.
-// - `bar`: one hairline-underlined line with the icon, the field and a close
-//   button. icon-toggle.js measures the region it sits in and marks the root
+// - `bar`: one hairline-underlined line carrying the field and a round accent
+//   submit disc. icon-toggle.js measures the region it sits in and marks the root
 //   `is-measured`, `is-panel-start` (opens forward) and `is-bar-inline` (a header
 //   row, where it sits on the trigger's line and becomes a full-width band below
 //   lg). Unmarked, it just drops under the trigger.
@@ -18,11 +18,19 @@
 
 @import "../../defaults";
 
+// The submit is an `<input>`, which carries no pseudo-element, so its glyph
+// rides as a background image — the same way Bootstrap draws `.btn-close` and
+// `.form-select`. Bootstrap Icons' `search` path, tinted with the body color.
+$icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$body-color}'><path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0'/></svg>");
+
 .icon-toggle {
   --icon-toggle-button-size: #{$spacer * 2.5};
   --icon-toggle-button-color: var(--bs-body-color);
   --icon-toggle-button-bg: transparent;
-  --icon-toggle-button-bg-hover: var(--bs-secondary-bg);
+  // The header search control is a bare icon in the design, on rest and on
+  // hover alike, matching the header's nav links which never take a fill.
+  // Focus stays visible through the focus ring below, not a background.
+  --icon-toggle-button-bg-hover: transparent;
   --icon-toggle-button-radius: #{$border-radius-pill};
   --icon-toggle-focus-ring: #{$focus-ring-width} solid var(--bs-focus-ring-color);
   --icon-toggle-transition: #{$transition-base};
@@ -41,11 +49,21 @@
   // Stands in when there is nothing to measure (JS off): max width plus the gap
   // above, so the cap resolves to the max width and never bites.
   --icon-toggle-bar-unmeasured-available: #{$spacer * 47};
-  --icon-toggle-bar-padding-inline: #{$spacer};
   --icon-toggle-bar-gap: #{$spacer * 0.5};
   --icon-toggle-bar-page-padding: #{$spacer};
-  --icon-toggle-bar-font-size: #{$spacer * 0.875};
-  --icon-toggle-bar-subtle-color: var(--bs-secondary-color);
+  --icon-toggle-bar-font-size: #{$font-size-sm};
+  --icon-toggle-bar-line-height: #{$line-height-base};
+  --icon-toggle-bar-padding-block: #{$spacer * 0.5};
+  // Educare's dark subtle text/border token; no Bootstrap variable carries it.
+  --icon-toggle-bar-subtle-color: #{$subtle-text};
+  --icon-toggle-bar-border-color: #{$dark-border};
+  // A hairline: half Bootstrap's border width.
+  --icon-toggle-bar-border-width: #{$border-width * 0.5};
+  --icon-toggle-submit-size: #{$spacer * 2};
+  --icon-toggle-submit-bg: var(--bs-accent);
+  --icon-toggle-submit-icon-size: #{$spacer};
+  --icon-toggle-label-gap: #{$spacer * 0.5};
+  --icon-toggle-label-padding-inline: #{$spacer * 0.5};
   // Sharing the header's icon line below lg: the hamburger's box (Bootstrap
   // sizes it at 1.5em of the toggler font size), the gap between the two icons,
   // and half their size difference, to line the glyphs up on one centre.
@@ -88,6 +106,19 @@
 
   &__icon {
     display: inline-flex;
+    line-height: 1;
+  }
+
+  // With a visible label the trigger stops being a square icon hit area and
+  // grows to fit the word beside the icon.
+  &--labelled &__button {
+    gap: var(--icon-toggle-label-gap);
+    width: auto;
+    padding-inline: var(--icon-toggle-label-padding-inline);
+    border-radius: var(--icon-toggle-panel-radius);
+  }
+
+  &__label {
     line-height: 1;
   }
 
@@ -139,10 +170,14 @@
 
 // Inline bar panel.
 .icon-toggle--panel-bar {
-  // The bar has its own close button, so the trigger steps aside. `visibility`
-  // keeps its space so the row does not reflow.
-  &.icon-toggle--open .icon-toggle__button {
-    visibility: hidden;
+  // From lg up the bar shares the header row and carries its own close button,
+  // so the trigger underneath steps aside. `visibility` keeps its space so the
+  // row does not reflow. Below lg the bar is a band under the header and the
+  // trigger stays put, swapped to a close (X) glyph.
+  @include media-breakpoint-up(lg) {
+    &.icon-toggle--open .icon-toggle__button {
+      visibility: hidden;
+    }
   }
 
   .icon-toggle__panel {
@@ -183,20 +218,22 @@
     align-items: center;
     gap: var(--icon-toggle-bar-gap);
     height: var(--icon-toggle-bar-height);
-    padding-inline-start: var(--icon-toggle-bar-padding-inline);
+    padding-block: var(--icon-toggle-bar-padding-block);
     overflow: hidden;
-    border-block-end: $border-width solid var(--icon-toggle-panel-border);
-  }
-
-  .icon-toggle__panel-icon {
-    flex: 0 0 auto;
-    color: var(--icon-toggle-button-color);
-    line-height: 1;
+    border-block-end: var(--icon-toggle-bar-border-width) solid
+      var(--icon-toggle-bar-border-color);
   }
 
   .icon-toggle__close {
     display: inline-flex;
     flex: 0 0 auto;
+
+    // Below lg the trigger stays put and carries the close (X) glyph itself, so
+    // this second one goes — out of the tab order with it.
+    @include media-breakpoint-down(lg) {
+      display: none;
+    }
+
     align-items: center;
     justify-content: center;
     width: var(--icon-toggle-button-size);
@@ -246,8 +283,9 @@
       height: auto;
       min-height: 0;
       padding: 0;
+      color: var(--icon-toggle-bar-subtle-color);
       font-size: var(--icon-toggle-bar-font-size);
-      line-height: $line-height-base;
+      line-height: var(--icon-toggle-bar-line-height);
       border: 0;
       border-radius: 0;
       background: none;
@@ -264,10 +302,31 @@
       }
     }
 
-    // Enter submits; the button is only removed visually. The field's label is
-    // removed the same way — the bar's icon and placeholder carry it on the
-    // line — so both stay in the tab order and the accessibility tree.
-    .form-actions,
+    // The submit is a round accent disc carrying the magnifier and nothing
+    // else. `font-size: 0` drops its `value` text off the disc while leaving it
+    // as the button's accessible name.
+    .form-actions {
+      flex: 0 0 auto;
+      margin: 0;
+    }
+
+    .form-submit {
+      width: var(--icon-toggle-submit-size);
+      height: var(--icon-toggle-submit-size);
+      padding: 0;
+      font-size: 0;
+      border: 0;
+      border-radius: $border-radius-pill;
+      background-color: var(--icon-toggle-submit-bg);
+      background-image: escape-svg($icon-toggle-search-indicator);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: var(--icon-toggle-submit-icon-size);
+    }
+
+    // Enter also submits. The field's label is removed visually — the
+    // placeholder carries it on the line — while staying in the accessibility
+    // tree.
     .form-item > label,
     .js-form-item > label {
       position: absolute;
