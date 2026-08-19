@@ -23,6 +23,9 @@
   --icon-toggle-bar-font-size: 0.875rem;
   --icon-toggle-bar-line-height: 1.5;
   --icon-toggle-bar-padding-block: 0.5rem;
+  --icon-toggle-bar-padding-inline: 0;
+  --icon-toggle-bar-icon-size: 1.5rem;
+  --icon-toggle-bar-close-size: 1.5rem;
   --icon-toggle-bar-subtle-color: #404456;
   --icon-toggle-bar-border-color: #404456;
   --icon-toggle-bar-border-width: 0.5px;
@@ -135,7 +138,16 @@
 
 .icon-toggle--panel-bar.is-bar-inline .icon-toggle__panel {
   top: 50%;
+  margin: 0;
   transform: translateY(-50%);
+}
+
+@media (min-width: 992px) {
+  .icon-toggle--panel-bar {
+    --icon-toggle-bar-height: 3.5rem;
+    --icon-toggle-bar-padding-block: 1rem;
+    --icon-toggle-bar-padding-inline: 1rem;
+  }
 }
 
 .icon-toggle--panel-bar:not(.is-measured) .icon-toggle__panel {
@@ -152,6 +164,17 @@
   border-block-end: var(--icon-toggle-bar-border-width) solid var(--icon-toggle-bar-border-color);
   gap: var(--icon-toggle-bar-gap);
   padding-block: var(--icon-toggle-bar-padding-block);
+  padding-inline: var(--icon-toggle-bar-padding-inline);
+}
+
+.icon-toggle--panel-bar .icon-toggle__panel-icon {
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-toggle-bar-icon-size);
+  height: var(--icon-toggle-bar-icon-size);
+  color: var(--icon-toggle-button-color);
+  line-height: 1;
 }
 
 .icon-toggle--panel-bar .icon-toggle__close {
@@ -168,8 +191,8 @@
 .icon-toggle--panel-bar .icon-toggle__close {
   align-items: center;
   justify-content: center;
-  width: var(--icon-toggle-button-size);
-  height: var(--icon-toggle-button-size);
+  width: var(--icon-toggle-bar-close-size);
+  height: var(--icon-toggle-bar-close-size);
   margin: 0;
   padding: 0;
   cursor: pointer;
@@ -236,6 +259,17 @@
   margin: 0;
 }
 
+@media (min-width: 992px) {
+  .icon-toggle--panel-bar .icon-toggle__panel-inner .form-actions {
+    position: absolute;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    white-space: nowrap;
+    clip-path: inset(50%);
+  }
+}
+
 .icon-toggle--panel-bar .icon-toggle__panel-inner .form-submit {
   width: var(--icon-toggle-submit-size);
   height: var(--icon-toggle-submit-size);
@@ -262,8 +296,11 @@
 
 @media (min-width: 992px) {
   .page > header[role="banner"] .icon-toggle--panel-bar.is-bar-inline .icon-toggle__panel {
+    --bs-dropdown-bg: var(--icon-toggle-panel-bg);
+
     padding: 0;
     border-radius: 0;
+    background: var(--icon-toggle-panel-bg);
     box-shadow: none;
   }
 }

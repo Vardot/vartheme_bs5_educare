@@ -54,6 +54,14 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
   --icon-toggle-bar-font-size: #{$font-size-sm};
   --icon-toggle-bar-line-height: #{$line-height-base};
   --icon-toggle-bar-padding-block: #{$spacer * 0.5};
+  // Below lg the band is a page-width block with its own page padding; from lg
+  // up it opens over the header row and keeps its own inline breathing room
+  // instead of butting the glyphs against the menu it covers.
+  --icon-toggle-bar-padding-inline: 0;
+  // The bar's leading magnifier: a 24px box carrying a 20px glyph.
+  --icon-toggle-bar-icon-size: #{$spacer * 1.5};
+  // The bar's close is the design's 24px glyph box, not the 40px trigger box.
+  --icon-toggle-bar-close-size: #{$spacer * 1.5};
   // Educare's dark subtle text/border token; no Bootstrap variable carries it.
   --icon-toggle-bar-subtle-color: #{$subtle-text};
   --icon-toggle-bar-border-color: #{$dark-border};
@@ -197,11 +205,22 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
     box-shadow: none;
   }
 
-  // A header row is the only line the bar may sit on.
+  // A header row is the only line the bar may sit on. Bootstrap's dropdown
+  // spacer margin would push the band off that line's centre, so it goes.
   &.is-bar-inline .icon-toggle__panel {
     top: 50%;
+    margin: 0;
     transform: translateY(-50%);
   }
+
+  // From lg up the band opens across the header row: it takes the row's height
+  // and its own inline padding so the glyphs clear the menu it covers.
+  @include media-breakpoint-up(lg) {
+    --icon-toggle-bar-height: #{$spacer * 3.5};
+    --icon-toggle-bar-padding-block: #{$spacer};
+    --icon-toggle-bar-padding-inline: #{$spacer};
+  }
+
 
   // Nothing measurable (bare canvas, or JS off): drop under the trigger.
   &:not(.is-measured) .icon-toggle__panel {
@@ -219,9 +238,20 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
     gap: var(--icon-toggle-bar-gap);
     height: var(--icon-toggle-bar-height);
     padding-block: var(--icon-toggle-bar-padding-block);
+    padding-inline: var(--icon-toggle-bar-padding-inline);
     overflow: hidden;
     border-block-end: var(--icon-toggle-bar-border-width) solid
       var(--icon-toggle-bar-border-color);
+  }
+
+  .icon-toggle__panel-icon {
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-toggle-bar-icon-size);
+    height: var(--icon-toggle-bar-icon-size);
+    color: var(--icon-toggle-button-color);
+    line-height: 1;
   }
 
   .icon-toggle__close {
@@ -236,8 +266,8 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
 
     align-items: center;
     justify-content: center;
-    width: var(--icon-toggle-button-size);
-    height: var(--icon-toggle-button-size);
+    width: var(--icon-toggle-bar-close-size);
+    height: var(--icon-toggle-bar-close-size);
     margin: 0;
     padding: 0;
     color: var(--icon-toggle-button-color);
@@ -310,6 +340,19 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
       margin: 0;
     }
 
+    // From lg up the design ends the bar with the close (X) alone, so the disc
+    // is removed visually while Enter and its accessible name stay.
+    @include media-breakpoint-up(lg) {
+      .form-actions {
+        position: absolute;
+        width: $border-width;
+        height: $border-width;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+    }
+
     .form-submit {
       width: var(--icon-toggle-submit-size);
       height: var(--icon-toggle-submit-size);
@@ -352,6 +395,10 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
   .page > header[role="banner"] .icon-toggle--panel-bar.is-bar-inline .icon-toggle__panel {
     padding: 0;
     border-radius: 0;
+    // Bootstrap's `--bs-dropdown-bg` is plain white; the band is the page's
+    // warm white, the same ground the header sits on.
+    --bs-dropdown-bg: var(--icon-toggle-panel-bg);
+    background: var(--icon-toggle-panel-bg);
     box-shadow: none;
   }
 }

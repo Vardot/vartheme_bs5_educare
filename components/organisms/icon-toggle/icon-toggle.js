@@ -83,14 +83,17 @@
               '--icon-toggle-bar-top',
               `${bandRect.bottom}px`,
             );
-            root.style.setProperty(
-              '--icon-toggle-bar-left',
-              `${bandRect.left}px`,
+            // A full-bleed header band measures `100vw`, which counts the
+            // scrollbar; clamped to the layout viewport so the bar's page
+            // padding is not eaten by the overhang.
+            const viewportWidth = document.documentElement.clientWidth;
+            const bandLeft = Math.max(0, bandRect.left);
+            const bandWidth = Math.min(
+              bandRect.width,
+              viewportWidth - bandLeft,
             );
-            root.style.setProperty(
-              '--icon-toggle-bar-width',
-              `${bandRect.width}px`,
-            );
+            root.style.setProperty('--icon-toggle-bar-left', `${bandLeft}px`);
+            root.style.setProperty('--icon-toggle-bar-width', `${bandWidth}px`);
 
             // Open towards the side with more room, so the bar never runs off
             // the edge of its region.
