@@ -24,6 +24,9 @@
   --icon-toggle-bar-line-height: 1.5;
   --icon-toggle-bar-padding-block: 0.5rem;
   --icon-toggle-bar-padding-inline: 0;
+  --icon-toggle-bar-motion-duration: 220ms;
+  --icon-toggle-bar-motion-settle: 0.25rem;
+  --icon-toggle-bar-motion-easing: ease;
   --icon-toggle-bar-icon-size: 1.5rem;
   --icon-toggle-bar-close-size: 1.5rem;
   --icon-toggle-bar-subtle-color: #404456;
@@ -147,6 +150,33 @@
     --icon-toggle-bar-height: 3.5rem;
     --icon-toggle-bar-padding-block: 1rem;
     --icon-toggle-bar-padding-inline: 1rem;
+  }
+}
+
+.icon-toggle--panel-bar .icon-toggle__panel {
+  transition:
+    opacity var(--icon-toggle-bar-motion-duration) var(--icon-toggle-bar-motion-easing),
+    translate var(--icon-toggle-bar-motion-duration) var(--icon-toggle-bar-motion-easing),
+    display var(--icon-toggle-bar-motion-duration) allow-discrete;
+  opacity: 0;
+  translate: 0 calc(var(--icon-toggle-bar-motion-settle) * -1);
+}
+
+.icon-toggle--panel-bar .icon-toggle__panel.show {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@starting-style {
+  .icon-toggle--panel-bar .icon-toggle__panel.show {
+    opacity: 0;
+    translate: 0 calc(var(--icon-toggle-bar-motion-settle) * -1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-toggle--panel-bar .icon-toggle__panel {
+    transition: none;
   }
 }
 
@@ -292,6 +322,24 @@
   height: 1px;
   white-space: nowrap;
   clip-path: inset(50%);
+}
+
+@media (min-width: 992px) {
+  .page > header[role="banner"] :is(.navbar-nav, .menu--main, .region-primary-menu) {
+    transition: opacity var(--icon-toggle-bar-motion-duration, 220ms) var(--icon-toggle-bar-motion-easing, ease);
+    opacity: 1;
+  }
+
+  .page > header[role="banner"].is-search-open :is(.navbar-nav, .menu--main, .region-primary-menu),
+  .page > header[role="banner"] .is-search-open :is(.navbar-nav, .menu--main, .region-primary-menu) {
+    opacity: 0;
+  }
+}
+
+@media (min-width: 992px) and (prefers-reduced-motion: reduce) {
+  .page > header[role="banner"] :is(.navbar-nav, .menu--main, .region-primary-menu) {
+    transition: none;
+  }
 }
 
 @media (min-width: 992px) {

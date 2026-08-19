@@ -157,6 +157,11 @@
           root.addEventListener('show.bs.dropdown', () => {
             measure();
             root.classList.add('icon-toggle--open');
+            // The bar crossfades with the row it opens over: the region it sits
+            // in carries the state so the menu can fade out under it.
+            if (isBar && band) {
+              band.classList.add('is-search-open');
+            }
             setLabel(openLabel);
             if (icon && closedIconClass) {
               icon.classList.replace(closedIconClass, 'bi-x-lg');
@@ -174,6 +179,9 @@
 
           root.addEventListener('hide.bs.dropdown', () => {
             root.classList.remove('icon-toggle--open');
+            if (isBar && band) {
+              band.classList.remove('is-search-open');
+            }
             setLabel(closedLabel);
             if (icon && closedIconClass) {
               icon.classList.replace('bi-x-lg', closedIconClass);

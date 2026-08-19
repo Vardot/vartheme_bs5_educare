@@ -58,6 +58,11 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
   // up it opens over the header row and keeps its own inline breathing room
   // instead of butting the glyphs against the menu it covers.
   --icon-toggle-bar-padding-inline: 0;
+  // Motion: the band wipes open from the trigger and fades with it.
+  --icon-toggle-bar-motion-duration: 220ms;
+  // The few px the band drifts down onto the line as it fades in.
+  --icon-toggle-bar-motion-settle: #{$spacer * 0.25};
+  --icon-toggle-bar-motion-easing: ease;
   // The bar's leading magnifier: a 24px box carrying a 20px glyph.
   --icon-toggle-bar-icon-size: #{$spacer * 1.5};
   // The bar's close is the design's 24px glyph box, not the 40px trigger box.
@@ -221,6 +226,36 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
     --icon-toggle-bar-padding-inline: #{$spacer};
   }
 
+  // Motion (prototype): the band crossfades with the row it opens over — it
+  // fades in while the menu fades out, entering a few px high and settling onto
+  // the line. `allow-discrete` + `@starting-style` animate across Bootstrap's
+  // `display` toggle; without support the panel just appears, as before.
+  .icon-toggle__panel {
+    opacity: 0;
+    transition:
+      opacity var(--icon-toggle-bar-motion-duration)
+        var(--icon-toggle-bar-motion-easing),
+      translate var(--icon-toggle-bar-motion-duration)
+        var(--icon-toggle-bar-motion-easing),
+      display var(--icon-toggle-bar-motion-duration) allow-discrete;
+    translate: 0 calc(var(--icon-toggle-bar-motion-settle) * -1);
+
+    &.show {
+      opacity: 1;
+      translate: 0 0;
+
+      @starting-style {
+        opacity: 0;
+        translate: 0 calc(var(--icon-toggle-bar-motion-settle) * -1);
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .icon-toggle__panel {
+      transition: none;
+    }
+  }
 
   // Nothing measurable (bare canvas, or JS off): drop under the trigger.
   &:not(.is-measured) .icon-toggle__panel {
@@ -391,6 +426,30 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
 // above both. Scoped to `up(lg)` on purpose: below lg the theme already flattens
 // the panel itself, and the bar's own padding is measured band geometry that
 // must not be zeroed.
+// The menu the band opens over fades out with it, and back in on close, so the
+// two swap on one line instead of one covering the other. icon-toggle.js marks
+// the region while the bar is open.
+@include media-breakpoint-up(lg) {
+  .page > header[role="banner"] {
+    :is(.navbar-nav, .menu--main, .region-primary-menu) {
+      opacity: 1;
+      transition: opacity var(--icon-toggle-bar-motion-duration, 220ms)
+        var(--icon-toggle-bar-motion-easing, ease);
+    }
+
+    &.is-search-open :is(.navbar-nav, .menu--main, .region-primary-menu),
+    .is-search-open :is(.navbar-nav, .menu--main, .region-primary-menu) {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page > header[role="banner"] :is(.navbar-nav, .menu--main, .region-primary-menu) {
+      transition: none;
+    }
+  }
+}
+
 @include media-breakpoint-up(lg) {
   .page > header[role="banner"] .icon-toggle--panel-bar.is-bar-inline .icon-toggle__panel {
     padding: 0;
