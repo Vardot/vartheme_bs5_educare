@@ -120,12 +120,26 @@ cspell:
     - ./bin/drush runserver 127.0.0.1:8888 > $CI_PROJECT_DIR/runserver.log 2>&1 &
     - sleep 8
     - cd "$CI_PROJECT_DIR"
-    - npm install --no-save --no-audit --no-fund @vardot/varbase-e2e@~2.0.1 @cucumber/cucumber@10.0.1
+    # Explicit floor: 2.0.6 carries the smartSettle budget fix, so a page whose
+    # network never goes idle can no longer hang a step until cucumber kills it.
+    - npm install --no-save --no-audit --no-fund "@vardot/varbase-e2e@^2.0.6" @cucumber/cucumber@10.0.1
     - ./node_modules/.bin/playwright install chromium
     - VARBASE_E2E_REPORT_DISABLE=1 ./node_modules/.bin/cucumber-js --config cucumber.js --tags "not @wip"
   after_script:
     - cd "$CI_PROJECT_DIR"
     - export REPORT="vartheme_bs5_educare--${CI_COMMIT_REF_SLUG:-local}--automated-functional-testing-report--$(date +%Y-%m-%d)"
+    # When the job failed before the tests ran (a red site:install, a database
+    # that went away), there is no node_modules and no cucumber JSON. Say so in
+    # one line instead of letting node dump a MODULE_NOT_FOUND stack that buries
+    # the real failure higher up the log.
+    - if [ ! -f ./node_modules/@vardot/varbase-e2e/bin/generate-reports.js ]; then
+        echo "varbase-e2e is not installed - the job failed before the tests ran. No report to generate.";
+        exit 0;
+      fi
+    - if [ ! -f tests/reports/cucumber_report.json ]; then
+        echo "No cucumber JSON - the tests did not run. No report to generate.";
+        exit 0;
+      fi
     - node ./node_modules/@vardot/varbase-e2e/bin/generate-reports.js
         --json tests/reports/cucumber_report.json
         --out  "tests/reports/${REPORT}.html"
