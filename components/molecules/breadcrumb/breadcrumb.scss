@@ -88,3 +88,22 @@ $breadcrumb-padding-x: 0.0625rem;
     }
   }
 }
+
+// Centre the dividers against the labels.
+//
+// The divider glyphs are 1.1rem so they read at the same weight as the
+// labels, but the labels are 0.75rem. Left on the shared text baseline the
+// two never line up — the glyph's taller line box sets the row height and
+// the label ends up sitting low in it. Making the item a flex row centres
+// the ::before divider, the label and the ::after that closes the trail
+// against each other, and `line-height: 1` on the glyphs stops their line
+// box inflating the row.
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-item + .breadcrumb-item::before,
+.breadcrumb-item:last-child:not(.active)::after {
+  line-height: 1;
+}

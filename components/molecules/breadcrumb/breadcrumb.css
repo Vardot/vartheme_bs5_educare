@@ -95,3 +95,13 @@
 [data-bs-theme="dark"] .breadcrumb-item:last-child:not(.active)::after {
   color: var(--bs-light);
 }
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-item + .breadcrumb-item::before,
+.breadcrumb-item:last-child:not(.active)::after {
+  line-height: 1;
+}
