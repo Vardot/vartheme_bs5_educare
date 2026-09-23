@@ -62,3 +62,29 @@ $breadcrumb-padding-x: 0.0625rem;
 [dir="rtl"] .breadcrumb-item + .breadcrumb-item::before {
   content: quote("\F285");
 }
+
+// Close the trail with a separator after the last item.
+//
+// The design draws the breadcrumb as `Home > Section >`, with a divider
+// after the final entry leading the eye into the page title below it.
+// Bootstrap only draws dividers BETWEEN items
+// (`.breadcrumb-item + .breadcrumb-item::before`), so the last one needs
+// its own. `:not(.active)` keeps it off the current-page entry: when Drupal
+// does include the current page the trail has arrived, and a separator
+// after it would point at nothing.
+.breadcrumb-item:last-child:not(.active)::after {
+  color: $subtle-text;
+  font-family: 'bootstrap-icons';
+  font-size: 1.1rem;
+  font-weight: 500;
+  content: quote("\F285");
+  padding-inline-start: $breadcrumb-item-padding-x;
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .breadcrumb-item:last-child:not(.active)::after {
+      color: var(--bs-light);
+    }
+  }
+}

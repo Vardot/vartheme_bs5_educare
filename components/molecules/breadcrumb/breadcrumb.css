@@ -82,3 +82,16 @@
 [dir="rtl"] .breadcrumb-item + .breadcrumb-item::before {
   content: "\f285";
 }
+
+.breadcrumb-item:last-child:not(.active)::after {
+  color: #404456;
+  content: "\f285";
+  font-family: bootstrap-icons;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding-inline-start: 0.5rem;
+}
+
+[data-bs-theme="dark"] .breadcrumb-item:last-child:not(.active)::after {
+  color: var(--bs-light);
+}
