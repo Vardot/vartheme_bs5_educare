@@ -64,6 +64,17 @@
   'webshare--' ~ placement,
   'webshare--align-' ~ alignment,
 ] %}
+
+{# Logic: the horizontal layout makes the root the flex row that holds the
+ # heading and the list, so the alignment belongs on the ROOT. The
+ # `webshare--align-*` rules only reach `.webshare__list`, which is sized to
+ # its own content, so on their own they cannot move the pair along the line.
+ # Bootstrap's own flex utility does it, and is writing-mode aware.
+ # The vertical layout is a column, where `justify-content` would move the
+ # items along the block axis instead, so it is left to the existing rules. #}
+{% set classes = orientation == 'horizontal'
+  ? classes|merge(['justify-content-' ~ alignment])
+  : classes %}
 {% set mobile_visibility_map = {
   'hide_mobile': 'webshare--hide-mobile',
   'mobile_only': 'webshare--mobile-only',
