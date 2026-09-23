@@ -11,6 +11,27 @@ props:
       default: "Your heading here"
       examples:
         - "Your heading here"
+    heading_level:
+      type: string
+      title: Heading level
+      description: 'HTML heading tag used for the card title. Set it to the level that follows the heading above it in the page, so the outline stays in order. The visual size is fixed by the design and does not change with this.'
+      default: h3
+      examples:
+        - h3
+      enum:
+        - h1
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
+      meta:enum:
+        h1: H1
+        h2: H2
+        h3: H3
+        h4: H4
+        h5: H5
+        h6: H6
     description:
       type: string
       title: Description

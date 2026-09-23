@@ -17,6 +17,10 @@
  *                     (justify-content-start | justify-content-center
  *                      | justify-content-end) Defaults to `justify-content-center`.
  * - heading_text: Card heading.
+ * - heading_level: HTML heading tag for the card heading.
+ *                  (h1 | h2 | h3 | h4 | h5 | h6) Defaults to `h3`.
+ *                  The visual size stays `h5` at every level, so the
+ *                  outline can be corrected without changing the design.
  * - text: Short supporting text under the heading.
  * - media: Image object (src, width, height, alt).
  * - media_ratio: Image ratio for top/bottom layouts.
@@ -107,6 +111,7 @@
 
 {% set vertical_ratio_classes = ['ratio', media_ratio_class] %}
 {% set heading_classes = ['card-title', 'h5', 'mb-2'] %}
+{% set heading_level = heading_level|default('h3') %}
 {% set text_classes = ['card-text', 'mb-0'] %}
 {% set button_wrapper_classes = ['mt-3'] %}
 {% set link_classes = ['stretched-link'] %}
@@ -149,7 +154,7 @@
     <div{{ create_attribute().addClass(body_wrapper_classes) }}>
       <div{{ create_attribute().addClass(card_body_classes) }}>
         {% if heading_text is not empty %}
-          <h3{{ create_attribute().addClass(heading_classes) }}>{{ heading_text }}</h3>
+          <{{ heading_level }}{{ create_attribute().addClass(heading_classes) }}>{{ heading_text }}</{{ heading_level }}>
         {% endif %}
 
         {% if text is not empty %}

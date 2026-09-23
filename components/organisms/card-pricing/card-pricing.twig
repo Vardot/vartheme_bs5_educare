@@ -53,7 +53,10 @@
 {% set btn_target = button_target|default('self') %}
 
 {# Logic: heading tag and visual variants. #}
-{% set heading_tag = heading_level == 2 ? 'h2' : (heading_level == 4 ? 'h4' : 'h3') %}
+{# The tag comes straight from the chosen level. The old two-way test
+ # silently collapsed every level it did not name to `h3`, so a card
+ # placed under an h4 could not be given an h5 and skipped a level. #}
+{% set heading_tag = 'h' ~ (heading_level in [1, 2, 3, 4, 5, 6] ? heading_level : 3) %}
 {% set button_variant_class = button_variant|default(is_promoted ? 'btn-secondary' : 'btn-primary') %}
 {% set badge_variant = is_promoted ? 'text-bg-primary' : 'text-bg-secondary' %}
 {% set features_wrapper_class = show_divider ? 'border-top pt-3 mb-4' : 'mb-4' %}
@@ -80,6 +83,9 @@
 {% set description_attributes = create_attribute().addClass(['mb-3', 'opacity-75']) %}
 {% set price_wrapper_attributes = create_attribute().addClass(['mb-2']) %}
 {% set price_row_attributes = create_attribute().addClass(['d-inline-flex', 'align-items-end', 'gap-2']) %}
+{# The price is a value, not a section heading: as an `h4` it entered the
+ # page outline beside the card title, and skipped a level whenever the
+ # title was an `h2`. The display class carries the size instead. #}
 {% set price_heading_attributes = create_attribute().addClass(['display-6', 'fw-semibold', 'mb-0']) %}
 {% set data_attributes = create_attribute()
   .setAttribute('value', price|default('')|e)
@@ -119,7 +125,7 @@
     {% if has_price %}
       <div{{ price_wrapper_attributes }}>
         <div{{ price_row_attributes }}>
-          <h4{{ price_heading_attributes }}>
+          <p{{ price_heading_attributes }}>
             <data{{ data_attributes }}>
               {% if symbol_position == 'before' %}
                 <span{{ symbol_attributes }}>{{ currency_symbol }}</span>
@@ -129,7 +135,7 @@
                 <span{{ symbol_attributes }}>{{ currency_symbol }}</span>
               {% endif %}
             </data>
-          </h4>
+          </p>
 
           {% if has_price_period %}
             <span{{ period_attributes }}>{{ price_period_value }}</span>

@@ -138,6 +138,9 @@
 {% set fallback_row_classes = ['row', 'g-0'] %}
 {% set fallback_col_classes = ['col-12', 'col-lg-8', 'px-4'] %}
 {% set fallback_caption_classes = ['hero-slider__caption', 'text-start', 'text-white'] %}
+{# The empty-state placeholder is authoring guidance, not page content, so it
+ # is not a heading: as an `h2` it put "Hero Slider" into the page outline
+ # of any published page whose Slides slot was left empty. #}
 {% set fallback_title_classes = ['hero-slider__title', 'display-5', 'mb-3'] %}
 {% set fallback_text_classes = ['hero-slider__text', 'fs-6', 'mb-4'] %}
 
@@ -207,7 +210,7 @@
                   <div{{ fallback_row_attributes }}>
                     <div{{ fallback_col_attributes }}>
                       <div{{ fallback_caption_attributes }}>
-                        <h2{{ fallback_title_attributes }}>Hero Slider</h2>
+                        <p{{ fallback_title_attributes }}>Hero Slider</p>
                         <div{{ fallback_text_attributes }}><p>Add “Hero Slide” components into the Slides slot.</p></div>
                       </div>
                     </div>

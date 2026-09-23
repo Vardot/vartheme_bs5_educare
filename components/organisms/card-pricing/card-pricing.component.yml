@@ -21,18 +21,24 @@ props:
     level:
       type: number
       title: Heading level
-      description: HTML heading level for the card title.
+      description: 'HTML heading level for the card title. Set it to the level that follows the heading above it in the page, so the outline stays in order. The visual size is fixed by the design and does not change with this.'
       enum:
+        - 1
         - 2
         - 3
         - 4
+        - 5
+        - 6
       default: 3
       examples:
         - 3
       meta:enum:
+        1: H1
         2: H2
         3: H3
         4: H4
+        5: H5
+        6: H6
     description:
       type: string
       title: Description (optional)
