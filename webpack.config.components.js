@@ -56,6 +56,7 @@ module.exports = {
     'atoms/button/button': ['./components/atoms/button/button.scss'],
     'atoms/badge/badge': ['./components/atoms/badge/badge.scss'],
     'atoms/subtitle/subtitle': ['./components/atoms/subtitle/subtitle.scss'],
+    'atoms/divider-vertical/divider-vertical': ['./components/atoms/divider-vertical/divider-vertical.scss'],
 
   },
   output: {
