@@ -16,6 +16,7 @@
  * - style: tabs | pills
  * - fill: fill | justify
  * - nav_menu_utility_classes: An array of utility classes.
+ * - items[].link_attributes: Optional extra attributes for an item's link.
  *
  * Available attributes:
  * - attributes: HTML attributes for the root element.
@@ -105,7 +106,7 @@
           {% endif %}
         {% endset %}
 
-        {% set nav_link_attributes = {class: nav_link_classes} %}
+        {% set nav_link_attributes = {class: nav_link_classes}|merge(item.link_attributes ?? {}) %}
         {% if is_expandable %}
           {% set nav_link_attributes = nav_link_attributes|merge({
             'data-mega-menu-toggle': panel_id,

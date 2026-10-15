@@ -19,6 +19,10 @@ ddev drush cache:rebuild
 
 It is the Bootstrap 5 front-end theme for the [Educare](https://www.drupal.org/project/educare) site template, cloned from [Vartheme BS5](https://www.drupal.org/project/vartheme_bs5) (Single Directory Components + Storybook).
 
+## Content Security Policy
+
+The footer Copy link runs through htmx `hx-on`, which uses eval. A site that enables a strict Content Security Policy needs `'unsafe-eval'` in `script-src` for it to work.
+
 ## Learn More
 
 - [Issue #3607229](https://www.drupal.org/project/vartheme_bs5_educare/issues/3607229)
