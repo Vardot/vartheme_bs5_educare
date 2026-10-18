@@ -73,6 +73,19 @@
     }
   }
 
+  // The site search's keyword field keeps its button on its row down to sm.
+  &:has(> .js-form-item-keywords) {
+    @include media-breakpoint-between(sm, md) {
+      > .js-form-type-textfield {
+        flex: 1 1 0;
+      }
+
+      > .form-actions {
+        flex: 0 0 auto;
+      }
+    }
+  }
+
   // A bef_links exposed filter renders as a pill toggle inside a bordered
   // rounded container; the selected option is filled with the brand accent.
   // Matched on the widget, so any listing exposing a filter as links matches.
@@ -163,6 +176,7 @@
   // Apply Filter: navy, bold, uppercase text action with a visible underline
   // on hover/focus (an AA-legible cue, not an opacity-only fade).
   .form-submit {
+    min-height: #{$spacer * 2.5}; // A comfortable tap target around the text action.
     padding: 0;
     transition:
       color 0.15s ease-in-out,

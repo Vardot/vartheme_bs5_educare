@@ -122,13 +122,13 @@ a {
   --bs-emphasis-color-rgb: #{to-rgb($black)};
 }
 
-// Header menu uses Bootstrap 5.3 navbar + navbar-expand-lg + navbar-toggler
-// (the wrapper lives in templates/menu/menu--main.html.twig). At lg+ the
-// items render inline horizontally; below lg they stack inside the
+// Header menu uses Bootstrap 5.3 navbar + navbar-expand-xl + navbar-toggler
+// (the wrapper lives in templates/menu/menu--main.html.twig). At xl+ the
+// items render inline horizontally; below xl they stack inside the
 // collapse panel and the hamburger toggles visibility — all handled by
 // stock Bootstrap classes rather than custom media queries.
 
-// Default stacked gap inside the collapsed navbar (< lg).
+// Default stacked gap inside the collapsed navbar (< xl).
 header[role="banner"] .navbar-nav {
   gap: 0.25rem;
 }
@@ -145,8 +145,25 @@ header[role="banner"] .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon
   background-image: escape-svg($header-toggler-close-icon);
 }
 
-// Desktop (lg+): wider gap between items.
-@include media-breakpoint-up(lg) {
+// The hamburger is a bare icon-size glyph in a square tap target, like the
+// header search beside it: Bootstrap's own toggler variables, no box.
+header[role="banner"] .navbar {
+  --bs-navbar-toggler-padding-y: #{$spacer * 0.5};
+  --bs-navbar-toggler-padding-x: #{$spacer * 0.5};
+  --bs-navbar-toggler-font-size: #{$spacer};
+}
+
+header[role="banner"] .navbar-toggler {
+  border: 0;
+
+  // The focus ring is for keyboard focus, not a mouse click.
+  &:focus:not(:focus-visible) {
+    box-shadow: none;
+  }
+}
+
+// Desktop (xl+): wider gap between items.
+@include media-breakpoint-up(xl) {
   header[role="banner"] .navbar-nav {
     gap: 1.5rem;
   }
@@ -174,9 +191,9 @@ header[role="banner"] .nav-link.dropdown-toggle::after {
   vertical-align: 0.15em;
 }
 
-// Hover underline indicator — lg+ only (pointer-hover context). Uses ::before
+// Hover underline indicator — xl+ only (pointer-hover context). Uses ::before
 // so it doesn't collide with Bootstrap's ::after dropdown chevron.
-@include media-breakpoint-up(lg) {
+@include media-breakpoint-up(xl) {
   header[role="banner"] .nav-link::before {
     content: "";
     position: absolute;
@@ -225,10 +242,10 @@ header[role="banner"] .dropdown-menu {
   }
 }
 
-// Below lg the dropdown-menu sits inside the collapsed navbar panel — reveal
+// Below xl the dropdown-menu sits inside the collapsed navbar panel — reveal
 // its children inline (no second click required) and drop the panel chrome
 // so it reads as a nested sub-list.
-@include media-breakpoint-down(lg) {
+@include media-breakpoint-down(xl) {
   header[role="banner"] .dropdown-menu {
     display: block;
     position: static;
@@ -258,7 +275,7 @@ footer.footer {
     padding-block: 2.5rem 2rem;
   }
 
-  // The main-menu template wraps in <nav class="navbar navbar-expand-lg">
+  // The main-menu template wraps in <nav class="navbar navbar-expand-xl">
   // for the header's hamburger behavior. In the footer we never want a
   // toggler or collapsed state — neutralize the wrapper so the menu is
   // always visible and the navbar chrome doesn't add padding/flex of its own.

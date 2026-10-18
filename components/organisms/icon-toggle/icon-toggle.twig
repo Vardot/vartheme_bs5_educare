@@ -73,13 +73,13 @@
  # `aria-expanded` state, Escape, outside clicks and returning focus to the
  # trigger. `dropdown-menu-end` is Bootstrap's own end-side alignment. #}
 {% set button_classes = ['icon-toggle__button'] %}
-{# The label rides the header's own `navbar-expand-lg` breakpoint: shown beside
- # the icon once the menu is a row, hidden while the header is an icon line. #}
-{% set label_classes = ['icon-toggle__label', 'd-none', 'd-lg-inline'] %}
+{# The label shows from xxl up, where the header row has room for it; below
+ # that the trigger is the icon alone. #}
+{% set label_classes = ['icon-toggle__label', 'd-none', 'd-xxl-inline'] %}
 {% set close_classes = ['icon-toggle__close'] %}
-{# The bar's leading magnifier is a desktop-only mark: below lg the band carries
- # the field and its submit disc alone. #}
-{% set panel_icon_classes = ['icon-toggle__panel-icon', 'd-none', 'd-lg-inline-flex'] %}
+{# The bar's leading magnifier is a desktop-only mark: below xl, the header's
+ # `navbar-expand-xl` breakpoint, the band carries the field and its submit disc alone. #}
+{% set panel_icon_classes = ['icon-toggle__panel-icon', 'd-none', 'd-xl-inline-flex'] %}
 {% set inner_classes = ['icon-toggle__panel-inner'] %}
 {% set placeholder_classes = ['icon-toggle__placeholder', 'text-muted', 'mb-0'] %}
 {% set panel_classes = ['icon-toggle__panel', 'dropdown-menu'] %}

@@ -18,9 +18,15 @@
  * - nav_menu_utility_classes: An array of utility classes.
  * - items[].link_attributes: Optional extra attributes for an item's link.
  *
+ * Below xl, where the menu sits in the collapsed navbar, an expandable item
+ * opens its children as an indented list under it instead of the mega menu.
+ *
  * Available attributes:
  * - attributes: HTML attributes for the root element.
  * - list_attributes: HTML attributes for the top-level <ul>.
+ * - sub_list_attributes: HTML attributes for an item's collapsed-navbar child
+ *   list, created per expandable item.
+ * - sub_link_attributes: HTML attributes for each child link in that list.
  */
 #}
 
@@ -118,6 +124,21 @@
         <li class="{{ nav_item_classes|merge(['menu-item--expanded'])|join(' ') }}">
           {% if item.url %}
             {{ link(nav_link_inner, item.url, nav_link_attributes) }}
+          {% endif %}
+          {% if is_expandable %}
+            {% set sub_list_attributes = create_attribute()
+              .addClass(['nav', 'flex-column', 'nav-menu__sub', 'd-xl-none'])
+              .setAttribute('id', panel_id ~ '-list')
+              .setAttribute('hidden', 'hidden')
+            %}
+            <ul{{ sub_list_attributes }}>
+              {% for child in item.below %}
+                {% set sub_link_attributes = create_attribute().addClass(['nav-link', 'nav-menu__sub-link']) %}
+                <li class="nav-item">
+                  {{ link(child.title, child.url, sub_link_attributes) }}
+                </li>
+              {% endfor %}
+            </ul>
           {% endif %}
         </li>
       {% endfor %}

@@ -27,6 +27,7 @@
     align-items: center;
     justify-content: center;
     gap: #{$spacer * 2.5};
+    min-height: #{$spacer * 15}; // The design's link-card height.
     padding: #{$spacer * 2};
     border-right: 1px solid var(--bs-border-color);
     text-align: center;
@@ -46,9 +47,13 @@
     }
   }
 
+  // Two lines tall at any length, so the arrows line up across the row.
   &__title {
+    min-height: #{2em * $line-height-base};
     margin: 0;
+    font-size: #{$spacer * 1.25};
     font-weight: 600;
+    line-height: $line-height-base;
     color: var(--bs-body-color);
   }
 

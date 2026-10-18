@@ -59,6 +59,13 @@
     transform: rotate(180deg);
   }
 
+  // From xl up an open item's underline is the dark active line, not the hover accent.
+  @include media-breakpoint-up(xl) {
+    .nav-link.is-active .nav-link__underline {
+      background: var(--bs-dark);
+    }
+  }
+
   // Mega menu panels span the full viewport width, edge to edge — not just
   // the width of this nav (which, once a logo/search sit alongside it in
   // the real header, doesn't start at the page's left edge). `position:
@@ -96,6 +103,84 @@
 // .nav-link::before`, so it wins regardless of stylesheet load order.
 header[role="banner"] .nav-menu .nav-link::before {
   content: none;
+}
+
+// Below xl the open navbar is a full-height panel under the header, in the
+// page color, holding the menu as one left-aligned list. nav-menu.js sets
+// the panel top from the header.
+@include media-breakpoint-down(xl) {
+  header[role="banner"] .navbar-collapse {
+    position: fixed;
+    inset-block: var(--nav-menu-panel-top, 0) 0;
+    inset-inline: 0;
+    z-index: $zindex-dropdown;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background-color: var(--bs-body-bg);
+
+    // A height animation would stop short of the viewport bottom.
+    &.collapsing {
+      transition: none;
+    }
+  }
+
+  header[role="banner"] .nav-menu {
+    padding: #{$spacer * 2.5} #{$spacer * 2};
+
+    .navbar-nav,
+    .nav-menu__sub {
+      gap: #{$spacer * 1.5};
+    }
+
+    // Items are their link's height, so rows keep the design's even pitch.
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .nav-link {
+      padding: 0;
+      color: var(--bs-body-color);
+      font-size: var(--bs-nav-link-font-size);
+      font-weight: $font-weight-semibold;
+      line-height: $line-height-base;
+    }
+
+    .nav-menu__sub {
+      margin-block-start: #{$spacer * 1.5};
+      padding-inline-start: $spacer;
+    }
+
+    .nav-menu__sub-link {
+      font-weight: $font-weight-normal;
+      text-decoration-thickness: var(--bs-border-width);
+      text-underline-offset: #{$spacer * 0.25};
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    // A thin dark hover line; an open item shows only its turned chevron.
+    .nav-link__underline {
+      height: var(--bs-border-width);
+      background: var(--bs-body-color);
+    }
+
+    .nav-link.is-active:not(:hover) .nav-link__underline {
+      transform: translateX(-50%) scaleX(0);
+    }
+
+    // The current page reads in the subtle text color, underlined.
+    .nav-item.active > .nav-link {
+      color: $subtle-text;
+
+      .nav-link__underline {
+        transform: translateX(-50%) scaleX(1);
+      }
+    }
+  }
 }
 
 // Same double-underline issue in the footer: `vartheme.base.scss` gives

@@ -12,6 +12,7 @@ The site's main navigation menu, used by `menu--main.html.twig`. Top-level links
 - Expandable items also render a `nav-link__chevron` that rotates 180deg while open
 - Each expandable item's submenu (`item.below`) renders as a `molecules/mega-menu` panel, toggled open/closed by `nav-menu.js` (only one open at a time; closes on outside click or Escape)
 - Every toggle is still a real link (`item.url`), so the page stays navigable without JS
+- Below `xl` (the header's `navbar-expand-xl` breakpoint) an expandable item opens its children as an indented list under it instead, and the open navbar is a full-height panel under the header: focus moves into it, the page behind is inert and does not scroll, and Escape or the toggler closes it
 
 ## Files
 

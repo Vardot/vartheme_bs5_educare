@@ -16,20 +16,33 @@
  * header — see nav-menu.scss — which means their `top` offset has to be
  * computed here rather than via CSS, and can't track the header's position
  * on its own).
+ *
+ * Below xl the menu sits in the header's collapsed navbar: an expandable item
+ * opens its child list in place (an accordion), and the open navbar is a
+ * full-height panel under the header that holds focus until it closes.
  */
 ((Drupal, once) => {
   const CARD_STAGGER_BASE_MS = 100;
   const CARD_STAGGER_STEP_MS = 100;
 
+  // Matches while the header menu is collapsed (`navbar-expand-xl`).
+  const collapsedQuery = () => {
+    const xl =
+      window
+        .getComputedStyle(document.documentElement)
+        .getPropertyValue('--bs-breakpoint-xl')
+        .trim() || '1200px';
+    return window.matchMedia(`(max-width: ${parseFloat(xl) - 0.02}px)`);
+  };
+
   Drupal.behaviors.navMenuMegaMenu = {
     attach(context) {
       once('nav-menu-mega-menu', '.nav-menu', context).forEach((navMenu) => {
+        const header = navMenu.closest('header, [role="banner"]');
+        const collapsed = collapsedQuery();
         const toggles = Array.from(
           navMenu.querySelectorAll('[data-mega-menu-toggle]'),
         );
-        if (!toggles.length) {
-          return;
-        }
 
         let cardTimers = [];
 
@@ -58,8 +71,27 @@
 
         let isOpen = false;
 
+        // The panel opens under the whole header, not just under this nav.
         const positionPanel = (panel) => {
-          panel.style.top = `${Math.round(navMenu.getBoundingClientRect().bottom)}px`;
+          const anchor = header || navMenu;
+          panel.style.top = `${Math.round(anchor.getBoundingClientRect().bottom)}px`;
+        };
+
+        const subListFor = (toggle) =>
+          document.getElementById(
+            `${toggle.getAttribute('data-mega-menu-toggle')}-list`,
+          );
+
+        // Each toggle controls its mega menu, or its child list while collapsed.
+        const syncControls = () => {
+          toggles.forEach((toggle) => {
+            const panelId = toggle.getAttribute('data-mega-menu-toggle');
+            const list = subListFor(toggle);
+            toggle.setAttribute(
+              'aria-controls',
+              collapsed.matches && list ? list.id : panelId,
+            );
+          });
         };
 
         const closeAll = () => {
@@ -76,12 +108,33 @@
               panel.setAttribute('aria-hidden', 'true');
               hideCardsNow(panel);
             }
+
+            const list = subListFor(toggle);
+            if (list) {
+              list.hidden = true;
+            }
           });
+        };
+
+        const toggleSubList = (toggle) => {
+          const list = subListFor(toggle);
+          if (!list) {
+            return;
+          }
+          const opening = list.hidden;
+          list.hidden = !opening;
+          toggle.classList.toggle('is-active', opening);
+          toggle.setAttribute('aria-expanded', String(opening));
         };
 
         toggles.forEach((toggle) => {
           toggle.addEventListener('click', (event) => {
             event.preventDefault();
+
+            if (collapsed.matches) {
+              toggleSubList(toggle);
+              return;
+            }
 
             const wasActive = toggle.classList.contains('is-active');
             closeAll();
@@ -108,13 +161,13 @@
         });
 
         document.addEventListener('click', (event) => {
-          if (!navMenu.contains(event.target)) {
+          if (isOpen && !navMenu.contains(event.target)) {
             closeAll();
           }
         });
 
         document.addEventListener('keydown', (event) => {
-          if (event.key === 'Escape') {
+          if (isOpen && event.key === 'Escape') {
             closeAll();
           }
         });
@@ -134,6 +187,113 @@
             closeAll();
           }
         });
+
+        // The header's collapsed navbar, when this menu sits in one.
+        const collapse = navMenu.closest('.navbar-collapse');
+        const toggler =
+          collapse && collapse.id
+            ? document.querySelector(`[data-bs-target="#${collapse.id}"]`)
+            : null;
+        const isMenuOpen = () =>
+          Boolean(collapse && collapse.classList.contains('show'));
+        let inertNodes = [];
+
+        const setPanelTop = () => {
+          if (collapse && header) {
+            collapse.style.setProperty(
+              '--nav-menu-panel-top',
+              `${Math.round(header.getBoundingClientRect().bottom)}px`,
+            );
+          }
+        };
+
+        // While the panel is open the page behind it neither scrolls nor
+        // takes focus: everything outside the header is made inert.
+        const lockPage = () => {
+          const root = document.documentElement;
+          // Keep the scrollbar's room so the header does not shift sideways.
+          const scrollbar = window.innerWidth - root.clientWidth;
+          if (scrollbar > 0) {
+            document.body.style.paddingInlineEnd = `${scrollbar}px`;
+          }
+          root.classList.add('overflow-hidden');
+          const path = [];
+          for (let node = header; node && node !== document.body; ) {
+            path.push(node);
+            node = node.parentElement;
+          }
+          path.forEach((node) => {
+            Array.from(node.parentElement.children).forEach((sibling) => {
+              if (sibling !== node && !sibling.inert) {
+                sibling.inert = true;
+                inertNodes.push(sibling);
+              }
+            });
+          });
+        };
+
+        const unlockPage = () => {
+          document.documentElement.classList.remove('overflow-hidden');
+          document.body.style.removeProperty('padding-inline-end');
+          inertNodes.forEach((node) => {
+            node.inert = false;
+          });
+          inertNodes = [];
+        };
+
+        const closeMenu = () => {
+          if (isMenuOpen() && toggler) {
+            toggler.click();
+          }
+        };
+
+        if (collapse && toggler && header) {
+          collapse.addEventListener('show.bs.collapse', (event) => {
+            if (event.target === collapse && collapsed.matches) {
+              setPanelTop();
+              lockPage();
+            }
+          });
+
+          collapse.addEventListener('shown.bs.collapse', (event) => {
+            const first = collapse.querySelector('.nav-link');
+            if (event.target === collapse && first) {
+              first.focus();
+            }
+          });
+
+          collapse.addEventListener('hide.bs.collapse', (event) => {
+            if (event.target === collapse) {
+              unlockPage();
+            }
+          });
+
+          document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && isMenuOpen() && collapsed.matches) {
+              closeMenu();
+              toggler.focus();
+            }
+          });
+
+          // Opening the header search closes the menu, so the two never stack.
+          header.addEventListener('show.bs.dropdown', closeMenu);
+
+          window.addEventListener('resize', () => {
+            if (isMenuOpen()) {
+              setPanelTop();
+            }
+          });
+        }
+
+        // Crossing xl swaps the mega menus and the collapsed panel, so start
+        // from a closed menu either way.
+        collapsed.addEventListener('change', () => {
+          closeAll();
+          closeMenu();
+          syncControls();
+        });
+
+        syncControls();
       });
     },
   };

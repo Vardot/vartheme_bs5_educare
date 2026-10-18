@@ -37,9 +37,9 @@
   --icon-toggle-submit-icon-size: 1rem;
   --icon-toggle-label-gap: 0.5rem;
   --icon-toggle-label-padding-inline: 0.5rem;
-  --icon-toggle-header-toggler-size: 1.6875rem;
-  --icon-toggle-header-icon-gap: 1.5rem;
-  --icon-toggle-header-icon-offset: 0.40625rem;
+  --icon-toggle-header-toggler-width: 2.5rem;
+  --icon-toggle-header-toggler-height: 2.5rem;
+  --icon-toggle-header-icon-gap: 0.5rem;
 
   position: relative;
   display: inline-flex;
@@ -122,7 +122,7 @@
   gap: var(--icon-toggle-panel-gap);
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   .icon-toggle--panel-bar.icon-toggle--open .icon-toggle__button {
     visibility: hidden;
   }
@@ -145,11 +145,12 @@
   transform: translateY(-50%);
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   .icon-toggle--panel-bar {
     --icon-toggle-bar-height: 3.5rem;
     --icon-toggle-bar-padding-block: 1rem;
     --icon-toggle-bar-padding-inline: 1rem;
+    --icon-toggle-bar-border-color: var(--bs-border-color);
   }
 }
 
@@ -197,6 +198,10 @@
   padding-inline: var(--icon-toggle-bar-padding-inline);
 }
 
+.icon-toggle--panel-bar .icon-toggle__panel-inner:focus-within {
+  border-block-end: 1px solid var(--icon-toggle-button-color);
+}
+
 .icon-toggle--panel-bar .icon-toggle__panel-icon {
   flex: 0 0 auto;
   align-items: center;
@@ -212,7 +217,7 @@
   flex: 0 0 auto;
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 1199.98px) {
   .icon-toggle--panel-bar .icon-toggle__close {
     display: none;
   }
@@ -274,14 +279,14 @@
   line-height: var(--icon-toggle-bar-line-height);
 }
 
-.icon-toggle--panel-bar .icon-toggle__panel-inner .form-control::placeholder {
-  opacity: 1;
-  color: var(--icon-toggle-bar-subtle-color);
-}
-
 .icon-toggle--panel-bar .icon-toggle__panel-inner .form-control:focus {
   outline: 0;
   box-shadow: none;
+}
+
+.icon-toggle--panel-bar .icon-toggle__panel-inner .form-control::placeholder {
+  opacity: 1;
+  color: var(--icon-toggle-bar-subtle-color);
 }
 
 .icon-toggle--panel-bar .icon-toggle__panel-inner .form-control::-webkit-search-cancel-button,
@@ -301,7 +306,7 @@
   margin: 0;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   .icon-toggle--panel-bar .icon-toggle__panel-inner .form-actions {
     position: absolute;
     overflow: hidden;
@@ -336,7 +341,7 @@
   clip-path: inset(50%);
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   .page > header[role="banner"] :is(.navbar-nav, .menu--main, .region-primary-menu) {
     transition: opacity var(--icon-toggle-bar-motion-duration, 220ms) var(--icon-toggle-bar-motion-easing, ease);
     opacity: 1;
@@ -348,13 +353,13 @@
   }
 }
 
-@media (min-width: 992px) and (prefers-reduced-motion: reduce) {
+@media (min-width: 1200px) and (prefers-reduced-motion: reduce) {
   .page > header[role="banner"] :is(.navbar-nav, .menu--main, .region-primary-menu) {
     transition: none;
   }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   .page > header[role="banner"] .icon-toggle--panel-bar.is-bar-inline .icon-toggle__panel {
     --bs-dropdown-bg: var(--icon-toggle-panel-bg);
 
@@ -365,7 +370,7 @@
   }
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 1199.98px) {
   .icon-toggle--panel-bar.is-bar-inline .icon-toggle__panel {
     position: fixed;
     top: var(--icon-toggle-bar-top);
@@ -400,10 +405,71 @@
     background: var(--icon-toggle-panel-bg);
   }
 
+  .page > header[role="banner"] .row:has(.icon-toggle) {
+    position: relative;
+  }
+
   .page > header[role="banner"] .icon-toggle {
     position: absolute;
     z-index: 2;
-    inset-block-start: calc(var(--bs-gutter-y, 0) - var(--icon-toggle-header-icon-offset));
-    inset-inline-end: calc(var(--bs-gutter-x, 1.5rem) * 0.5 + var(--icon-toggle-header-toggler-size) + var(--icon-toggle-header-icon-gap) - var(--icon-toggle-header-icon-offset));
+    inset-block-start: calc(var(--bs-gutter-y, 0) + (var(--icon-toggle-header-toggler-height) - var(--icon-toggle-button-size)) * 0.5);
+    inset-inline-end: calc(var(--bs-gutter-x, 1.5rem) * 0.5 + var(--icon-toggle-header-toggler-width) + var(--icon-toggle-header-icon-gap));
+  }
+
+  .page > header[role="banner"]:has(.icon-toggle--panel-bar.icon-toggle--open) {
+    padding-block-end: 4.625rem;
+  }
+
+  .page > header[role="banner"] .icon-toggle--panel-bar .icon-toggle__panel-inner form > .form-actions {
+    flex: 0 0 auto;
+    height: auto;
+  }
+}
+
+.page > header[role="banner"] .icon-toggle--panel-bar .icon-toggle__panel-inner form {
+  flex-wrap: nowrap;
+}
+
+.page > header[role="banner"] .icon-toggle--panel-bar .icon-toggle__panel-inner form > .form-item,
+.page > header[role="banner"] .icon-toggle--panel-bar .icon-toggle__panel-inner form > .js-form-item {
+  flex: 1 1 auto;
+}
+
+.page > header[role="banner"] .icon-toggle--panel-bar .icon-toggle__panel-inner .form-control {
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  color: var(--icon-toggle-bar-subtle-color);
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  font-size: var(--icon-toggle-bar-font-size);
+  line-height: var(--icon-toggle-bar-line-height);
+}
+
+.page > header[role="banner"] .icon-toggle--panel-bar .icon-toggle__panel-inner .form-control:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.page > header[role="banner"] .icon-toggle--panel-bar .icon-toggle__panel-inner .form-submit {
+  width: var(--icon-toggle-submit-size);
+  height: var(--icon-toggle-submit-size);
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50rem;
+  background-color: var(--icon-toggle-submit-bg);
+  background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23050833%27%3e%3cpath d=%27M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0%27/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: var(--icon-toggle-submit-icon-size);
+  font-size: 0;
+}
+
+@media (max-width: 767.98px) {
+  .page > header[role="banner"] .icon-toggle {
+    inset-inline-end: calc(var(--icon-toggle-header-toggler-width) + var(--icon-toggle-header-icon-gap));
   }
 }

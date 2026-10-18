@@ -11,7 +11,7 @@
 //   submit disc. icon-toggle.js measures the region it sits in and marks the root
 //   `is-measured`, `is-panel-start` (opens forward) and `is-bar-inline` (a header
 //   row, where it sits on the trigger's line and becomes a full-width band below
-//   lg). Unmarked, it just drops under the trigger.
+//   xl). Unmarked, it just drops under the trigger.
 //
 // The header-region placement rule lives here, not in the theme's global base,
 // so SDC only loads it where the component is used.
@@ -22,6 +22,45 @@
 // rides as a background image — the same way Bootstrap draws `.btn-close` and
 // `.form-select`. Bootstrap Icons' `search` path, tinted with the body color.
 $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$body-color}'><path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0'/></svg>");
+
+// The bar's line height and the page padding around it below xl, where the
+// header grows by both to hold the band.
+$icon-toggle-bar-height: $spacer * 2.625;
+$icon-toggle-bar-page-padding: $spacer;
+
+// The bar's flat field on the line.
+@mixin icon-toggle-bar-field {
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  color: var(--icon-toggle-bar-subtle-color);
+  font-size: var(--icon-toggle-bar-font-size);
+  line-height: var(--icon-toggle-bar-line-height);
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+
+  &:focus {
+    outline: 0;
+    box-shadow: none;
+  }
+}
+
+// The bar's round accent submit disc.
+@mixin icon-toggle-bar-disc {
+  width: var(--icon-toggle-submit-size);
+  height: var(--icon-toggle-submit-size);
+  padding: 0;
+  font-size: 0;
+  border: 0;
+  border-radius: $border-radius-pill;
+  background-color: var(--icon-toggle-submit-bg);
+  background-image: escape-svg($icon-toggle-search-indicator);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: var(--icon-toggle-submit-icon-size);
+}
 
 .icon-toggle {
   --icon-toggle-button-size: #{$spacer * 2.5};
@@ -42,7 +81,7 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
   --icon-toggle-panel-gap: #{$spacer * 0.5};
   --icon-toggle-panel-width: min(24rem, calc(100vw - #{$spacer * 2}));
   --icon-toggle-panel-top-gap: #{$spacer * 0.5};
-  --icon-toggle-bar-height: #{$spacer * 2.625};
+  --icon-toggle-bar-height: #{$icon-toggle-bar-height};
   --icon-toggle-bar-max-width: #{$spacer * 45};
   // Kept clear between the bar and what it grows towards.
   --icon-toggle-bar-brand-gap: #{$spacer * 2};
@@ -50,11 +89,11 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
   // above, so the cap resolves to the max width and never bites.
   --icon-toggle-bar-unmeasured-available: #{$spacer * 47};
   --icon-toggle-bar-gap: #{$spacer * 0.5};
-  --icon-toggle-bar-page-padding: #{$spacer};
+  --icon-toggle-bar-page-padding: #{$icon-toggle-bar-page-padding};
   --icon-toggle-bar-font-size: #{$font-size-sm};
   --icon-toggle-bar-line-height: #{$line-height-base};
   --icon-toggle-bar-padding-block: #{$spacer * 0.5};
-  // Below lg the band is a page-width block with its own page padding; from lg
+  // Below xl the band is a page-width block with its own page padding; from xl
   // up it opens over the header row and keeps its own inline breathing room
   // instead of butting the glyphs against the menu it covers.
   --icon-toggle-bar-padding-inline: 0;
@@ -77,12 +116,11 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
   --icon-toggle-submit-icon-size: #{$spacer};
   --icon-toggle-label-gap: #{$spacer * 0.5};
   --icon-toggle-label-padding-inline: #{$spacer * 0.5};
-  // Sharing the header's icon line below lg: the hamburger's box (Bootstrap
-  // sizes it at 1.5em of the toggler font size), the gap between the two icons,
-  // and half their size difference, to line the glyphs up on one centre.
-  --icon-toggle-header-toggler-size: #{$navbar-toggler-font-size * 1.5};
-  --icon-toggle-header-icon-gap: #{$spacer * 1.5};
-  --icon-toggle-header-icon-offset: #{($spacer * 2.5 - $navbar-toggler-font-size * 1.5) * 0.5};
+  // Below xl the trigger sits just before the hamburger, whose tap target the
+  // theme sizes like this one; the gap leaves the two glyphs a size-6 apart.
+  --icon-toggle-header-toggler-width: #{$spacer * 2.5};
+  --icon-toggle-header-toggler-height: #{$spacer * 2.5};
+  --icon-toggle-header-icon-gap: #{$spacer * 0.5};
 
   position: relative;
   display: inline-flex;
@@ -183,11 +221,11 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
 
 // Inline bar panel.
 .icon-toggle--panel-bar {
-  // From lg up the bar shares the header row and carries its own close button,
+  // From xl up the bar shares the header row and carries its own close button,
   // so the trigger underneath steps aside. `visibility` keeps its space so the
-  // row does not reflow. Below lg the bar is a band under the header and the
+  // row does not reflow. Below xl the bar is a band under the header and the
   // trigger stays put, swapped to a close (X) glyph.
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(xl) {
     &.icon-toggle--open .icon-toggle__button {
       visibility: hidden;
     }
@@ -218,12 +256,14 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
     transform: translateY(-50%);
   }
 
-  // From lg up the band opens across the header row: it takes the row's height
+  // From xl up the band opens across the header row: it takes the row's height
   // and its own inline padding so the glyphs clear the menu it covers.
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(xl) {
     --icon-toggle-bar-height: #{$spacer * 3.5};
     --icon-toggle-bar-padding-block: #{$spacer};
     --icon-toggle-bar-padding-inline: #{$spacer};
+    // Across the header row the line is the subtle border.
+    --icon-toggle-bar-border-color: var(--bs-border-color);
   }
 
   // Motion (prototype): the band crossfades with the row it opens over — it
@@ -277,6 +317,11 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
     overflow: hidden;
     border-block-end: var(--icon-toggle-bar-border-width) solid
       var(--icon-toggle-bar-border-color);
+
+    // The field drops its own focus box; the line darkens instead.
+    &:focus-within {
+      border-block-end: $border-width solid var(--icon-toggle-button-color);
+    }
   }
 
   .icon-toggle__panel-icon {
@@ -293,9 +338,9 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
     display: inline-flex;
     flex: 0 0 auto;
 
-    // Below lg the trigger stays put and carries the close (X) glyph itself, so
+    // Below xl the trigger stays put and carries the close (X) glyph itself, so
     // this second one goes — out of the tab order with it.
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(xl) {
       display: none;
     }
 
@@ -345,25 +390,11 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
     }
 
     .form-control {
-      height: auto;
-      min-height: 0;
-      padding: 0;
-      color: var(--icon-toggle-bar-subtle-color);
-      font-size: var(--icon-toggle-bar-font-size);
-      line-height: var(--icon-toggle-bar-line-height);
-      border: 0;
-      border-radius: 0;
-      background: none;
-      box-shadow: none;
+      @include icon-toggle-bar-field;
 
       &::placeholder {
         color: var(--icon-toggle-bar-subtle-color);
         opacity: 1;
-      }
-
-      &:focus {
-        outline: 0;
-        box-shadow: none;
       }
 
       // The bar has its own close button, so drop the browser's search clear button.
@@ -389,9 +420,9 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
       margin: 0;
     }
 
-    // From lg up the design ends the bar with the close (X) alone, so the disc
+    // From xl up the design ends the bar with the close (X) alone, so the disc
     // is removed visually while Enter and its accessible name stay.
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(xl) {
       .form-actions {
         position: absolute;
         width: $border-width;
@@ -403,17 +434,7 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
     }
 
     .form-submit {
-      width: var(--icon-toggle-submit-size);
-      height: var(--icon-toggle-submit-size);
-      padding: 0;
-      font-size: 0;
-      border: 0;
-      border-radius: $border-radius-pill;
-      background-color: var(--icon-toggle-submit-bg);
-      background-image: escape-svg($icon-toggle-search-indicator);
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: var(--icon-toggle-submit-icon-size);
+      @include icon-toggle-bar-disc;
     }
 
     // Enter also submits. The field's label is removed visually — the
@@ -431,19 +452,19 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
   }
 }
 
-// From lg up the theme dresses every header dropdown panel as a floating card
+// From xl up the theme dresses every header dropdown panel as a floating card
 // (`border-radius`, `box-shadow`, vertical padding). The bar is not a card: it
 // is a flat band across the header row, so it clears that chrome again. The
 // component's own `.icon-toggle--panel-bar .icon-toggle__panel` already asks
 // for this, but at (0,2,0) it is outweighed by the theme's
 // `.page > header[role="banner"] .dropdown-menu` at (0,3,1). Restate it here,
-// above both. Scoped to `up(lg)` on purpose: below lg the theme already flattens
+// above both. Scoped to `up(xl)` on purpose: below xl the theme already flattens
 // the panel itself, and the bar's own padding is measured band geometry that
 // must not be zeroed.
 // The menu the band opens over fades out with it, and back in on close, so the
 // two swap on one line instead of one covering the other. icon-toggle.js marks
 // the region while the bar is open.
-@include media-breakpoint-up(lg) {
+@include media-breakpoint-up(xl) {
   .page > header[role="banner"] {
     :is(.navbar-nav, .menu--main, .region-primary-menu) {
       opacity: 1;
@@ -464,7 +485,7 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
   }
 }
 
-@include media-breakpoint-up(lg) {
+@include media-breakpoint-up(xl) {
   .page > header[role="banner"] .icon-toggle--panel-bar.is-bar-inline .icon-toggle__panel {
     padding: 0;
     border-radius: 0;
@@ -476,12 +497,12 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
   }
 }
 
-// Below lg the bar leaves the header row and becomes a full-width band directly
+// Below xl the bar leaves the header row and becomes a full-width band directly
 // under it. `position: fixed` + the measured band geometry keeps it aligned to
 // the header without a `100vw` breakout (which would ignore the admin toolbar
 // offset and the scrollbar). `top`/`left` are physical on purpose: they consume
 // physically measured viewport coordinates, which stay correct in RTL.
-@include media-breakpoint-down(lg) {
+@include media-breakpoint-down(xl) {
   /* rtl:ignore */
   .icon-toggle--panel-bar.is-bar-inline .icon-toggle__panel {
     position: fixed;
@@ -494,7 +515,7 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
     background: var(--icon-toggle-panel-bg);
   }
 
-  // The theme reveals collapsed navbar dropdowns inline below lg. This panel is
+  // The theme reveals collapsed navbar dropdowns inline below xl. This panel is
   // a real disclosure, so it keeps Bootstrap's show/hide and its own box.
   .page > header[role="banner"] .icon-toggle .icon-toggle__panel {
     position: absolute;
@@ -517,26 +538,77 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
   // The bar spans the header band using viewport coordinates, so it needs the
   // `fixed` positioning set above — which the `position: absolute` reset a few
   // rules up outweighs on specificity. The theme also flattens header dropdown
-  // panels to `background-color: transparent` below lg, which outweighs the
+  // panels to `background-color: transparent` below xl, which outweighs the
   // bar's own opaque background. Restate both here, above either.
   .page > header[role="banner"] .icon-toggle--panel-bar.is-bar-inline .icon-toggle__panel {
     position: fixed;
     background: var(--icon-toggle-panel-bg);
   }
 
-  // Below lg the header stacks its columns and pins the hamburger to the
-  // brand's line. Join it there instead of taking a row below the logo.
+  // Below xl the hamburger sits at the end of the brand's line; the trigger
+  // joins it just before it, measured from the header row.
+  .page > header[role="banner"] .row:has(.icon-toggle) {
+    position: relative;
+  }
+
   .page > header[role="banner"] .icon-toggle {
     position: absolute;
     inset-block-start: calc(
-      var(--bs-gutter-y, 0) - var(--icon-toggle-header-icon-offset)
+      var(--bs-gutter-y, 0) +
+        (
+          var(--icon-toggle-header-toggler-height) -
+            var(--icon-toggle-button-size)
+        ) *
+        0.5
     );
     inset-inline-end: calc(
       var(--bs-gutter-x, 1.5rem) * 0.5 +
-        var(--icon-toggle-header-toggler-size) +
-        var(--icon-toggle-header-icon-gap) -
-        var(--icon-toggle-header-icon-offset)
+        var(--icon-toggle-header-toggler-width) +
+        var(--icon-toggle-header-icon-gap)
     );
     z-index: 2;
+  }
+
+  // The header grows to hold the band instead of laying it over the page.
+  .page > header[role="banner"]:has(.icon-toggle--panel-bar.icon-toggle--open) {
+    padding-block-end: #{$icon-toggle-bar-height + $icon-toggle-bar-page-padding * 2};
+  }
+
+  .page > header[role="banner"] .icon-toggle--panel-bar .icon-toggle__panel-inner form > .form-actions {
+    flex: 0 0 auto;
+    height: auto;
+  }
+}
+
+// The exposed-filter skin outweighs the bar's flat field and submit disc, and
+// would box and stack them; restate the bar's line at every width.
+.page > header[role="banner"] .icon-toggle--panel-bar .icon-toggle__panel-inner {
+  form {
+    flex-wrap: nowrap;
+  }
+
+  form > .form-item,
+  form > .js-form-item {
+    flex: 1 1 auto;
+  }
+
+  .form-control {
+    @include icon-toggle-bar-field;
+  }
+
+  .form-submit {
+    @include icon-toggle-bar-disc;
+
+    min-height: 0;
+  }
+}
+
+// Below md the hamburger is pinned to the header row's own edge.
+@include media-breakpoint-down(md) {
+  .page > header[role="banner"] .icon-toggle {
+    inset-inline-end: calc(
+      var(--icon-toggle-header-toggler-width) +
+        var(--icon-toggle-header-icon-gap)
+    );
   }
 }
