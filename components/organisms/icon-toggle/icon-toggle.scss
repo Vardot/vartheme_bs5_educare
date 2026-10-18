@@ -365,6 +365,20 @@ $icon-toggle-search-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3
         outline: 0;
         box-shadow: none;
       }
+
+      // The bar has its own close button, so drop the browser's search clear button.
+      &::-webkit-search-cancel-button,
+      &::-webkit-search-decoration {
+        display: none;
+        appearance: none;
+      }
+
+      // Keep the bar's background when the browser fills the field from its saved entries.
+      &:autofill,
+      &:-webkit-autofill {
+        box-shadow: inset 0 0 0 ($spacer * 100) var(--icon-toggle-panel-bg);
+        -webkit-text-fill-color: var(--icon-toggle-bar-subtle-color);
+      }
     }
 
     // The submit is a round accent disc carrying the magnifier and nothing

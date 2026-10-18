@@ -236,6 +236,47 @@
   color: var(--bs-dark);
 }
 
+.facets-widget-checkbox > ul {
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+.block-views[class*="search-date-block"] .views-exposed-form {
+  margin-bottom: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+.block-views[class*="search-date-block"] .fieldgroup.card {
+  margin-bottom: 0;
+  border: 0;
+  background-color: transparent;
+}
+
+.block-views[class*="search-date-block"] .fieldgroup.card > .card-header {
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+}
+
+.block-views[class*="search-date-block"] .fieldgroup.card > .card-body {
+  padding: 0;
+}
+
+.block-views[class*="search-date-block"] .js-form-type-radio {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.125rem;
+  gap: 0.5em;
+}
+
+.block-views[class*="search-date-block"] .js-form-type-radio label {
+  margin-bottom: 0;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
 .views-exposed-filters--stacked .views-exposed-form {
   flex-direction: column;
   align-items: stretch;

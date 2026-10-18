@@ -284,6 +284,18 @@
   box-shadow: none;
 }
 
+.icon-toggle--panel-bar .icon-toggle__panel-inner .form-control::-webkit-search-cancel-button,
+.icon-toggle--panel-bar .icon-toggle__panel-inner .form-control::-webkit-search-decoration {
+  display: none;
+  appearance: none;
+}
+
+.icon-toggle--panel-bar .icon-toggle__panel-inner .form-control:autofill,
+.icon-toggle--panel-bar .icon-toggle__panel-inner .form-control:-webkit-autofill {
+  box-shadow: inset 0 0 0 100rem var(--icon-toggle-panel-bg);
+  -webkit-text-fill-color: var(--icon-toggle-bar-subtle-color);
+}
+
 .icon-toggle--panel-bar .icon-toggle__panel-inner .form-actions {
   flex: 0 0 auto;
   margin: 0;
