@@ -17,6 +17,7 @@ variables:
   # Yarn 4 defaults to immutable installs in CI and would refuse to touch the
   # lockfile; allow it so `yarn install` works on every job.
   YARN_ENABLE_IMMUTABLE_INSTALLS: "false"
+  DRUPAL_CMS_TELEMETRY: "0"
 
 default:
   image: node:20
