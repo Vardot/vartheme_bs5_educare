@@ -20,7 +20,7 @@ variables:
   DRUPAL_CMS_TELEMETRY: "0"
 
 default:
-  image: node:20
+  image: node:24
   before_script:
     - corepack enable
     - 'test -f .yarnrc.yml || echo "nodeLinker: node-modules" > .yarnrc.yml'
