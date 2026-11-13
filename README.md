@@ -23,6 +23,10 @@ It is the Bootstrap 5 front-end theme for the [Educare](https://www.drupal.org/p
 
 The footer Copy link runs through htmx `hx-on`, which uses eval. A site that enables a strict Content Security Policy needs `'unsafe-eval'` in `script-src` for it to work.
 
+## Email logo
+
+`logo-email.png` is `logo.svg` as a 99×30 PNG, for HTML emails. Many email clients (Gmail, Outlook) do not show SVG images, so a PNG is needed there. It keeps the site logo's displayed size because the email template sets no width on the logo. Educare points the Easy Email Theme logo at it.
+
 ## Learn More
 
 - [Issue #3607229](https://www.drupal.org/project/vartheme_bs5_educare/issues/3607229)
