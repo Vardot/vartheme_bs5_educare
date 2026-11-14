@@ -84,12 +84,12 @@
 }
 
 .breadcrumb-item:last-child:not(.active)::after {
-  color: #404456;
+  padding-inline-start: 0.5rem;
   content: "\f285";
+  color: #404456;
   font-family: bootstrap-icons;
   font-size: 1.1rem;
   font-weight: 500;
-  padding-inline-start: 0.5rem;
 }
 
 [data-bs-theme="dark"] .breadcrumb-item:last-child:not(.active)::after {
