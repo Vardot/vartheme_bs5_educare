@@ -11,11 +11,16 @@
   gap: 0.75rem;
 }
 
+@media (min-width: 768px) {
+  .card-program__title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
 .card-program__title {
-  overflow: hidden;
-  white-space: nowrap;
   text-transform: none;
-  text-overflow: ellipsis;
   font-size: 1.5rem;
   font-weight: 600;
   line-height: 1.35;

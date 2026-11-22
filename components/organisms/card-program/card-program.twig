@@ -106,7 +106,11 @@
 {% set card_body_attributes = create_attribute().addClass([
   'card-body',
   'd-flex',
-  'align-items-center',
+  'flex-column',
+  'flex-md-row',
+  'align-items-start',
+  'align-items-md-center',
+  'row-gap-2',
   (padded ? 'p-4' : 'py-4'),
   (separator ? 'border-bottom' : ''),
 ]|filter(v => v is not empty)) %}
@@ -124,6 +128,7 @@
 {% set cols_attributes = create_attribute().addClass([
   'card-program__cols',
   'd-flex',
+  'flex-wrap',
   'align-items-center',
   'gap-3',
   'flex-shrink-0',

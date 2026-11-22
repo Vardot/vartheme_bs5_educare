@@ -14,9 +14,13 @@
   }
 
   &__title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    // Wrap on phones, where the degrees stack below the title.
+    @include media-breakpoint-up(md) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     // H4 scale, semibold, sentence-case (opt out of the global heading capitalize).
     font-size: $h4-font-size;
     font-weight: $font-weight-semibold;
