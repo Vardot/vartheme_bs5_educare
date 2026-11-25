@@ -88,6 +88,7 @@
 
         {% set nav_item_classes = [
           'nav-item',
+          is_expandable ? 'menu-item--expanded' : '',
           item.in_active_trail ? 'active' : '',
         ]|filter(v => v is not empty) %}
 
@@ -121,7 +122,7 @@
           }) %}
         {% endif %}
 
-        <li class="{{ nav_item_classes|merge(['menu-item--expanded'])|join(' ') }}">
+        <li class="{{ nav_item_classes|join(' ') }}">
           {% if item.url %}
             {{ link(nav_link_inner, item.url, nav_link_attributes) }}
           {% endif %}
