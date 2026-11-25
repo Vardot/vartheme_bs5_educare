@@ -147,8 +147,13 @@
     {% for item in items %}
       {% if item.is_expanded and item.below %}
         {% set panel_id = 'mega-menu-' ~ nav_menu_uid ~ '-' ~ loop.index0 %}
+        {# Children arrive keyed by plugin id; mega-menu wants a list. #}
+        {% set mega_menu_items = [] %}
+        {% for child in item.below %}
+          {% set mega_menu_items = mega_menu_items|merge([child]) %}
+        {% endfor %}
         {{ include('vartheme_bs5_educare:mega-menu', {
-          items: item.below,
+          items: mega_menu_items,
           panel_id: panel_id,
         }, with_context: false) }}
       {% endif %}
